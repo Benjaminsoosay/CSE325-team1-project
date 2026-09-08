@@ -8,3 +8,9 @@
 - Daniel Llumiquinga (@danielllumiquinga2) - Developer
 - E. Okafor (@eokafor3) - Developer
 - E. Okoye (@eokoye2) - Developer
+- Team Leaders week 2  ------- Daniel Alejandro Llumiqu
+- Team Leaders week 3 --------
+- Team Leaders week 4 --------
+- Team Leaders week 5 --------
+- Team Leaders week 6 --------
+- Team Leaders week 7 --------
