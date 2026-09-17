@@ -13,7 +13,7 @@
 
 ---
 
-## Project Title: Campus Connect (Event Tracker)
+## Project Title: Community Library
 
 ### Project Overview
 Community Library is a Blazor web application designed to help small community libraries, volunteers, and local readers manage and access books more efficiently. Many small community libraries rely on manual tracking, spreadsheets, or paper logs to manage inventory and borrowing. This application provides a centralized, easy‑to‑use digital catalog where users can browse books, check availability, and borrow items without needing a physical library building or complex software.
