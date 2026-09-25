@@ -1,0 +1,7 @@
+These are the commands that I ran to initialize the project I got them from the microsoft official page:
+
+dotnet new blazor -o CommunityLibrary --auth Individual
+
+dotnet add package Microsoft.EntityFrameworkCore.Sqlite
+
+dotnet add package Microsoft.EntityFrameworkCore.Tools
