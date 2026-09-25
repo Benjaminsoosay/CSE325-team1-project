@@ -1,7 +1,7 @@
 {
   "version": 2,
-  "dgSpecHash": "yaFl0zIGVaE=",
-  "success": false,
+  "dgSpecHash": "7kh9l5ff3y0=",
+  "success": true,
   "projectFilePath": "/Users/danielalejandrol/practice/projectcse325/CSE325-team1-project/CommunityLibrary/CommunityLibrary.csproj",
   "expectedPackageFiles": [
     "/Users/danielalejandrol/.nuget/packages/humanizer.core/2.14.1/humanizer.core.2.14.1.nupkg.sha512",
@@ -19,7 +19,7 @@
     "/Users/danielalejandrol/.nuget/packages/microsoft.entityframeworkcore/10.0.12/microsoft.entityframeworkcore.10.0.12.nupkg.sha512",
     "/Users/danielalejandrol/.nuget/packages/microsoft.entityframeworkcore.abstractions/10.0.12/microsoft.entityframeworkcore.abstractions.10.0.12.nupkg.sha512",
     "/Users/danielalejandrol/.nuget/packages/microsoft.entityframeworkcore.analyzers/10.0.12/microsoft.entityframeworkcore.analyzers.10.0.12.nupkg.sha512",
-    "/Users/danielalejandrol/.nuget/packages/microsoft.entityframeworkcore.design/10.0.11/microsoft.entityframeworkcore.design.10.0.11.nupkg.sha512",
+    "/Users/danielalejandrol/.nuget/packages/microsoft.entityframeworkcore.design/10.0.12/microsoft.entityframeworkcore.design.10.0.12.nupkg.sha512",
     "/Users/danielalejandrol/.nuget/packages/microsoft.entityframeworkcore.relational/10.0.12/microsoft.entityframeworkcore.relational.10.0.12.nupkg.sha512",
     "/Users/danielalejandrol/.nuget/packages/microsoft.entityframeworkcore.sqlite/10.0.12/microsoft.entityframeworkcore.sqlite.10.0.12.nupkg.sha512",
     "/Users/danielalejandrol/.nuget/packages/microsoft.entityframeworkcore.sqlite.core/10.0.12/microsoft.entityframeworkcore.sqlite.core.10.0.12.nupkg.sha512",
@@ -40,17 +40,5 @@
     "/Users/danielalejandrol/.nuget/packages/system.composition.runtime/9.0.0/system.composition.runtime.9.0.0.nupkg.sha512",
     "/Users/danielalejandrol/.nuget/packages/system.composition.typedparts/9.0.0/system.composition.typedparts.9.0.0.nupkg.sha512"
   ],
-  "logs": [
-    {
-      "code": "NU1605",
-      "level": "Error",
-      "message": "Warning As Error: Detected package downgrade: Microsoft.EntityFrameworkCore.Design from 10.0.12 to 10.0.11. Reference the package directly from the project to select a different version. \n CommunityLibrary -> Microsoft.EntityFrameworkCore.Tools 10.0.12 -> Microsoft.EntityFrameworkCore.Design (>= 10.0.12) \n CommunityLibrary -> Microsoft.EntityFrameworkCore.Design (>= 10.0.11)",
-      "projectPath": "/Users/danielalejandrol/practice/projectcse325/CSE325-team1-project/CommunityLibrary/CommunityLibrary.csproj",
-      "filePath": "/Users/danielalejandrol/practice/projectcse325/CSE325-team1-project/CommunityLibrary/CommunityLibrary.csproj",
-      "libraryId": "Microsoft.EntityFrameworkCore.Design",
-      "targetGraphs": [
-        "net10.0"
-      ]
-    }
-  ]
+  "logs": []
 }

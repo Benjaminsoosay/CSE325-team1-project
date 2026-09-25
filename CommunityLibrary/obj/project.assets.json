@@ -441,7 +441,7 @@
       "Microsoft.EntityFrameworkCore.Analyzers/10.0.12": {
         "type": "package"
       },
-      "Microsoft.EntityFrameworkCore.Design/10.0.11": {
+      "Microsoft.EntityFrameworkCore.Design/10.0.12": {
         "type": "package",
         "dependencies": {
           "Humanizer.Core": "2.14.1",
@@ -449,8 +449,8 @@
           "Microsoft.CodeAnalysis.CSharp": "5.0.0",
           "Microsoft.CodeAnalysis.CSharp.Workspaces": "5.0.0",
           "Microsoft.CodeAnalysis.Workspaces.MSBuild": "5.0.0",
-          "Microsoft.EntityFrameworkCore.Relational": "10.0.11",
-          "Microsoft.Extensions.DependencyModel": "10.0.11",
+          "Microsoft.EntityFrameworkCore.Relational": "10.0.12",
+          "Microsoft.Extensions.DependencyModel": "10.0.12",
           "Mono.TextTemplating": "3.0.0",
           "Newtonsoft.Json": "13.0.4"
         },
@@ -2068,10 +2068,10 @@
         "microsoft.entityframeworkcore.analyzers.nuspec"
       ]
     },
-    "Microsoft.EntityFrameworkCore.Design/10.0.11": {
-      "sha512": "0zlzPs/jtrp2jGNZSxHLd0bRgDB/TlCDT17pnt8hovTVgCmC6qbX1277/goAlnZbRip1mZp1TVjjG+tj9PQ/Uw==",
+    "Microsoft.EntityFrameworkCore.Design/10.0.12": {
+      "sha512": "I/IwEkUEUoa62UMJHh2+04oAs+gZz4QEunpZ3MGtAf12PZUcTduZLuGZEp3FAZ7wkmkSThZez41P8tgFj8QYKQ==",
       "type": "package",
-      "path": "microsoft.entityframeworkcore.design/10.0.11",
+      "path": "microsoft.entityframeworkcore.design/10.0.12",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -2080,7 +2080,7 @@
         "build/net10.0/Microsoft.EntityFrameworkCore.Design.props",
         "lib/net10.0/Microsoft.EntityFrameworkCore.Design.dll",
         "lib/net10.0/Microsoft.EntityFrameworkCore.Design.xml",
-        "microsoft.entityframeworkcore.design.10.0.11.nupkg.sha512",
+        "microsoft.entityframeworkcore.design.10.0.12.nupkg.sha512",
         "microsoft.entityframeworkcore.design.nuspec"
       ]
     },
@@ -2529,7 +2529,8 @@
       "Microsoft.AspNetCore.App.Internal.Assets >= 10.0.11",
       "Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore >= 10.0.11",
       "Microsoft.AspNetCore.Identity.EntityFrameworkCore >= 10.0.11",
-      "Microsoft.EntityFrameworkCore.Design >= 10.0.11",
+      "Microsoft.EntityFrameworkCore >= 10.0.12",
+      "Microsoft.EntityFrameworkCore.Design >= 10.0.12",
       "Microsoft.EntityFrameworkCore.Sqlite >= 10.0.12",
       "Microsoft.EntityFrameworkCore.Tools >= 10.0.12"
     ]
@@ -2593,10 +2594,14 @@
             "target": "Package",
             "version": "[10.0.11, )"
           },
+          "Microsoft.EntityFrameworkCore": {
+            "target": "Package",
+            "version": "[10.0.12, )"
+          },
           "Microsoft.EntityFrameworkCore.Design": {
             "suppressParent": "All",
             "target": "Package",
-            "version": "[10.0.11, )"
+            "version": "[10.0.12, )"
           },
           "Microsoft.EntityFrameworkCore.Sqlite": {
             "target": "Package",
@@ -3045,16 +3050,5 @@
         }
       }
     }
-  },
-  "logs": [
-    {
-      "code": "NU1605",
-      "level": "Error",
-      "message": "Warning As Error: Detected package downgrade: Microsoft.EntityFrameworkCore.Design from 10.0.12 to 10.0.11. Reference the package directly from the project to select a different version. \n CommunityLibrary -> Microsoft.EntityFrameworkCore.Tools 10.0.12 -> Microsoft.EntityFrameworkCore.Design (>= 10.0.12) \n CommunityLibrary -> Microsoft.EntityFrameworkCore.Design (>= 10.0.11)",
-      "libraryId": "Microsoft.EntityFrameworkCore.Design",
-      "targetGraphs": [
-        "net10.0"
-      ]
-    }
-  ]
+  }
 }
