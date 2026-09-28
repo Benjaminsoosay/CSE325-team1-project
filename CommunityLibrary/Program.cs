@@ -66,7 +66,9 @@ app.MapAdditionalIdentityEndpoints();
 
 using (var scope = app.Services.CreateScope())                                                                        
 {                                                                                                                     
-    await RoleSeeder.SeedRolesAsync(scope.ServiceProvider);
+    var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();                                        
+    db.Database.Migrate();                                                                                            
+    await RoleSeeder.SeedRolesAsync(scope.ServiceProvider);                                                           
 }
 
 app.Run();
