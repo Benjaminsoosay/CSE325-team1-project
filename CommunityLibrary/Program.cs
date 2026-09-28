@@ -30,7 +30,6 @@ builder.Services.AddAuthentication(options =>
         options.Events.OnRedirectToAuthorizationEndpoint = ctx =>
         {
             var redirectUri = ctx.RedirectUri;
-            Console.WriteLine($"[DEBUG] Original RedirectUri: {redirectUri}");
             if (redirectUri.Contains("redirect_uri="))
             {
                 var encoded = Uri.EscapeDataString("https://communitylibrary-rl1v.onrender.com/signin-google");
@@ -39,18 +38,7 @@ builder.Services.AddAuthentication(options =>
                     @"redirect_uri=[^&]*",
                     $"redirect_uri={encoded}");
             }
-            Console.WriteLine($"[DEBUG] Final RedirectUri: {redirectUri}");
             ctx.Response.Redirect(redirectUri);
-            return Task.CompletedTask;
-        };
-        options.Events.OnRemoteFailure = ctx =>
-        {
-            Console.WriteLine($"[DEBUG-CALLBACK] Scheme: {ctx.Request.Scheme}");
-            Console.WriteLine($"[DEBUG-CALLBACK] Host: {ctx.Request.Host}");
-            Console.WriteLine($"[DEBUG-CALLBACK] Built redirect_uri: {ctx.Request.Scheme}://{ctx.Request.Host}/signin-google");
-            Console.WriteLine($"[DEBUG-CALLBACK] Error: {ctx.Failure?.Message}");
-            ctx.HandleResponse();
-            ctx.Response.Redirect("/Account/Login");
             return Task.CompletedTask;
         };
     })
@@ -95,7 +83,6 @@ if (app.Environment.IsProduction())
 app.UseForwardedHeaders();
 app.UseAuthentication();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseMigrationsEndPoint();
@@ -103,7 +90,6 @@ if (app.Environment.IsDevelopment())
 else
 {
     app.UseExceptionHandler("/Error", createScopeForErrors: true);
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 app.UseStatusCodePagesWithReExecute("/not-found", createScopeForStatusCodePages: true);
@@ -118,7 +104,6 @@ app.MapStaticAssets();
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
 
-// Add additional endpoints required by the Identity /Account Razor components.
 app.MapAdditionalIdentityEndpoints();
 
 using (var scope = app.Services.CreateScope())                                                                        
