@@ -43,9 +43,14 @@ builder.Services.AddAuthentication(options =>
             ctx.Response.Redirect(redirectUri);
             return Task.CompletedTask;
         };
-        options.Events.OnCreatingTicket = ctx =>
+        options.Events.OnRemoteFailure = ctx =>
         {
-            Console.WriteLine($"[DEBUG] Token exchange redirect_uri: {ctx.TokenResponse.Response}");
+            Console.WriteLine($"[DEBUG-CALLBACK] Scheme: {ctx.Request.Scheme}");
+            Console.WriteLine($"[DEBUG-CALLBACK] Host: {ctx.Request.Host}");
+            Console.WriteLine($"[DEBUG-CALLBACK] Built redirect_uri: {ctx.Request.Scheme}://{ctx.Request.Host}/signin-google");
+            Console.WriteLine($"[DEBUG-CALLBACK] Error: {ctx.Failure?.Message}");
+            ctx.HandleResponse();
+            ctx.Response.Redirect("/Account/Login");
             return Task.CompletedTask;
         };
     })
