@@ -47,6 +47,7 @@ builder.Services.AddSingleton<IEmailSender<ApplicationUser>, IdentityNoOpEmailSe
 builder.Services.Configure<ForwardedHeadersOptions>(options =>
 {
     options.ForwardedHeaders = ForwardedHeaders.All;
+    options.ForwardLimit = null;
     options.KnownNetworks.Clear();
     options.KnownProxies.Clear();
 });
@@ -54,6 +55,14 @@ builder.Services.Configure<ForwardedHeadersOptions>(options =>
 var app = builder.Build();
 
 app.UseForwardedHeaders();
+app.Use((context, next) =>
+{
+    if (context.Request.Headers.TryGetValue("X-Forwarded-Proto", out var proto))
+    {
+        context.Request.Scheme = proto.ToString();
+    }
+    return next();
+});
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
