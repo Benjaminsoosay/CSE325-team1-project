@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "c:\\Users\\okoye\\CSE325-team1-project\\CommunityLibrary\\CommunityLibrary.csproj": {}
+    "C:\\Users\\okoye\\CSE325-team1-project\\CommunityLibrary\\CommunityLibrary.csproj": {}
   },
   "projects": {
-    "c:\\Users\\okoye\\CSE325-team1-project\\CommunityLibrary\\CommunityLibrary.csproj": {
+    "C:\\Users\\okoye\\CSE325-team1-project\\CommunityLibrary\\CommunityLibrary.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Users\\okoye\\CSE325-team1-project\\CommunityLibrary\\CommunityLibrary.csproj",
+        "projectUniqueName": "C:\\Users\\okoye\\CSE325-team1-project\\CommunityLibrary\\CommunityLibrary.csproj",
         "projectName": "CommunityLibrary",
-        "projectPath": "c:\\Users\\okoye\\CSE325-team1-project\\CommunityLibrary\\CommunityLibrary.csproj",
+        "projectPath": "C:\\Users\\okoye\\CSE325-team1-project\\CommunityLibrary\\CommunityLibrary.csproj",
         "packagesPath": "C:\\Users\\okoye\\.nuget\\packages\\",
-        "outputPath": "c:\\Users\\okoye\\CSE325-team1-project\\CommunityLibrary\\obj\\",
+        "outputPath": "C:\\Users\\okoye\\CSE325-team1-project\\CommunityLibrary\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\okoye\\AppData\\Roaming\\NuGet\\NuGet.Config"
