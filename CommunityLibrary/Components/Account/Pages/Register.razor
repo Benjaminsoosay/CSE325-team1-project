@@ -15,6 +15,7 @@
 @inject NavigationManager NavigationManager
 @inject IdentityRedirectManager RedirectManager
 @inject RoleManager<IdentityRole> RoleManager
+@inject IPasswordHasher<ApplicationUser> PasswordHasher
 
 <PageTitle>Register</PageTitle>
 
@@ -42,6 +43,11 @@
                     <InputText type="password" @bind-Value="Input.ConfirmPassword" id="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
                     <label for="Input.ConfirmPassword">Confirm Password</label>
                     <ValidationMessage For="() => Input.ConfirmPassword" class="text-danger" />
+                </div>
+                <div class="form-floating mb-3">                                                                                      
+                    <InputText @bind-Value="Input.SecurityWord" id="Input.SecurityWord" class="form-control" autocomplete="off" aria-required="true" placeholder="security word" />                                                                   
+                    <label for="Input.SecurityWord">Security Word (letters only)</label>                                              
+                    <ValidationMessage For="() => Input.SecurityWord" class="text-danger" />                                          
                 </div>
                 <div class="text-center">
                     <button type="submit" class="btn btn-primary px-4 py-2" style="min-width: 220px;">Register</button>
@@ -107,6 +113,8 @@
         }
 
         Logger.LogInformation("User created a new account with password.");
+        user.SecurityWord = PasswordHasher.HashPassword(user, Input.SecurityWord.ToLower());                                  
+        await UserManager.UpdateAsync(user);
 
         await UserManager.AddToRoleAsync(user, "Customer");                                                                   
         Logger.LogInformation("User assigned to Customer role.");
@@ -172,5 +180,10 @@
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; } = "";
+
+        [Required]                                                                                                            
+        [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "Security word must contain letters only.")]                        
+        [Display(Name = "Security Word")]                                                                                     
+        public string SecurityWord { get; set; } = "";
     }
 }
