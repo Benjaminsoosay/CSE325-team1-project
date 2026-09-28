@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\okoye\\CSE325-team1-project\\CSE325-team1-project.csproj": {}
+    "c:\\Users\\okoye\\CSE325-team1-project\\CSE325-team1-project.csproj": {}
   },
   "projects": {
-    "C:\\Users\\okoye\\CSE325-team1-project\\CSE325-team1-project.csproj": {
+    "c:\\Users\\okoye\\CSE325-team1-project\\CSE325-team1-project.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\okoye\\CSE325-team1-project\\CSE325-team1-project.csproj",
+        "projectUniqueName": "c:\\Users\\okoye\\CSE325-team1-project\\CSE325-team1-project.csproj",
         "projectName": "CSE325-team1-project",
-        "projectPath": "C:\\Users\\okoye\\CSE325-team1-project\\CSE325-team1-project.csproj",
+        "projectPath": "c:\\Users\\okoye\\CSE325-team1-project\\CSE325-team1-project.csproj",
         "packagesPath": "C:\\Users\\okoye\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\okoye\\CSE325-team1-project\\obj\\",
+        "outputPath": "c:\\Users\\okoye\\CSE325-team1-project\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\okoye\\AppData\\Roaming\\NuGet\\NuGet.Config"
