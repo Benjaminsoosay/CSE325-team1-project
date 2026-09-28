@@ -1,5 +1,5 @@
 {
-  "version": 4,
+  "version": 3,
   "targets": {
     "net10.0": {
       "Humanizer.Core/2.14.1": {
@@ -2536,19 +2536,19 @@
     ]
   },
   "packageFolders": {
-    "/Users/danielalejandrol/.nuget/packages/": {}
+    "C:\\Users\\okoye\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/danielalejandrol/practice/projectcse325/CSE325-team1-project/CommunityLibrary/CommunityLibrary.csproj",
+      "projectUniqueName": "c:\\Users\\okoye\\CSE325-team1-project\\CommunityLibrary\\CommunityLibrary.csproj",
       "projectName": "CommunityLibrary",
-      "projectPath": "/Users/danielalejandrol/practice/projectcse325/CSE325-team1-project/CommunityLibrary/CommunityLibrary.csproj",
-      "packagesPath": "/Users/danielalejandrol/.nuget/packages/",
-      "outputPath": "/Users/danielalejandrol/practice/projectcse325/CSE325-team1-project/CommunityLibrary/obj/",
+      "projectPath": "c:\\Users\\okoye\\CSE325-team1-project\\CommunityLibrary\\CommunityLibrary.csproj",
+      "packagesPath": "C:\\Users\\okoye\\.nuget\\packages\\",
+      "outputPath": "c:\\Users\\okoye\\CSE325-team1-project\\CommunityLibrary\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/Users/danielalejandrol/.nuget/NuGet/NuGet.Config"
+        "C:\\Users\\okoye\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net10.0"
@@ -2558,7 +2558,6 @@
       },
       "frameworks": {
         "net10.0": {
-          "framework": "net10.0",
           "targetAlias": "net10.0",
           "projectReferences": {}
         }
@@ -2573,11 +2572,10 @@
         "auditLevel": "low",
         "auditMode": "all"
       },
-      "SdkAnalysisLevel": "10.0.400"
+      "SdkAnalysisLevel": "10.0.100"
     },
     "frameworks": {
       "net10.0": {
-        "framework": "net10.0",
         "targetAlias": "net10.0",
         "dependencies": {
           "Microsoft.AspNetCore.App.Internal.Assets": {
@@ -2633,7 +2631,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/10.0.400/PortableRuntimeIdentifierGraph.json",
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.111/PortableRuntimeIdentifierGraph.json",
         "packagesToPrune": {
           "Microsoft.AspNetCore": "(,10.0.32767]",
           "Microsoft.AspNetCore.Antiforgery": "(,10.0.32767]",

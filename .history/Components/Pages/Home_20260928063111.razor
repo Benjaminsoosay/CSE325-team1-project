@@ -1,0 +1,116 @@
+﻿@page "/"
+@inject NavigationManager Navigation
+
+<PageTitle>Home - Community Library</PageTitle>
+
+<!-- Hero Section -->
+<div class="p-5 mb-4 bg-light rounded-3 border shadow-sm">
+    <div class="container-fluid py-3 text-center">
+        <h1 class="display-4 fw-bold text-primary mb-3">Welcome to the Community Library</h1>
+        <p class="fs-5 text-muted max-width-600 mx-auto">
+            Discover thousands of books, borrow your favorite titles, and manage your reading journey all in one place.
+        </p>
+
+        <!-- Quick Search Bar -->
+        <div class="row justify-content-center my-4">
+            <div class="col-md-8 col-lg-6">
+                <div class="input-group input-group-lg">
+                    <input type="text" 
+                           class="form-control" 
+                           placeholder="Search by title, author, or ISBN..." 
+                           @bind="searchQuery" 
+                           @bind:event="oninput"
+                           @onkeyup="HandleKeyUp" />
+                    <button class="btn btn-primary" type="button" @onclick="SearchCatalog">
+                        <i class="bi bi-search"></i> Search
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-center gap-3 mt-3">
+            <button class="btn btn-primary btn-lg px-4" @onclick='() => Navigation.NavigateTo("/catalog")'>
+                Browse Catalog
+            </button>
+            <button class="btn btn-outline-secondary btn-lg px-4" @onclick='() => Navigation.NavigateTo("/Account/Register")'>
+                Join Library
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Features Section -->
+<div class="row g-4 py-4 row-cols-1 row-cols-md-3">
+    <div class="col">
+        <div class="card h-100 border-0 shadow-sm text-center p-4">
+            <div class="card-body">
+                <div class="feature-icon bg-primary bg-gradient text-white fs-2 mb-3 rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+                    📚
+                </div>
+                <h3 class="fs-4 fw-semibold">Extensive Catalog</h3>
+                <p class="text-muted">
+                    Explore our wide collection of fiction, non-fiction, academic research, and community literature.
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="card h-100 border-0 shadow-sm text-center p-4">
+            <div class="card-body">
+                <div class="feature-icon bg-success bg-gradient text-white fs-2 mb-3 rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+                    🏷️
+                </div>
+                <h3 class="fs-4 fw-semibold">Easy Borrowing</h3>
+                <p class="text-muted">
+                    Check out books instantly, keep track of due dates, and manage active loans from your dashboard.
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="card h-100 border-0 shadow-sm text-center p-4">
+            <div class="card-body">
+                <div class="feature-icon bg-info bg-gradient text-white fs-2 mb-3 rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+                    👥
+                </div>
+                <h3 class="fs-4 fw-semibold">Community First</h3>
+                <p class="text-muted">
+                    Participate in local reading groups, track reading milestones, and access shared community resources.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Call to Action Banner -->
+<div class="bg-primary text-white rounded-3 p-4 p-md-5 my-4 text-center shadow-sm">
+    <h2 class="fw-bold">Ready to start reading?</h2>
+    <p class="lead mb-4">Create your free library account today to start borrowing books.</p>
+    <a href="/Account/Register" class="btn btn-light btn-lg px-4 fw-semibold text-primary">
+        Create Account
+    </a>
+</div>
+
+@code {
+    private string searchQuery = string.Empty;
+
+    private void SearchCatalog()
+    {
+        if (!string.IsNullOrWhiteSpace(searchQuery))
+        {
+            Navigation.NavigateTo($"/catalog?query={Uri.EscapeDataString(searchQuery)}");
+        }
+        else
+        {
+            Navigation.NavigateTo("/catalog");
+        }
+    }
+
+    private void HandleKeyUp(KeyboardEventArgs e)
+    {
+        if (e.Key == "Enter")
+        {
+            SearchCatalog();
+        }
+    }
+}

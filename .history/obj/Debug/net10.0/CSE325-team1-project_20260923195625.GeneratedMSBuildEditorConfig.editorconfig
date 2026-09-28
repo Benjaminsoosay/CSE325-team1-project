@@ -1,0 +1,107 @@
+is_global = true
+build_property.TargetFramework = net10.0
+build_property.TargetFrameworkIdentifier = .NETCoreApp
+build_property.TargetFrameworkVersion = v10.0
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.RootNamespace = Community Library
+build_property.RootNamespace = Community Library
+build_property.ProjectDir = C:\Users\okoye\CSE325-team1-project\.history\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 
+build_property.RazorLangVersion = 9.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = C:\Users\okoye\CSE325-team1-project\.history
+build_property._RazorSourceGeneratorDebug = 
+build_property.EffectiveAnalysisLevelStyle = 10.0
+build_property.EnableCodeStyleSeverity = 
+
+[C:/Users/okoye/CSE325-team1-project/.history/Components/Layout/MainLayout_20260923195035.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xMYXlvdXRcTWFpbkxheW91dF8yMDI2MDkyMzE5NTAzNS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/okoye/CSE325-team1-project/.history/Components/Layout/MainLayout_20260923204538.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xMYXlvdXRcTWFpbkxheW91dF8yMDI2MDkyMzIwNDUzOC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/okoye/CSE325-team1-project/.history/Components/Layout/NavMenu_20260923195035.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xMYXlvdXRcTmF2TWVudV8yMDI2MDkyMzE5NTAzNS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/okoye/CSE325-team1-project/.history/Components/Layout/NavMenu_20260923203545.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xMYXlvdXRcTmF2TWVudV8yMDI2MDkyMzIwMzU0NS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/okoye/CSE325-team1-project/.history/Components/Layout/NavMenu_20260923203555.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xMYXlvdXRcTmF2TWVudV8yMDI2MDkyMzIwMzU1NS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/okoye/CSE325-team1-project/.history/Components/Layout/NavMenu_20260923203559.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xMYXlvdXRcTmF2TWVudV8yMDI2MDkyMzIwMzU1OS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/okoye/CSE325-team1-project/.history/Components/Layout/NavMenu_20260923203606.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xMYXlvdXRcTmF2TWVudV8yMDI2MDkyMzIwMzYwNi5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/okoye/CSE325-team1-project/.history/Components/Layout/NavMenu_20260923204124.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xMYXlvdXRcTmF2TWVudV8yMDI2MDkyMzIwNDEyNC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/okoye/CSE325-team1-project/.history/Components/Layout/NavMenu_20260923204440.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xMYXlvdXRcTmF2TWVudV8yMDI2MDkyMzIwNDQ0MC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/okoye/CSE325-team1-project/.history/Components/Layout/NavMenu_20260923204747.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xMYXlvdXRcTmF2TWVudV8yMDI2MDkyMzIwNDc0Ny5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/okoye/CSE325-team1-project/.history/Components/Pages/Home_20260923195034.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xIb21lXzIwMjYwOTIzMTk1MDM0LnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/okoye/CSE325-team1-project/.history/Components/Pages/Home_20260923195300.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xIb21lXzIwMjYwOTIzMTk1MzAwLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/okoye/CSE325-team1-project/.history/Components/Pages/Home_20260923195304.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xIb21lXzIwMjYwOTIzMTk1MzA0LnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/okoye/CSE325-team1-project/.history/Components/Pages/Home_20260923195306.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xIb21lXzIwMjYwOTIzMTk1MzA2LnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/okoye/CSE325-team1-project/.history/Components/Pages/Home_20260923195308.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xIb21lXzIwMjYwOTIzMTk1MzA4LnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/okoye/CSE325-team1-project/.history/Components/Pages/Home_20260923195315.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xIb21lXzIwMjYwOTIzMTk1MzE1LnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/okoye/CSE325-team1-project/.history/Components/Pages/Home_20260923195338.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xIb21lXzIwMjYwOTIzMTk1MzM4LnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/okoye/CSE325-team1-project/.history/Components/Pages/Home_20260923195341.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xIb21lXzIwMjYwOTIzMTk1MzQxLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/okoye/CSE325-team1-project/.history/Components/Pages/Home_20260923195345.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xIb21lXzIwMjYwOTIzMTk1MzQ1LnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/okoye/CSE325-team1-project/.history/Components/Pages/Home_20260923195406.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xIb21lXzIwMjYwOTIzMTk1NDA2LnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/okoye/CSE325-team1-project/.history/Components/Pages/Home_20260923200448.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xIb21lXzIwMjYwOTIzMjAwNDQ4LnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
