@@ -27,6 +27,20 @@ builder.Services.AddAuthentication(options =>
         options.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"] ?? "";
         options.CorrelationCookie.SecurePolicy = CookieSecurePolicy.Always;
         options.CorrelationCookie.SameSite = SameSiteMode.None;
+        options.Events.OnRedirectToAuthorizationEndpoint = ctx =>
+        {
+            var redirectUri = ctx.RedirectUri;
+            if (redirectUri.Contains("redirect_uri="))
+            {
+                var encoded = Uri.EscapeDataString("https://communitylibrary-rl1v.onrender.com/signin-google");
+                redirectUri = System.Text.RegularExpressions.Regex.Replace(
+                    redirectUri,
+                    @"redirect_uri=[^&]*",
+                    $"redirect_uri={encoded}");
+            }
+            ctx.Response.Redirect(redirectUri);
+            return Task.CompletedTask;
+        };
     })
     .AddIdentityCookies();
 
