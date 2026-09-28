@@ -62,6 +62,7 @@ if (app.Environment.IsProduction())
     app.Use((context, next) =>
     {
         context.Request.Scheme = "https";
+        context.Request.Host = new HostString("communitylibrary-rl1v.onrender.com");
         return next();
     });
 }
