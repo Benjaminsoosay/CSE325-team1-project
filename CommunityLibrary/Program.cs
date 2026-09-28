@@ -57,14 +57,14 @@ builder.Services.Configure<ForwardedHeadersOptions>(options =>
 var app = builder.Build();
 
 app.UseForwardedHeaders();
-app.Use((context, next) =>
+if (app.Environment.IsProduction())
 {
-    if (context.Request.Headers.TryGetValue("X-Forwarded-Proto", out var proto))
+    app.Use((context, next) =>
     {
-        context.Request.Scheme = proto.ToString();
-    }
-    return next();
-});
+        context.Request.Scheme = "https";
+        return next();
+    });
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
