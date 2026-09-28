@@ -82,7 +82,6 @@ builder.Services.Configure<ForwardedHeadersOptions>(options =>
 
 var app = builder.Build();
 
-app.UseForwardedHeaders();
 if (app.Environment.IsProduction())
 {
     app.Use((context, next) =>
@@ -92,6 +91,9 @@ if (app.Environment.IsProduction())
         return next();
     });
 }
+
+app.UseForwardedHeaders();
+app.UseAuthentication();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
