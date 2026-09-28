@@ -41,6 +41,11 @@ builder.Services.AddAuthentication(options =>
             ctx.Response.Redirect(redirectUri);
             return Task.CompletedTask;
         };
+        options.Events.OnAuthorizationCodeReceived = ctx =>
+        {
+            ctx.TokenEndpointRequest!.RedirectUri = "https://communitylibrary-rl1v.onrender.com/signin-google";
+            return Task.CompletedTask;
+        };
     })
     .AddIdentityCookies();
 
