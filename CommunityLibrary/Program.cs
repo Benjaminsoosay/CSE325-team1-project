@@ -30,6 +30,7 @@ builder.Services.AddAuthentication(options =>
         options.Events.OnRedirectToAuthorizationEndpoint = ctx =>
         {
             var redirectUri = ctx.RedirectUri;
+            Console.WriteLine($"[DEBUG] Original RedirectUri: {redirectUri}");
             if (redirectUri.Contains("redirect_uri="))
             {
                 var encoded = Uri.EscapeDataString("https://communitylibrary-rl1v.onrender.com/signin-google");
@@ -38,12 +39,13 @@ builder.Services.AddAuthentication(options =>
                     @"redirect_uri=[^&]*",
                     $"redirect_uri={encoded}");
             }
+            Console.WriteLine($"[DEBUG] Final RedirectUri: {redirectUri}");
             ctx.Response.Redirect(redirectUri);
             return Task.CompletedTask;
         };
-        options.Events.OnAuthorizationCodeReceived = ctx =>
+        options.Events.OnCreatingTicket = ctx =>
         {
-            ctx.TokenEndpointRequest!.RedirectUri = "https://communitylibrary-rl1v.onrender.com/signin-google";
+            Console.WriteLine($"[DEBUG] Token exchange redirect_uri: {ctx.TokenResponse.Response}");
             return Task.CompletedTask;
         };
     })
