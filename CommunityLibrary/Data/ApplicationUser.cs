@@ -1,9 +1,8 @@
-using Microsoft.AspNetCore.Identity;
-
-namespace CommunityLibrary.Data;
-
-// Add profile data for application users by adding properties to the ApplicationUser class
-public class ApplicationUser : IdentityUser
-{
+using Microsoft.AspNetCore.Identity;                                                                                  
+                                                                                                                        
+namespace CommunityLibrary.Data;                                                                                      
+                                                                                                                        
+public class ApplicationUser : IdentityUser                                                                           
+{                                                                                                   
+    public string? SecurityWord { get; set; }
 }
-
