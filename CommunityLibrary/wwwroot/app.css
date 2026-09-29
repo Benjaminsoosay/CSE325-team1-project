@@ -58,7 +58,7 @@ h1:focus {
 .form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
     text-align: start;
 }
-/* Top Nav Header Bar (Orange) */
+
 .top-nav-bar {
     background-color: #ff9933;
     height: 70px;
@@ -66,7 +66,7 @@ h1:focus {
     width: 100%;
 }
 
-/* LOGO Block */
+
 .logo-box {
     background-color: #ff9933;
     border: 1px solid #333;
@@ -75,7 +75,7 @@ h1:focus {
     font-size: 1.1rem;
 }
 
-/* Nav Buttons (Teal) */
+
 .nav-btn {
     background-color: #4dd0e1;
     color: #000 !important;
@@ -85,7 +85,7 @@ h1:focus {
     font-weight: 500;
 }
 
-/* Account Circle (Green) */
+
 .account-circle {
     background-color: #66bb6a;
     color: #000;
@@ -96,7 +96,7 @@ h1:focus {
     font-weight: 500;
 }
 
-/* Home Page Banner (Purple) */
+
 .home-page-banner {
     background-color: #8c52ff;
     color: white;
@@ -106,7 +106,7 @@ h1:focus {
     font-weight: 500;
 }
 
-/* Book Block (Teal Square) */
+
 .book-square {
     background-color: #4dd0e1;
     border: 1px solid #333;
@@ -116,7 +116,7 @@ h1:focus {
     font-weight: bold;
 }
 
-/* Metadata Box (Dark Grey) */
+
 .metadata-box {
     background-color: #757575;
     color: white;
@@ -125,7 +125,7 @@ h1:focus {
     font-size: 0.95rem;
 }
 
-/* FAQ Banner (Orange) */
+
 .faq-banner {
     background-color: #ff9933;
     color: black;
@@ -134,4 +134,29 @@ h1:focus {
     font-size: 1.2rem;
     font-weight: 500;
     border: 1px solid #333;
+}
+
+
+
+.brand-logo {
+    width: 34px;
+    height: 34px;
+    object-fit: contain;
+}
+
+
+.nav-item .nav-link {
+    color: rgba(255, 255, 255, 0.8) !important;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.nav-item .nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+    color: #ffffff !important;
+}
+
+.nav-item .nav-link.active {
+    background-color: rgba(255, 255, 255, 0.25) !important;
+    color: #ffffff !important;
+    font-weight: 600;
 }
