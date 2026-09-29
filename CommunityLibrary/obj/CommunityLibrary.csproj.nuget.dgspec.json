@@ -1,20 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "/Users/danielalejandrol/practice/projectcse325/CSE325-team1-project/CommunityLibrary/CommunityLibrary.csproj": {}
+    "C:\\Users\\Dell\\Desktop\\DotNetDependencies\\CSE325-team1-project\\CommunityLibrary\\CommunityLibrary.csproj": {}
   },
   "projects": {
-    "/Users/danielalejandrol/practice/projectcse325/CSE325-team1-project/CommunityLibrary/CommunityLibrary.csproj": {
+    "C:\\Users\\Dell\\Desktop\\DotNetDependencies\\CSE325-team1-project\\CommunityLibrary\\CommunityLibrary.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/danielalejandrol/practice/projectcse325/CSE325-team1-project/CommunityLibrary/CommunityLibrary.csproj",
+        "projectUniqueName": "C:\\Users\\Dell\\Desktop\\DotNetDependencies\\CSE325-team1-project\\CommunityLibrary\\CommunityLibrary.csproj",
         "projectName": "CommunityLibrary",
-        "projectPath": "/Users/danielalejandrol/practice/projectcse325/CSE325-team1-project/CommunityLibrary/CommunityLibrary.csproj",
-        "packagesPath": "/Users/danielalejandrol/.nuget/packages/",
-        "outputPath": "/Users/danielalejandrol/practice/projectcse325/CSE325-team1-project/CommunityLibrary/obj/",
+        "projectPath": "C:\\Users\\Dell\\Desktop\\DotNetDependencies\\CSE325-team1-project\\CommunityLibrary\\CommunityLibrary.csproj",
+        "packagesPath": "C:\\Users\\Dell\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Dell\\Desktop\\DotNetDependencies\\CSE325-team1-project\\CommunityLibrary\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "/Users/danielalejandrol/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\Dell\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config"
         ],
         "originalTargetFrameworks": [
           "net10.0"
@@ -24,7 +28,6 @@
         },
         "frameworks": {
           "net10.0": {
-            "framework": "net10.0",
             "targetAlias": "net10.0",
             "projectReferences": {}
           }
@@ -39,17 +42,16 @@
           "auditLevel": "low",
           "auditMode": "all"
         },
-        "SdkAnalysisLevel": "10.0.400"
+        "SdkAnalysisLevel": "10.0.100"
       },
       "frameworks": {
         "net10.0": {
-          "framework": "net10.0",
           "targetAlias": "net10.0",
           "dependencies": {
             "Microsoft.AspNetCore.App.Internal.Assets": {
               "suppressParent": "All",
               "target": "Package",
-              "version": "[10.0.11, )",
+              "version": "[10.0.1, )",
               "autoReferenced": true
             },
             "Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore": {
@@ -99,7 +101,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/10.0.400/PortableRuntimeIdentifierGraph.json",
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.101/PortableRuntimeIdentifierGraph.json",
           "packagesToPrune": {
             "Microsoft.AspNetCore": "(,10.0.32767]",
             "Microsoft.AspNetCore.Antiforgery": "(,10.0.32767]",
