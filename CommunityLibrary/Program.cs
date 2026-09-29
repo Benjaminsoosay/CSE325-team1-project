@@ -30,7 +30,7 @@ builder.Services.AddAuthentication(options =>
         options.Events.OnRedirectToAuthorizationEndpoint = ctx =>
         {
             var redirectUri = ctx.RedirectUri;
-            if (redirectUri.Contains("redirect_uri="))
+            if (!builder.Environment.IsDevelopment() && redirectUri.Contains("redirect_uri="))
             {
                 var encoded = Uri.EscapeDataString("https://communitylibrary-rl1v.onrender.com/signin-google");
                 redirectUri = System.Text.RegularExpressions.Regex.Replace(
