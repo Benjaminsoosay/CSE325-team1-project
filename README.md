@@ -13,36 +13,45 @@
 
 ---
 
-## Project Title: Library Management System
+## Project Title: Community Library
 
 ### Project Overview
-Our team is building a Library Management System using Blazor. This application allows patrons to browse the library catalog, view book details, and reserve/checkout books. It also provides administrators with tools to manage book inventory and track checked-out items.
+Community Library is a Blazor web application designed to help small community libraries, volunteers, and local readers manage and access books more efficiently. Many small community libraries rely on manual tracking, spreadsheets, or paper logs to manage inventory and borrowing. This application provides a centralized, easy-to-use digital catalog where users can browse books, check availability, and borrow items without needing a physical library building or complex software.
+
+The target users include college students, teachers, local residents, families, and senior citizens. Students and teachers benefit from quick access to study materials, while residents and seniors appreciate the convenience of browsing from home. Volunteers who run small libraries gain a simple inventory management tool that reduces workload and improves organization. This app is valuable because it promotes community connection, sustainability, and resource sharing by making books more accessible and reducing reliance on physical locations.
 
 ### Project Scope
 **What's IN:**
-- User registration and authentication.
-- Viewing a catalog of available books.
-- Searching and filtering books by title or genre.
-- Checking out and reserving books.
-- A responsive UI that works on mobile and desktop.
+- User registration and authentication (Patrons and Admins).
+- Book catalog with title, author, genre, cover image, and availability.
+- Searching and filtering books by title, author, or genre.
+- Borrowing system with checkout and due dates.
+- User dashboard showing borrowed books.
+- Admin panel for adding, editing, and deleting books.
+- Responsive UI using Blazor and CSS.
 
 **What's OUT:**
-- Real-time chat or messaging between users.
-- Payment processing for late fees.
-- Native mobile app store deployment.
+- Payment processing (no late fees or book purchases).
+- External API integrations (no Google Books or external library databases).
+- Native mobile app deployment (web app only).
+- AI book recommendations.
+- Automated email notifications for overdue books.
 
 ### App Features (User Stories)
-1. As a patron, I want to browse the catalog so I can find books.
-2. As a patron, I want to view book details (title, author, genre, availability).
-3. As a patron, I want to borrow a book so that I can read it at home.
-4. As a patron, I want to see the due date so that I know when to return the book.
-5. As an admin, I want to manage book inventory so that the catalog stays up to date.
+1. Users can create an account and log in securely.
+2. Users can browse a catalog of available books.
+3. Users can search for books by title or author and filter by genre.
+4. Users can borrow books and view due dates.
+5. Users can track their currently borrowed books in a personal dashboard.
+6. Admins can add, edit, and delete books from the catalog.
+7. Admins can manage inventory and update book availability.
 
 ### Technical Considerations
-- **Framework:** .NET Blazor Web App
-- **Data Storage:** Mock data for now, moving to a database later.
-- **User Accounts:** Planned for future implementation.
-- **Device Compatibility:** Responsive CSS using Bootstrap.
+- Data Storage: User profiles, book details (title, author, genre, cover image, availability), and borrowing records.
+- User Accounts: Yes, users must log in to borrow books; browsing is allowed without an account.
+- External Services: Optional Google OAuth for simplified login.
+- Device Compatibility: Responsive CSS ensures functionality on mobile, tablet, and desktop.
+- Basic Security: Passwords will be hashed; authentication required for borrowing; authorization ensures only admins can manage inventory; input validation prevents malicious data entry.
 
 ### Project Links
 - **GitHub Repository:** [https://github.com/Benjaminsoosay/CSE325-team1-project](https://github.com/Benjaminsoosay/CSE325-team1-project)
