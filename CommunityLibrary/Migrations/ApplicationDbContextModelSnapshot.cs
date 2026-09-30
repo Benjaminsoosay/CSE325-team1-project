@@ -90,6 +90,333 @@ namespace CommunityLibrary.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
+            modelBuilder.Entity("CommunityLibrary.Models.Book", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Author")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("character varying(150)");
+
+                    b.Property<int>("AvailableCopies")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("CategoryID")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("CoverImageUrl")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("character varying(1000)");
+
+                    b.Property<DateOnly>("PublishedDate")
+                        .HasColumnType("date");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
+                    b.Property<int>("TotalCopies")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoryID");
+
+                    b.ToTable("Books");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Author = "George Orwell",
+                            AvailableCopies = 5,
+                            CategoryID = 1,
+                            CoverImageUrl = "https://covers.openlibrary.org/b/isbn/9780451524935-L.jpg",
+                            CreatedAt = new DateTime(2026, 9, 30, 10, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "A dystopian novel exploring surveillance, government control, and individual freedom.",
+                            PublishedDate = new DateOnly(1949, 6, 8),
+                            Title = "1984",
+                            TotalCopies = 5
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Author = "J.R.R. Tolkien",
+                            AvailableCopies = 4,
+                            CategoryID = 3,
+                            CoverImageUrl = "https://covers.openlibrary.org/b/isbn/9780547928227-L.jpg",
+                            CreatedAt = new DateTime(2026, 9, 30, 10, 5, 0, 0, DateTimeKind.Utc),
+                            Description = "Bilbo Baggins joins a company of dwarves on an adventure to reclaim their homeland.",
+                            PublishedDate = new DateOnly(1937, 9, 21),
+                            Title = "The Hobbit",
+                            TotalCopies = 4
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Author = "Frank Herbert",
+                            AvailableCopies = 6,
+                            CategoryID = 2,
+                            CoverImageUrl = "https://covers.openlibrary.org/b/isbn/9780441172719-L.jpg",
+                            CreatedAt = new DateTime(2026, 9, 30, 10, 10, 0, 0, DateTimeKind.Utc),
+                            Description = "A science fiction epic centered around politics, power, survival, and the desert planet Arrakis.",
+                            PublishedDate = new DateOnly(1965, 8, 1),
+                            Title = "Dune",
+                            TotalCopies = 6
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Author = "F. Scott Fitzgerald",
+                            AvailableCopies = 3,
+                            CategoryID = 1,
+                            CoverImageUrl = "https://covers.openlibrary.org/b/isbn/9780743273565-L.jpg",
+                            CreatedAt = new DateTime(2026, 9, 30, 10, 15, 0, 0, DateTimeKind.Utc),
+                            Description = "A classic novel about wealth, ambition, love, and the American Dream.",
+                            PublishedDate = new DateOnly(1925, 4, 10),
+                            Title = "The Great Gatsby",
+                            TotalCopies = 5
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Author = "J.K. Rowling",
+                            AvailableCopies = 5,
+                            CategoryID = 3,
+                            CoverImageUrl = "https://covers.openlibrary.org/b/isbn/9780747532699-L.jpg",
+                            CreatedAt = new DateTime(2026, 9, 30, 10, 20, 0, 0, DateTimeKind.Utc),
+                            Description = "A young wizard begins his education at Hogwarts and discovers a hidden connection to his past.",
+                            PublishedDate = new DateOnly(1997, 6, 26),
+                            Title = "Harry Potter and the Philosopher's Stone",
+                            TotalCopies = 7
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Author = "Dan Brown",
+                            AvailableCopies = 2,
+                            CategoryID = 4,
+                            CoverImageUrl = "https://covers.openlibrary.org/b/isbn/9780307474278-L.jpg",
+                            CreatedAt = new DateTime(2026, 9, 30, 10, 25, 0, 0, DateTimeKind.Utc),
+                            Description = "A mystery thriller involving hidden symbols, secret societies, and an ancient mystery.",
+                            PublishedDate = new DateOnly(2003, 4, 1),
+                            Title = "The Da Vinci Code",
+                            TotalCopies = 4
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Author = "Robert C. Martin",
+                            AvailableCopies = 3,
+                            CategoryID = 9,
+                            CoverImageUrl = "https://covers.openlibrary.org/b/isbn/9780132350884-L.jpg",
+                            CreatedAt = new DateTime(2026, 9, 30, 10, 30, 0, 0, DateTimeKind.Utc),
+                            Description = "A practical guide to writing readable, maintainable, and professional software.",
+                            PublishedDate = new DateOnly(2008, 8, 1),
+                            Title = "Clean Code",
+                            TotalCopies = 3
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Author = "David Thomas and Andrew Hunt",
+                            AvailableCopies = 4,
+                            CategoryID = 9,
+                            CoverImageUrl = "https://covers.openlibrary.org/b/isbn/9780135957059-L.jpg",
+                            CreatedAt = new DateTime(2026, 9, 30, 10, 35, 0, 0, DateTimeKind.Utc),
+                            Description = "A guide to practical software development principles, techniques, and professional habits.",
+                            PublishedDate = new DateOnly(1999, 10, 20),
+                            Title = "The Pragmatic Programmer",
+                            TotalCopies = 4
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Author = "Stephen Hawking",
+                            AvailableCopies = 4,
+                            CategoryID = 10,
+                            CoverImageUrl = "https://covers.openlibrary.org/b/isbn/9780553380163-L.jpg",
+                            CreatedAt = new DateTime(2026, 9, 30, 10, 40, 0, 0, DateTimeKind.Utc),
+                            Description = "An accessible exploration of cosmology, black holes, time, and the origins of the universe.",
+                            PublishedDate = new DateOnly(1988, 4, 1),
+                            Title = "A Brief History of Time",
+                            TotalCopies = 5
+                        },
+                        new
+                        {
+                            Id = 10,
+                            Author = "Walter Isaacson",
+                            AvailableCopies = 2,
+                            CategoryID = 7,
+                            CoverImageUrl = "https://covers.openlibrary.org/b/isbn/9781451648539-L.jpg",
+                            CreatedAt = new DateTime(2026, 9, 30, 10, 45, 0, 0, DateTimeKind.Utc),
+                            Description = "A biography examining the life, career, and innovations of Apple co-founder Steve Jobs.",
+                            PublishedDate = new DateOnly(2011, 10, 24),
+                            Title = "Steve Jobs",
+                            TotalCopies = 3
+                        },
+                        new
+                        {
+                            Id = 11,
+                            Author = "Yuval Noah Harari",
+                            AvailableCopies = 5,
+                            CategoryID = 8,
+                            CoverImageUrl = "https://covers.openlibrary.org/b/isbn/9780062316097-L.jpg",
+                            CreatedAt = new DateTime(2026, 9, 30, 10, 50, 0, 0, DateTimeKind.Utc),
+                            Description = "An exploration of human history from early humans to modern civilization.",
+                            PublishedDate = new DateOnly(2011, 1, 1),
+                            Title = "Sapiens",
+                            TotalCopies = 5
+                        },
+                        new
+                        {
+                            Id = 12,
+                            Author = "Alex Michaelides",
+                            AvailableCopies = 1,
+                            CategoryID = 4,
+                            CoverImageUrl = "https://covers.openlibrary.org/b/isbn/9781250301697-L.jpg",
+                            CreatedAt = new DateTime(2026, 9, 30, 10, 55, 0, 0, DateTimeKind.Utc),
+                            Description = "A psychological mystery surrounding a woman who suddenly stops speaking after a violent crime.",
+                            PublishedDate = new DateOnly(2019, 2, 5),
+                            Title = "The Silent Patient",
+                            TotalCopies = 4
+                        });
+                });
+
+            modelBuilder.Entity("CommunityLibrary.Models.Category", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Description = "Novels, short stories, and other fictional works.",
+                            Name = "Fiction"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Description = "Stories involving science, technology, space, and the future.",
+                            Name = "Science Fiction"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Description = "Stories involving magic, mythical creatures, and imaginary worlds.",
+                            Name = "Fantasy"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Description = "Detective stories, investigations, and crime mysteries.",
+                            Name = "Mystery"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Description = "Suspenseful stories involving danger, crime, and high-stakes situations.",
+                            Name = "Thriller"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Description = "Stories centered around romantic relationships.",
+                            Name = "Romance"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Description = "Books documenting the lives of real people.",
+                            Name = "Biography"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Description = "Books about historical events, people, and civilizations.",
+                            Name = "History"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Description = "Books covering computing, programming, software, and technology.",
+                            Name = "Technology"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            Description = "Books covering scientific concepts, discoveries, and research.",
+                            Name = "Science"
+                        });
+                });
+
+            modelBuilder.Entity("CommunityLibrary.Models.Loan", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("BookId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("BorrowedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("DueDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime?>("ReturnedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BookId");
+
+                    b.ToTable("Loans");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -243,6 +570,28 @@ namespace CommunityLibrary.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("CommunityLibrary.Models.Book", b =>
+                {
+                    b.HasOne("CommunityLibrary.Models.Category", "Category")
+                        .WithMany("Books")
+                        .HasForeignKey("CategoryID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("CommunityLibrary.Models.Loan", b =>
+                {
+                    b.HasOne("CommunityLibrary.Models.Book", "Book")
+                        .WithMany()
+                        .HasForeignKey("BookId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Book");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -343,6 +692,11 @@ namespace CommunityLibrary.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("CommunityLibrary.Models.Category", b =>
+                {
+                    b.Navigation("Books");
                 });
 #pragma warning restore 612, 618
         }
