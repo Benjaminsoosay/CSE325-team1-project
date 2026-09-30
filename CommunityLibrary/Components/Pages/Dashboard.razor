@@ -1,0 +1,31 @@
+@page "/dashboard"
+@rendermode InteractiveServer
+@inject NavigationManager NavigationManager
+
+<PageTitle>Dashboard</PageTitle>
+
+<AuthorizeView>
+    <Authorized>
+        <h2>Hi, @context.User.Identity?.Name</h2>
+    </Authorized>
+    <NotAuthorized>
+        <p>Redirecting...</p>
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    [CascadingParameter]
+    private Task<AuthenticationState>? AuthenticationStateTask { get; set; }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender && AuthenticationStateTask is not null)
+        {
+            var authState = await AuthenticationStateTask;
+            if (authState.User.Identity is null || !authState.User.Identity.IsAuthenticated)
+            {
+                NavigationManager.NavigateTo("Account/Login?ReturnUrl=%2Fdashboard");
+            }
+        }
+    }
+}

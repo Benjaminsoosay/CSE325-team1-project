@@ -23,33 +23,21 @@ builder.Services.AddAuthentication(options =>
         options.DefaultScheme = IdentityConstants.ApplicationScheme;
         options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
     })
-    .AddGoogle(options =>
-    {
-        options.ClientId = builder.Configuration["Authentication:Google:ClientId"] ?? "";
-        options.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"] ?? "";
-        options.CorrelationCookie.SecurePolicy = CookieSecurePolicy.Always;
-        options.CorrelationCookie.SameSite = SameSiteMode.None;
-        options.Events.OnRedirectToAuthorizationEndpoint = ctx =>
-        {
-            var redirectUri = ctx.RedirectUri;
-            if (redirectUri.Contains("redirect_uri="))
-            {
-                var encoded = Uri.EscapeDataString("https://communitylibrary-rl1v.onrender.com/signin-google");
-                redirectUri = System.Text.RegularExpressions.Regex.Replace(
-                    redirectUri,
-                    @"redirect_uri=[^&]*",
-                    $"redirect_uri={encoded}");
-            }
-            ctx.Response.Redirect(redirectUri);
-            return Task.CompletedTask;
-        };
-    })
+    // --- GOOGLE AUTH TEMPORARILY DISABLED FOR LOCAL TESTING ---
+    // .AddGoogle(options =>
+    // {
+    //     options.ClientId = builder.Configuration["Authentication:Google:ClientId"] ?? "";
+    //     options.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"] ?? "";
+    // })
+    // -----------------------------------------------------------
     .AddIdentityCookies();
 
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+// --- USE FAKE DB CONNECTION FOR LOCAL TESTING ---
+var connectionString = "Host=localhost;Database=fakedb;Username=fake;Password=fake";
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+// -------------------------------------------------
 
 builder.Services.AddIdentityCore<ApplicationUser>(options =>
     {
@@ -108,11 +96,13 @@ app.MapRazorComponents<App>()
 
 app.MapAdditionalIdentityEndpoints();
 
-using (var scope = app.Services.CreateScope())                                                                        
-{                                                                                                                     
-    var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();                                        
-    db.Database.Migrate();                                                                                            
-    await RoleSeeder.SeedRolesAsync(scope.ServiceProvider);                                                           
-}
+// --- DATABASE MIGRATION TEMPORARILY DISABLED FOR LOCAL TESTING ---
+// using (var scope = app.Services.CreateScope())
+// {
+//     var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+//     db.Database.Migrate();
+//     await RoleSeeder.SeedRolesAsync(scope.ServiceProvider);
+// }
+// ------------------------------------------------------------------
 
 app.Run();
