@@ -15,3 +15,5 @@ LEFT JOIN "AspNetUserRoles" ur
 LEFT JOIN "AspNetRoles" r
     ON ur."RoleId" = r."Id"
 ORDER BY u."UserName";
+
+SELECT * FROM "Books";

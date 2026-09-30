@@ -1,5 +1,12 @@
 @page "/catalog"
 
+@using System.Data.Common
+@using CommunityLibrary.Data
+@using CommunityLibrary.Models
+@using Microsoft.EntityFrameworkCore
+
+@inject ApplicationDbContext Db
+
 <PageTitle>Library Catalog</PageTitle>
 
 <div class="container-fluid px-4 py-4">
@@ -249,7 +256,7 @@
                     </span>
 
                     <strong>
-                        @FilteredBooks.Count()
+                        @Books.Count()
                     </strong>
 
                     <span class="text-secondary">
@@ -294,7 +301,7 @@
 
             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-xl-3 row-cols-xxl-4 g-4">
 
-                @foreach (var book in FilteredBooks)
+                @foreach (var book in Books)
                 {
                     <div class="col">
 
@@ -304,7 +311,7 @@
 
                             <div class="position-relative p-3">
 
-                                <div class="bg-@book.CoverColor
+                                <div class="bg-red
                                             text-white
                                             rounded
                                             shadow-sm
@@ -362,7 +369,7 @@
 
                                 <!-- Availability -->
 
-                                @if (book.Status == BookStatus.Available)
+                                @if (book.AvailableCopies > 0)
                                 {
                                     <div class="small text-success fw-semibold mb-3">
                                         <i class="bi bi-circle-fill me-1"
@@ -375,7 +382,7 @@
 
                                     </div>
                                 }
-                                else if (book.Status == BookStatus.OnLoan)
+                                else if (book.AvailableCopies == 0)
                                 {
                                     <div class="small text-danger fw-semibold mb-3">
                                         <i class="bi bi-circle-fill me-1"
@@ -384,11 +391,11 @@
                                         On Loan
                                     </div>
 
-                                    @if (book.DueDate.HasValue)
+                                    @if (book.PublishedDate != null)
                                     {
                                         <div class="small text-secondary mb-3">
                                             Due:
-                                            @book.DueDate.Value.ToString("MMM dd, yyyy")
+                                            @book.PublishedDate.ToString("MMM dd, yyyy")
                                         </div>
                                     }
                                 }
@@ -402,15 +409,15 @@
 
                                 <!-- Action -->
 
-                                @if (book.Status == BookStatus.Available)
+                                @if (book.AvailableCopies > 0)
                                 {
-                                    <button class="btn btn-primary w-100" @onclick="() => BorrowBook(book)">
+                                    <button class="btn btn-primary w-100">
                                         <i class="bi bi-book me-2"></i>
                                         Borrow
                                     </button>
                                 }
                                 else{
-                                    <button class="btn btn-outline-primary w-100" @onclick="() => ReserveBook(book)">
+                                    <button class="btn btn-outline-primary w-100">
                                         <i class="bi bi-calendar-check me-2"></i>
                                         Reserve
                                     </button>
@@ -426,25 +433,6 @@
             </div>
 
 
-            <!-- No Results -->
-
-            @if (!FilteredBooks.Any())
-            {
-                <div class="text-center py-5">
-
-                    <i class="bi bi-book display-4 text-secondary"></i>
-
-                    <h4 class="mt-3">
-                        No books found
-                    </h4>
-
-                    <p class="text-secondary">
-                        Try changing your search or filters.
-                    </p>
-
-                </div>
-            }
-
         </main>
 
     </div>
@@ -457,7 +445,7 @@
     // =====================================================
     // BOOK MODEL
     // =====================================================
-
+@* 
     public class Book
     {
         public int Id { get; set; }
@@ -476,158 +464,31 @@
 
         public DateTime? DueDate { get; set; }
     }
-
+ *@
 
     // =====================================================
     // BOOK STATUS
     // =====================================================
 
-    public enum BookStatus
+    @* public enum BookStatus
     {
         Available,
         OnLoan,
         Reserved
     }
-
+ *@
 
     // =====================================================
     // DUMMY BOOK DATA
     // =====================================================
 
-    private List<Book> Books = new()
+    private List<Book> Books = new();
+
+    protected async Task OninitializedAsync()
     {
-        new Book
-        {
-            Id = 1,
-            Title = "Clean Code",
-            Author = "Robert C. Martin",
-            Category = "Computer Science",
-            CoverColor = "primary",
-            Status = BookStatus.Available,
-            AvailableCopies = 3
-        },
+        Books = await Db.Books.OrderBy(b => b.Title).ToListAsync();
+    }
 
-        new Book
-        {
-            Id = 2,
-            Title = "The Pragmatic Programmer",
-            Author = "Andrew Hunt, David Thomas",
-            Category = "Technology",
-            CoverColor = "dark",
-            Status = BookStatus.Available,
-            AvailableCopies = 5
-        },
-
-        new Book
-        {
-            Id = 3,
-            Title = "The Web Application Hacker's Handbook",
-            Author = "Dafydd Stuttard",
-            Category = "Cybersecurity",
-            CoverColor = "info",
-            Status = BookStatus.OnLoan,
-            DueDate = new DateTime(2026, 10, 5)
-        },
-
-        new Book
-        {
-            Id = 4,
-            Title = "Atomic Habits",
-            Author = "James Clear",
-            Category = "Self Help",
-            CoverColor = "warning",
-            Status = BookStatus.Available,
-            AvailableCopies = 4
-        },
-
-        new Book
-        {
-            Id = 5,
-            Title = "Deep Work",
-            Author = "Cal Newport",
-            Category = "Business",
-            CoverColor = "dark",
-            Status = BookStatus.Available,
-            AvailableCopies = 6
-        },
-
-        new Book
-        {
-            Id = 6,
-            Title = "The Lean Startup",
-            Author = "Eric Ries",
-            Category = "Business",
-            CoverColor = "primary",
-            Status = BookStatus.OnLoan,
-            DueDate = new DateTime(2026, 9, 28)
-        },
-
-        new Book
-        {
-            Id = 7,
-            Title = "Designing Data-Intensive Applications",
-            Author = "Martin Kleppmann",
-            Category = "Computer Science",
-            CoverColor = "danger",
-            Status = BookStatus.Available,
-            AvailableCopies = 2
-        },
-
-        new Book
-        {
-            Id = 8,
-            Title = "Introduction to Algorithms",
-            Author = "Thomas H. Cormen",
-            Category = "Computer Science",
-            CoverColor = "secondary",
-            Status = BookStatus.Available,
-            AvailableCopies = 4
-        },
-
-        new Book
-        {
-            Id = 9,
-            Title = "System Design Interview",
-            Author = "Alex Xu",
-            Category = "Technology",
-            CoverColor = "info",
-            Status = BookStatus.Available,
-            AvailableCopies = 3
-        },
-
-        new Book
-        {
-            Id = 10,
-            Title = "Think Like a Hacker",
-            Author = "Peter Kim",
-            Category = "Cybersecurity",
-            CoverColor = "dark",
-            Status = BookStatus.OnLoan,
-            DueDate = new DateTime(2026, 10, 12)
-        },
-
-        new Book
-        {
-            Id = 11,
-            Title = "The 7 Habits of Highly Effective People",
-            Author = "Stephen R. Covey",
-            Category = "Self Help",
-            CoverColor = "primary",
-            Status = BookStatus.Available,
-            AvailableCopies = 5
-        },
-
-        new Book
-        {
-            Id = 12,
-            Title = "Sapiens",
-            Author = "Yuval Noah Harari",
-            Category = "History",
-            CoverColor = "danger",
-            Status = BookStatus.Available,
-            AvailableCopies = 2
-        }
-    };
 
 
     // =====================================================
@@ -670,92 +531,6 @@
     // FILTERED BOOKS
     // =====================================================
 
-    private IEnumerable<Book> FilteredBooks
-    {
-        get
-        {
-            IEnumerable<Book> result = Books;
-
-
-            // Search
-
-            if (!string.IsNullOrWhiteSpace(searchTerm))
-            {
-                result = result.Where(book =>
-                    book.Title.Contains(
-                        searchTerm,
-                        StringComparison.OrdinalIgnoreCase
-                    )
-                    ||
-                    book.Author.Contains(
-                        searchTerm,
-                        StringComparison.OrdinalIgnoreCase
-                    )
-                    ||
-                    book.Category.Contains(
-                        searchTerm,
-                        StringComparison.OrdinalIgnoreCase
-                    )
-                );
-            }
-
-
-            // Category
-
-            if (selectedCategory != "All")
-            {
-                result = result.Where(book =>
-                    book.Category == selectedCategory
-                );
-            }
-
-
-            // Availability
-
-            if (availableOnly)
-            {
-                result = result.Where(book =>
-                    book.Status == BookStatus.Available
-                );
-            }
-
-
-            if (onLoanOnly)
-            {
-                result = result.Where(book =>
-                    book.Status == BookStatus.OnLoan
-                );
-            }
-
-
-            if (reservedOnly)
-            {
-                result = result.Where(book =>
-                    book.Status == BookStatus.Reserved
-                );
-            }
-
-
-            // Sorting
-
-            result = sortOption switch
-            {
-                "author" =>
-                    result.OrderBy(book => book.Author),
-
-                "available" =>
-                    result.OrderBy(book =>
-                        book.Status != BookStatus.Available),
-
-                _ =>
-                    result.OrderBy(book => book.Title)
-            };
-
-
-            return result;
-        }
-    }
-
 
     // =====================================================
     // CATEGORY SELECTION
@@ -764,44 +539,6 @@
     private void SelectCategory(string category)
     {
         selectedCategory = category;
-    }
-
-
-    // =====================================================
-    // BORROW BOOK
-    // =====================================================
-
-    private void BorrowBook(Book book)
-    {
-        if (book.AvailableCopies <= 0)
-            return;
-
-        book.AvailableCopies--;
-
-        if (book.AvailableCopies == 0)
-        {
-            book.Status = BookStatus.OnLoan;
-
-            book.DueDate = DateTime.Today.AddDays(14);
-        }
-
-        // Later this will call your API/service:
-        //
-        // await LibraryService.BorrowBook(book.Id);
-    }
-
-
-    // =====================================================
-    // RESERVE BOOK
-    // =====================================================
-
-    private void ReserveBook(Book book)
-    {
-        book.Status = BookStatus.Reserved;
-
-        // Later:
-        //
-        // await LibraryService.ReserveBook(book.Id);
     }
 
 }
