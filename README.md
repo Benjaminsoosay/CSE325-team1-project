@@ -8,59 +8,58 @@
 ## Team Members
 - Benjamin Soosay (@Benjaminsoosay) - Team Lead
 - Daniel Llumiquinga (@danielllumiquinga2) - Developer
-<<<<<<< HEAD
-- E. Okafo (@eokafo3) - Developer
+- Emmanuel Kingsley Okafor (@eokafor3) - Developer
 - E. Okoye (@eokoye2) - Developer
 
 ---
 
-## Project Title: Campus Connect (Event Tracker)
+## Project Title: Library Management System
 
 ### Project Overview
-Campus Connect is a Blazor web application designed to centralize campus event information for students and organizers. Currently, students have to check emails, physical flyers, and various social media pages to find out what is happening on campus. Campus Connect provides a centralized, user-friendly platform where all campus events are listed in one place.
-
-The target users are college students, campus club organizers, and university administration. Students will use the app to discover and RSVP to events, while organizers will use it to manage their events and track attendance. This app is valuable because it saves time and increases student engagement. Unlike a simple calendar, Campus Connect allows users to filter events by category (e.g., "Academic," "Social," "Sports"), and provides a personalized experience by showing events tailored to the user's interests.
+Our team is building a Library Management System using Blazor. This application allows patrons to browse the library catalog, view book details, and reserve/checkout books. It also provides administrators with tools to manage book inventory and track checked-out items.
 
 ### Project Scope
 **What's IN:**
-- User registration and authentication (Students and Organizers).
-- Creating, viewing, editing, and deleting events.
-- Searching and filtering events by category.
-- RSVP functionality for students.
+- User registration and authentication.
+- Viewing a catalog of available books.
+- Searching and filtering books by title or genre.
+- Checking out and reserving books.
 - A responsive UI that works on mobile and desktop.
 
 **What's OUT:**
 - Real-time chat or messaging between users.
-- Payment processing for paid events (all events are free).
-- Native mobile app store deployment (we will build a web app).
-- Advanced AI event recommendations.
+- Payment processing for late fees.
+- Native mobile app store deployment.
 
 ### App Features (User Stories)
-1. Users can create an account and log in securely.
-2. Users can browse a list of upcoming campus events.
-3. Users can search for events by title or filter by category.
-4. Users can RSVP to an event to indicate they will attend.
-5. Organizers can create, edit, and delete their own events.
-6. Organizers can view a list of attendees for their events.
-7. Admins (or Organizers) can mark an event as cancelled.
+1. As a patron, I want to browse the catalog so I can find books.
+2. As a patron, I want to view book details (title, author, genre, availability).
+3. As a patron, I want to borrow a book so that I can read it at home.
+4. As a patron, I want to see the due date so that I know when to return the book.
+5. As an admin, I want to manage book inventory so that the catalog stays up to date.
 
 ### Technical Considerations
-- **Data Storage:** User Profiles, Event Details (title, date, location, description), and RSVPs.
-- **User Accounts:** Yes, users need to log in. We will use roles to distinguish between Students and Organizers.
-- **External Services:** None at this time.
-- **Device Compatibility:** Responsive CSS so it works on mobile, tablet, and desktop.
-- **Basic Security:** Passwords will be hashed. Authorization will ensure students cannot edit events they do not own.
+- **Framework:** .NET Blazor Web App
+- **Data Storage:** Mock data for now, moving to a database later.
+- **User Accounts:** Planned for future implementation.
+- **Device Compatibility:** Responsive CSS using Bootstrap.
 
 ### Project Links
 - **GitHub Repository:** [https://github.com/Benjaminsoosay/CSE325-team1-project](https://github.com/Benjaminsoosay/CSE325-team1-project)
 - **Trello Board:** [https://trello.com/b/hjnMvDXR/cse325-team-1](https://trello.com/b/hjnMvDXR/cse325-team-1)
-=======
-- Emmanuel Kingsley Okafor (@eokafor3) - Developer
-- E. Okoye (@eokoye2) - Developer
-- Team Leaders week 2  ------- Daniel Benjamin Chinonso Iwuchukwu
-- Team Leaders week 3 --------
-- Team Leaders week 4 --------
-- Team Leaders week 5 --------
-- Team Leaders week 6 --------
-- Team Leaders week 7 --------
->>>>>>> 8cafddd811e5386a27cc110a6474d561c60ea7f6
+
+---
+
+## Week 4 Team Activity: Project Checkpoint
+
+**Participants:** Benjamin Soosay, Daniel Llumiquinga, Emmanuel Kingsley Okafor, E. Okoye.
+
+**Group Activity Summary:** Our team met to review the progress of our Library Management System project. We updated our Trello board to reflect our current tasks and assigned specific work items to each member. We discussed the architecture and task breakdown for the upcoming week.
+
+**Challenges:** Our primary challenge was resolving namespace errors in our Blazor project and ensuring the routing correctly displayed the new pages. We also struggled to find time to coordinate schedules.
+
+**Successes:** Benjamin successfully implemented the "Book Details Page" and the "Checkout/Reserve Book" modal, including a working "Borrow" button. We also created a Testing & Quality Assurance plan to guide our future testing phases.
+
+**Insights:** We learned the importance of proper file organization in Blazor (keeping components inside the Components/Pages folder) and ensuring namespaces match the project name to avoid compilation errors.
+
+**New Group Leader:** Daniel Llumiquinga was selected as the group leader for the next meeting.
