@@ -204,7 +204,6 @@
 /Users/danielalejandrol/practice/projectcse325/CSE325-team1-project/CommunityLibrary/obj/Debug/net10.0/CommunityLibrary.pdb
 /Users/danielalejandrol/practice/projectcse325/CSE325-team1-project/CommunityLibrary/obj/Debug/net10.0/CommunityLibrary.genruntimeconfig.cache
 /Users/danielalejandrol/practice/projectcse325/CSE325-team1-project/CommunityLibrary/obj/Debug/net10.0/ref/CommunityLibrary.dll
-C:\Users\Dell\Desktop\DotNetDependencies\CSE325-team1-project\CommunityLibrary\bin\Debug\net10.0\appsettings.Development.json
 C:\Users\Dell\Desktop\DotNetDependencies\CSE325-team1-project\CommunityLibrary\bin\Debug\net10.0\appsettings.json
 C:\Users\Dell\Desktop\DotNetDependencies\CSE325-team1-project\CommunityLibrary\bin\Debug\net10.0\Data\app.db
 C:\Users\Dell\Desktop\DotNetDependencies\CSE325-team1-project\CommunityLibrary\bin\Debug\net10.0\CommunityLibrary.staticwebassets.runtime.json
@@ -407,6 +406,10 @@ C:\Users\Dell\Desktop\DotNetDependencies\CSE325-team1-project\CommunityLibrary\o
 C:\Users\Dell\Desktop\DotNetDependencies\CSE325-team1-project\CommunityLibrary\obj\Debug\net10.0\CommunityLibrary.pdb
 C:\Users\Dell\Desktop\DotNetDependencies\CSE325-team1-project\CommunityLibrary\obj\Debug\net10.0\CommunityLibrary.genruntimeconfig.cache
 C:\Users\Dell\Desktop\DotNetDependencies\CSE325-team1-project\CommunityLibrary\obj\Debug\net10.0\ref\CommunityLibrary.dll
+C:\Users\Dell\Desktop\DotNetDependencies\CSE325-team1-project\CommunityLibrary\bin\Debug\net10.0\Microsoft.AspNetCore.Authentication.Google.dll
+C:\Users\Dell\Desktop\DotNetDependencies\CSE325-team1-project\CommunityLibrary\bin\Debug\net10.0\Npgsql.dll
+C:\Users\Dell\Desktop\DotNetDependencies\CSE325-team1-project\CommunityLibrary\bin\Debug\net10.0\Npgsql.EntityFrameworkCore.PostgreSQL.dll
+C:\Users\Dell\Desktop\DotNetDependencies\CSE325-team1-project\CommunityLibrary\obj\Debug\net10.0\compressed\qebwyg94hq-{0}-0hqk34183y-0hqk34183y.gz
+C:\Users\Dell\Desktop\DotNetDependencies\CSE325-team1-project\CommunityLibrary\obj\Debug\net10.0\compressed\ep8miny3i5-{0}-0hqk34183y-0hqk34183y.gz
+C:\Users\Dell\Desktop\DotNetDependencies\CSE325-team1-project\CommunityLibrary\bin\Debug\net10.0\appsettings.Development.json
 C:\Users\Dell\Desktop\DotNetDependencies\CSE325-team1-project\CommunityLibrary\obj\Debug\net10.0\compressed\tnga59nrr1-{0}-jadevxi74r-jadevxi74r.gz
-C:\Users\Dell\Desktop\DotNetDependencies\CSE325-team1-project\CommunityLibrary\obj\Debug\net10.0\compressed\qebwyg94hq-{0}-4khk8uegiq-4khk8uegiq.gz
-C:\Users\Dell\Desktop\DotNetDependencies\CSE325-team1-project\CommunityLibrary\obj\Debug\net10.0\compressed\ep8miny3i5-{0}-4khk8uegiq-4khk8uegiq.gz
