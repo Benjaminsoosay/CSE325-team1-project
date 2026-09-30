@@ -21,25 +21,38 @@ builder.Services.AddAuthentication(options =>
         options.DefaultScheme = IdentityConstants.ApplicationScheme;
         options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
     })
-    // --- GOOGLE AUTH TEMPORARILY DISABLED FOR LOCAL TESTING ---
-    // .AddGoogle(options =>
-    // {
-    //     options.ClientId = builder.Configuration["Authentication:Google:ClientId"] ?? "";
-    //     options.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"] ?? "";
-    // })
-    // -----------------------------------------------------------
+    .AddGoogle(options =>
+    {
+        options.ClientId = builder.Configuration["Authentication:Google:ClientId"] ?? "";
+        options.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"] ?? "";
+        options.CorrelationCookie.SecurePolicy = CookieSecurePolicy.Always;
+        options.CorrelationCookie.SameSite = SameSiteMode.None;
+        options.Events.OnRedirectToAuthorizationEndpoint = ctx =>
+        {
+            var redirectUri = ctx.RedirectUri;
+            if (!builder.Environment.IsDevelopment() && redirectUri.Contains("redirect_uri="))
+            {
+                var encoded = Uri.EscapeDataString("https://communitylibrary-rl1v.onrender.com/signin-google");
+                redirectUri = System.Text.RegularExpressions.Regex.Replace(
+                    redirectUri,
+                    @"redirect_uri=[^&]*",
+                    $"redirect_uri={encoded}");
+            }
+            ctx.Response.Redirect(redirectUri);
+            return Task.CompletedTask;
+        };
+    })
     .AddIdentityCookies();
 
-// --- USE FAKE DB CONNECTION FOR LOCAL TESTING ---
-var connectionString = "Host=localhost;Database=fakedb;Username=fake;Password=fake";
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
-// -------------------------------------------------
 
 builder.Services.AddIdentityCore<ApplicationUser>(options =>
     {
-        options.SignIn.RequireConfirmedAccount = true;
+        // --- LOCALLY DISABLED: Allow login without email confirmation ---
+        options.SignIn.RequireConfirmedAccount = false;
         options.Stores.SchemaVersion = IdentitySchemaVersions.Version3;
     })
     .AddRoles<IdentityRole>()
@@ -94,13 +107,16 @@ app.MapRazorComponents<App>()
 
 app.MapAdditionalIdentityEndpoints();
 
-// --- DATABASE MIGRATION TEMPORARILY DISABLED FOR LOCAL TESTING ---
+// --- MIGRATION DISABLED LOCALLY ---
+// The Render database already has all tables created by the initial deployment.
+// Running migrations again causes "relation already exists" errors.
+// Only uncomment this when deploying to a fresh environment.
 // using (var scope = app.Services.CreateScope())
 // {
 //     var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
 //     db.Database.Migrate();
 //     await RoleSeeder.SeedRolesAsync(scope.ServiceProvider);
 // }
-// ------------------------------------------------------------------
+// ---------------------------------
 
 app.Run();

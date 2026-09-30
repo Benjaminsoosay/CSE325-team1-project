@@ -1,6 +1,23 @@
+# Build results
+[Bb]in/
+[Oo]bj/
 
-bin/
-obj/
+# Local settings and secrets
+appsettings.Development.json
+
+# SQLite database
+*.db
+
+# VS Code
+.vscode/
+
+# User-specific files
 *.user
 *.suo
-.vs/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log

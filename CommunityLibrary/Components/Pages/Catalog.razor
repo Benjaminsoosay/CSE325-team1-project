@@ -1,0 +1,194 @@
+@page "/catalog"
+
+<PageTitle>Catalog - Community Library</PageTitle>
+
+<div class="container mt-4">
+    <!-- Page Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="mb-1">Library Catalog</h1>
+            <p class="text-muted mb-0">Browse our complete collection of books</p>
+        </div>
+        <span class="badge bg-primary fs-6">@books.Count Books Available</span>
+    </div>
+
+    <!-- Search and Filter Bar -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label class="form-label fw-bold">Search</label>
+                    <input type="text" class="form-control" placeholder="Search by title or author..." @bind="searchTerm" />
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label fw-bold">Genre</label>
+                    <select class="form-select" @bind="selectedGenre">
+                        <option value="">All Genres</option>
+                        <option value="Classic Literature">Classic Literature</option>
+                        <option value="Historical Fiction">Historical Fiction</option>
+                        <option value="Dystopian">Dystopian</option>
+                        <option value="Science Fiction">Science Fiction</option>
+                    </select>
+                </div>
+                <div class="col-md-2 d-flex align-items-end">
+                    <button class="btn btn-outline-secondary w-100" @onclick="ClearFilters">
+                        Clear
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Book Grid -->
+    @if (FilteredBooks.Count == 0)
+    {
+        <div class="alert alert-info text-center" role="alert">
+            <h5>No books found</h5>
+            <p class="mb-0">Try adjusting your search or filter criteria.</p>
+        </div>
+    }
+    else
+    {
+        <div class="row g-4">
+            @foreach (var book in FilteredBooks)
+            {
+                <div class="col-md-6 col-lg-4">
+                    <div class="card h-100 shadow-sm">
+                        <img src="@book.CoverImageUrl" class="card-img-top" alt="@book.Title" 
+                             style="height: 320px; object-fit: cover;" />
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">@book.Title</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">By @book.Author</h6>
+                            <p class="card-text text-muted small mb-2">
+                                <strong>Genre:</strong> @book.Genre
+                            </p>
+                            <p class="card-text flex-grow-1">@book.Description</p>
+                            
+                            <div class="d-flex justify-content-between align-items-center mt-3">
+                                @if (book.IsAvailable)
+                                {
+                                    <span class="badge bg-success">Available</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-danger">Checked Out</span>
+                                }
+                                <button class="btn btn-sm btn-primary" disabled="@(!book.IsAvailable)">
+                                    View Details
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>
+
+@code {
+    private string searchTerm = "";
+    private string selectedGenre = "";
+
+    private List<Book> books = new List<Book>
+    {
+        new Book
+        {
+            Id = 1,
+            Title = "The Great Gatsby",
+            Author = "F. Scott Fitzgerald",
+            Genre = "Classic Literature",
+            Description = "A novel set in the Jazz Age on Long Island, near New York City.",
+            CoverImageUrl = "https://m.media-amazon.com/images/I/71FTb9X6wsL._AC_UF1000,1000_QL80_.jpg",
+            IsAvailable = true
+        },
+        new Book
+        {
+            Id = 2,
+            Title = "To Kill a Mockingbird",
+            Author = "Harper Lee",
+            Genre = "Historical Fiction",
+            Description = "A novel about racial injustice in the Deep South during the 1930s.",
+            CoverImageUrl = "https://m.media-amazon.com/images/I/71FxgtFKcQL._AC_UF1000,1000_QL80_.jpg",
+            IsAvailable = true
+        },
+        new Book
+        {
+            Id = 3,
+            Title = "1984",
+            Author = "George Orwell",
+            Genre = "Dystopian",
+            Description = "A dystopian social science fiction novel about a totalitarian regime.",
+            CoverImageUrl = "https://m.media-amazon.com/images/I/71NSC9hLcPL._AC_UF1000,1000_QL80_.jpg",
+            IsAvailable = false
+        },
+        new Book
+        {
+            Id = 4,
+            Title = "Pride and Prejudice",
+            Author = "Jane Austen",
+            Genre = "Classic Literature",
+            Description = "A romantic novel of manners following Elizabeth Bennet.",
+            CoverImageUrl = "https://m.media-amazon.com/images/I/71Q1tPupKjL._AC_UF1000,1000_QL80_.jpg",
+            IsAvailable = true
+        },
+        new Book
+        {
+            Id = 5,
+            Title = "The Hobbit",
+            Author = "J.R.R. Tolkien",
+            Genre = "Science Fiction",
+            Description = "A fantasy adventure about Bilbo Baggins and his quest for treasure.",
+            CoverImageUrl = "https://m.media-amazon.com/images/I/71jFySyF6NL._AC_UF1000,1000_QL80_.jpg",
+            IsAvailable = true
+        },
+        new Book
+        {
+            Id = 6,
+            Title = "Fahrenheit 451",
+            Author = "Ray Bradbury",
+            Genre = "Dystopian",
+            Description = "A novel about a future society where books are outlawed and burned.",
+            CoverImageUrl = "https://m.media-amazon.com/images/I/61l8LHt4MpL._AC_UF1000,1000_QL80_.jpg",
+            IsAvailable = true
+        }
+    };
+
+    private List<Book> FilteredBooks
+    {
+        get
+        {
+            var filtered = books.AsEnumerable();
+
+            if (!string.IsNullOrWhiteSpace(searchTerm))
+            {
+                filtered = filtered.Where(b =>
+                    b.Title.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) ||
+                    b.Author.Contains(searchTerm, StringComparison.OrdinalIgnoreCase));
+            }
+
+            if (!string.IsNullOrWhiteSpace(selectedGenre))
+            {
+                filtered = filtered.Where(b => b.Genre == selectedGenre);
+            }
+
+            return filtered.ToList();
+        }
+    }
+
+    private void ClearFilters()
+    {
+        searchTerm = "";
+        selectedGenre = "";
+    }
+
+    public class Book
+    {
+        public int Id { get; set; }
+        public string Title { get; set; } = string.Empty;
+        public string Author { get; set; } = string.Empty;
+        public string Genre { get; set; } = string.Empty;
+        public string Description { get; set; } = string.Empty;
+        public string CoverImageUrl { get; set; } = string.Empty;
+        public bool IsAvailable { get; set; }
+    }
+}
