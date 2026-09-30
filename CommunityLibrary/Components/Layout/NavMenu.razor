@@ -1,5 +1,5 @@
-﻿@implements IDisposable
 @rendermode InteractiveServer
+@implements IDisposable
 @inject NavigationManager NavigationManager
 @inject IJSRuntime JS
 
@@ -220,6 +220,41 @@
                         <span class="bi bi-box-arrow-in-right"></span>
                         Login
                     </NavLink>
+                </li>
+
+                <li class="nav-item ms-md-2">
+                    <AuthorizeView>
+                        <Authorized>
+                            <NavLink class="btn btn-outline-light px-3 py-2 me-2" href="dashboard">
+                                My Account
+                            </NavLink>
+                        </Authorized>
+                    </AuthorizeView>
+                </li>
+
+                <li class="nav-item ms-md-2">
+                    <AuthorizeView>
+                        <Authorized>
+                            <form action="Account/Logout" method="post" class="d-inline">                                             
+                                <AntiforgeryToken />                                                                                  
+                                <input type="hidden" name="ReturnUrl" value="@currentUrl" />                                          
+                                <button type="submit" class="btn btn-outline-light px-3 py-2">                                        
+                                    Log out                                                                                           
+                                </button>                                                                                             
+                            </form>                                                                                                   
+                        </Authorized>                                                                                                 
+                        <NotAuthorized>                                                                                              
+                            <NavLink class="btn btn-outline-light px-3 py-2" href="Account/Login">
+                                Log in                                                                                                
+                            </NavLink>                                                                                                
+                        </NotAuthorized>                                                                                              
+                    </AuthorizeView>                                                                                                  
+                </li>
+
+            </ul>
+        </div>
+    </div>
+</nav>
 
                 </NotAuthorized>
             </AuthorizeView>
