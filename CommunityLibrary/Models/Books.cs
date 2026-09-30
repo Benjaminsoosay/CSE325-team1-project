@@ -14,8 +14,8 @@ public class Book
     [StringLength(150)]
     public string Author { get; set; } = string.Empty;
 
-    [StringLength(100)]
-    public string Category { get; set; } = string.Empty;
+    public int CategoryID {get; set;}
+    public Category? Category {get;  set;}
 
     [StringLength(1000)]
     public string Description { get; set; } = string.Empty;

@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CommunityLibrary.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260930105542_InitialCreate")]
+    [Migration("20260930132437_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -109,10 +109,8 @@ namespace CommunityLibrary.Migrations
                     b.Property<int>("AvailableCopies")
                         .HasColumnType("integer");
 
-                    b.Property<string>("Category")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
+                    b.Property<int>("CategoryID")
+                        .HasColumnType("integer");
 
                     b.Property<string>("CoverImageUrl")
                         .IsRequired()
@@ -143,164 +141,251 @@ namespace CommunityLibrary.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CategoryID");
+
                     b.ToTable("Books");
 
                     b.HasData(
                         new
                         {
                             Id = 1,
-                            Author = "Robert C. Martin",
+                            Author = "George Orwell",
                             AvailableCopies = 5,
-                            Category = "Programming",
-                            CoverImageUrl = "https://covers.openlibrary.org/b/isbn/9780132350884-L.jpg",
-                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "A practical guide to writing clean, readable, and maintainable software.",
-                            PublishedDate = new DateOnly(2008, 8, 1),
-                            Title = "Clean Code",
+                            CategoryID = 1,
+                            CoverImageUrl = "https://covers.openlibrary.org/b/isbn/9780451524935-L.jpg",
+                            CreatedAt = new DateTime(2026, 9, 30, 10, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "A dystopian novel exploring surveillance, government control, and individual freedom.",
+                            PublishedDate = new DateOnly(1949, 6, 8),
+                            Title = "1984",
                             TotalCopies = 5
                         },
                         new
                         {
                             Id = 2,
-                            Author = "David Thomas & Andrew Hunt",
+                            Author = "J.R.R. Tolkien",
                             AvailableCopies = 4,
-                            Category = "Programming",
-                            CoverImageUrl = "https://covers.openlibrary.org/b/isbn/9780135957059-L.jpg",
-                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "Practical techniques and principles for becoming a better software developer.",
-                            PublishedDate = new DateOnly(2019, 9, 13),
-                            Title = "The Pragmatic Programmer",
+                            CategoryID = 3,
+                            CoverImageUrl = "https://covers.openlibrary.org/b/isbn/9780547928227-L.jpg",
+                            CreatedAt = new DateTime(2026, 9, 30, 10, 5, 0, 0, DateTimeKind.Utc),
+                            Description = "Bilbo Baggins joins a company of dwarves on an adventure to reclaim their homeland.",
+                            PublishedDate = new DateOnly(1937, 9, 21),
+                            Title = "The Hobbit",
                             TotalCopies = 4
                         },
                         new
                         {
                             Id = 3,
-                            Author = "Erich Gamma, Richard Helm, Ralph Johnson, John Vlissides",
-                            AvailableCopies = 3,
-                            Category = "Software Engineering",
-                            CoverImageUrl = "https://covers.openlibrary.org/b/isbn/9780201633610-L.jpg",
-                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "A classic reference on reusable object-oriented software design patterns.",
-                            PublishedDate = new DateOnly(1994, 10, 21),
-                            Title = "Design Patterns",
-                            TotalCopies = 3
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Author = "Thomas H. Cormen",
+                            Author = "Frank Herbert",
                             AvailableCopies = 6,
-                            Category = "Computer Science",
-                            CoverImageUrl = "https://covers.openlibrary.org/b/isbn/9780262046305-L.jpg",
-                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "A comprehensive introduction to algorithms and data structures.",
-                            PublishedDate = new DateOnly(2022, 4, 5),
-                            Title = "Introduction to Algorithms",
+                            CategoryID = 2,
+                            CoverImageUrl = "https://covers.openlibrary.org/b/isbn/9780441172719-L.jpg",
+                            CreatedAt = new DateTime(2026, 9, 30, 10, 10, 0, 0, DateTimeKind.Utc),
+                            Description = "A science fiction epic centered around politics, power, survival, and the desert planet Arrakis.",
+                            PublishedDate = new DateOnly(1965, 8, 1),
+                            Title = "Dune",
                             TotalCopies = 6
                         },
                         new
                         {
-                            Id = 5,
-                            Author = "Bjarne Stroustrup",
-                            AvailableCopies = 4,
-                            Category = "Programming",
-                            CoverImageUrl = "https://covers.openlibrary.org/b/isbn/9780321563842-L.jpg",
-                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "A detailed reference and guide to modern C++ programming.",
-                            PublishedDate = new DateOnly(2013, 5, 20),
-                            Title = "The C++ Programming Language",
-                            TotalCopies = 4
-                        },
-                        new
-                        {
-                            Id = 6,
-                            Author = "Bill Wagner",
-                            AvailableCopies = 5,
-                            Category = "Programming",
-                            CoverImageUrl = "https://covers.openlibrary.org/b/isbn/9780672337871-L.jpg",
-                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "Practical techniques for writing robust and efficient C# applications.",
-                            PublishedDate = new DateOnly(2017, 3, 15),
-                            Title = "Effective C#",
+                            Id = 4,
+                            Author = "F. Scott Fitzgerald",
+                            AvailableCopies = 3,
+                            CategoryID = 1,
+                            CoverImageUrl = "https://covers.openlibrary.org/b/isbn/9780743273565-L.jpg",
+                            CreatedAt = new DateTime(2026, 9, 30, 10, 15, 0, 0, DateTimeKind.Utc),
+                            Description = "A classic novel about wealth, ambition, love, and the American Dream.",
+                            PublishedDate = new DateOnly(1925, 4, 10),
+                            Title = "The Great Gatsby",
                             TotalCopies = 5
                         },
                         new
                         {
+                            Id = 5,
+                            Author = "J.K. Rowling",
+                            AvailableCopies = 5,
+                            CategoryID = 3,
+                            CoverImageUrl = "https://covers.openlibrary.org/b/isbn/9780747532699-L.jpg",
+                            CreatedAt = new DateTime(2026, 9, 30, 10, 20, 0, 0, DateTimeKind.Utc),
+                            Description = "A young wizard begins his education at Hogwarts and discovers a hidden connection to his past.",
+                            PublishedDate = new DateOnly(1997, 6, 26),
+                            Title = "Harry Potter and the Philosopher's Stone",
+                            TotalCopies = 7
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Author = "Dan Brown",
+                            AvailableCopies = 2,
+                            CategoryID = 4,
+                            CoverImageUrl = "https://covers.openlibrary.org/b/isbn/9780307474278-L.jpg",
+                            CreatedAt = new DateTime(2026, 9, 30, 10, 25, 0, 0, DateTimeKind.Utc),
+                            Description = "A mystery thriller involving hidden symbols, secret societies, and an ancient mystery.",
+                            PublishedDate = new DateOnly(2003, 4, 1),
+                            Title = "The Da Vinci Code",
+                            TotalCopies = 4
+                        },
+                        new
+                        {
                             Id = 7,
-                            Author = "Andrew S. Tanenbaum",
+                            Author = "Robert C. Martin",
                             AvailableCopies = 3,
-                            Category = "Networking",
-                            CoverImageUrl = "https://covers.openlibrary.org/b/isbn/9780132126953-L.jpg",
-                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "An introduction to computer networking, protocols, architectures, and applications.",
-                            PublishedDate = new DateOnly(2010, 5, 1),
-                            Title = "Computer Networking",
+                            CategoryID = 9,
+                            CoverImageUrl = "https://covers.openlibrary.org/b/isbn/9780132350884-L.jpg",
+                            CreatedAt = new DateTime(2026, 9, 30, 10, 30, 0, 0, DateTimeKind.Utc),
+                            Description = "A practical guide to writing readable, maintainable, and professional software.",
+                            PublishedDate = new DateOnly(2008, 8, 1),
+                            Title = "Clean Code",
                             TotalCopies = 3
                         },
                         new
                         {
                             Id = 8,
-                            Author = "Dafydd Stuttard & Marcus Pinto",
-                            AvailableCopies = 3,
-                            Category = "Cybersecurity",
-                            CoverImageUrl = "https://covers.openlibrary.org/b/isbn/9781118026472-L.jpg",
-                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "A guide to understanding and testing the security of web applications.",
-                            PublishedDate = new DateOnly(2011, 9, 1),
-                            Title = "The Web Application Hacker's Handbook",
-                            TotalCopies = 3
-                        },
-                        new
-                        {
-                            Id = 9,
-                            Author = "Jon Erickson",
-                            AvailableCopies = 2,
-                            Category = "Cybersecurity",
-                            CoverImageUrl = "https://covers.openlibrary.org/b/isbn/9781593271442-L.jpg",
-                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "An introduction to exploitation, programming, networking, and computer security.",
-                            PublishedDate = new DateOnly(2008, 2, 1),
-                            Title = "Hacking: The Art of Exploitation",
-                            TotalCopies = 2
-                        },
-                        new
-                        {
-                            Id = 10,
-                            Author = "Abraham Silberschatz",
+                            Author = "David Thomas and Andrew Hunt",
                             AvailableCopies = 4,
-                            Category = "Databases",
-                            CoverImageUrl = "https://covers.openlibrary.org/b/isbn/9780078022159-L.jpg",
-                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "A comprehensive introduction to database systems and database management.",
-                            PublishedDate = new DateOnly(2019, 1, 1),
-                            Title = "Database System Concepts",
+                            CategoryID = 9,
+                            CoverImageUrl = "https://covers.openlibrary.org/b/isbn/9780135957059-L.jpg",
+                            CreatedAt = new DateTime(2026, 9, 30, 10, 35, 0, 0, DateTimeKind.Utc),
+                            Description = "A guide to practical software development principles, techniques, and professional habits.",
+                            PublishedDate = new DateOnly(1999, 10, 20),
+                            Title = "The Pragmatic Programmer",
                             TotalCopies = 4
                         },
                         new
                         {
-                            Id = 11,
-                            Author = "Stuart Russell & Peter Norvig",
-                            AvailableCopies = 3,
-                            Category = "Artificial Intelligence",
-                            CoverImageUrl = "https://covers.openlibrary.org/b/isbn/9780134610993-L.jpg",
-                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "A comprehensive introduction to artificial intelligence and intelligent agents.",
-                            PublishedDate = new DateOnly(2021, 3, 1),
-                            Title = "Artificial Intelligence: A Modern Approach",
+                            Id = 9,
+                            Author = "Stephen Hawking",
+                            AvailableCopies = 4,
+                            CategoryID = 10,
+                            CoverImageUrl = "https://covers.openlibrary.org/b/isbn/9780553380163-L.jpg",
+                            CreatedAt = new DateTime(2026, 9, 30, 10, 40, 0, 0, DateTimeKind.Utc),
+                            Description = "An accessible exploration of cosmology, black holes, time, and the origins of the universe.",
+                            PublishedDate = new DateOnly(1988, 4, 1),
+                            Title = "A Brief History of Time",
+                            TotalCopies = 5
+                        },
+                        new
+                        {
+                            Id = 10,
+                            Author = "Walter Isaacson",
+                            AvailableCopies = 2,
+                            CategoryID = 7,
+                            CoverImageUrl = "https://covers.openlibrary.org/b/isbn/9781451648539-L.jpg",
+                            CreatedAt = new DateTime(2026, 9, 30, 10, 45, 0, 0, DateTimeKind.Utc),
+                            Description = "A biography examining the life, career, and innovations of Apple co-founder Steve Jobs.",
+                            PublishedDate = new DateOnly(2011, 10, 24),
+                            Title = "Steve Jobs",
                             TotalCopies = 3
                         },
                         new
                         {
-                            Id = 12,
-                            Author = "Steve Krug",
+                            Id = 11,
+                            Author = "Yuval Noah Harari",
                             AvailableCopies = 5,
-                            Category = "Web Development",
-                            CoverImageUrl = "https://covers.openlibrary.org/b/isbn/9780321344755-L.jpg",
-                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "A practical guide to usability and intuitive web design.",
-                            PublishedDate = new DateOnly(2014, 1, 1),
-                            Title = "Don't Make Me Think",
+                            CategoryID = 8,
+                            CoverImageUrl = "https://covers.openlibrary.org/b/isbn/9780062316097-L.jpg",
+                            CreatedAt = new DateTime(2026, 9, 30, 10, 50, 0, 0, DateTimeKind.Utc),
+                            Description = "An exploration of human history from early humans to modern civilization.",
+                            PublishedDate = new DateOnly(2011, 1, 1),
+                            Title = "Sapiens",
                             TotalCopies = 5
+                        },
+                        new
+                        {
+                            Id = 12,
+                            Author = "Alex Michaelides",
+                            AvailableCopies = 1,
+                            CategoryID = 4,
+                            CoverImageUrl = "https://covers.openlibrary.org/b/isbn/9781250301697-L.jpg",
+                            CreatedAt = new DateTime(2026, 9, 30, 10, 55, 0, 0, DateTimeKind.Utc),
+                            Description = "A psychological mystery surrounding a woman who suddenly stops speaking after a violent crime.",
+                            PublishedDate = new DateOnly(2019, 2, 5),
+                            Title = "The Silent Patient",
+                            TotalCopies = 4
+                        });
+                });
+
+            modelBuilder.Entity("CommunityLibrary.Models.Category", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Description = "Novels, short stories, and other fictional works.",
+                            Name = "Fiction"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Description = "Stories involving science, technology, space, and the future.",
+                            Name = "Science Fiction"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Description = "Stories involving magic, mythical creatures, and imaginary worlds.",
+                            Name = "Fantasy"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Description = "Detective stories, investigations, and crime mysteries.",
+                            Name = "Mystery"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Description = "Suspenseful stories involving danger, crime, and high-stakes situations.",
+                            Name = "Thriller"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Description = "Stories centered around romantic relationships.",
+                            Name = "Romance"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Description = "Books documenting the lives of real people.",
+                            Name = "Biography"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Description = "Books about historical events, people, and civilizations.",
+                            Name = "History"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Description = "Books covering computing, programming, software, and technology.",
+                            Name = "Technology"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            Description = "Books covering scientific concepts, discoveries, and research.",
+                            Name = "Science"
                         });
                 });
 
@@ -488,6 +573,17 @@ namespace CommunityLibrary.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("CommunityLibrary.Models.Book", b =>
+                {
+                    b.HasOne("CommunityLibrary.Models.Category", "Category")
+                        .WithMany("Books")
+                        .HasForeignKey("CategoryID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+                });
+
             modelBuilder.Entity("CommunityLibrary.Models.Loan", b =>
                 {
                     b.HasOne("CommunityLibrary.Models.Book", "Book")
@@ -599,6 +695,11 @@ namespace CommunityLibrary.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("CommunityLibrary.Models.Category", b =>
+                {
+                    b.Navigation("Books");
                 });
 #pragma warning restore 612, 618
         }

@@ -55,25 +55,17 @@ namespace CommunityLibrary.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Books",
+                name: "Categories",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Title = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
-                    Author = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: false),
-                    Category = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
-                    Description = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: false),
-                    CoverImageUrl = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: false),
-                    TotalCopies = table.Column<int>(type: "integer", nullable: false),
-                    AvailableCopies = table.Column<int>(type: "integer", nullable: false),
-                    PublishedDate = table.Column<DateOnly>(type: "date", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
+                    Name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    Description = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Books", x => x.Id);
+                    table.PrimaryKey("PK_Categories", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -202,6 +194,34 @@ namespace CommunityLibrary.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Books",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Title = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
+                    Author = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: false),
+                    CategoryID = table.Column<int>(type: "integer", nullable: false),
+                    Description = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: false),
+                    CoverImageUrl = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: false),
+                    TotalCopies = table.Column<int>(type: "integer", nullable: false),
+                    AvailableCopies = table.Column<int>(type: "integer", nullable: false),
+                    PublishedDate = table.Column<DateOnly>(type: "date", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Books", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Books_Categories_CategoryID",
+                        column: x => x.CategoryID,
+                        principalTable: "Categories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Loans",
                 columns: table => new
                 {
@@ -225,22 +245,39 @@ namespace CommunityLibrary.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "Books",
-                columns: new[] { "Id", "Author", "AvailableCopies", "Category", "CoverImageUrl", "CreatedAt", "Description", "PublishedDate", "Title", "TotalCopies", "UpdatedAt" },
+                table: "Categories",
+                columns: new[] { "Id", "Description", "Name" },
                 values: new object[,]
                 {
-                    { 1, "Robert C. Martin", 5, "Programming", "https://covers.openlibrary.org/b/isbn/9780132350884-L.jpg", new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "A practical guide to writing clean, readable, and maintainable software.", new DateOnly(2008, 8, 1), "Clean Code", 5, null },
-                    { 2, "David Thomas & Andrew Hunt", 4, "Programming", "https://covers.openlibrary.org/b/isbn/9780135957059-L.jpg", new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Practical techniques and principles for becoming a better software developer.", new DateOnly(2019, 9, 13), "The Pragmatic Programmer", 4, null },
-                    { 3, "Erich Gamma, Richard Helm, Ralph Johnson, John Vlissides", 3, "Software Engineering", "https://covers.openlibrary.org/b/isbn/9780201633610-L.jpg", new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "A classic reference on reusable object-oriented software design patterns.", new DateOnly(1994, 10, 21), "Design Patterns", 3, null },
-                    { 4, "Thomas H. Cormen", 6, "Computer Science", "https://covers.openlibrary.org/b/isbn/9780262046305-L.jpg", new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "A comprehensive introduction to algorithms and data structures.", new DateOnly(2022, 4, 5), "Introduction to Algorithms", 6, null },
-                    { 5, "Bjarne Stroustrup", 4, "Programming", "https://covers.openlibrary.org/b/isbn/9780321563842-L.jpg", new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "A detailed reference and guide to modern C++ programming.", new DateOnly(2013, 5, 20), "The C++ Programming Language", 4, null },
-                    { 6, "Bill Wagner", 5, "Programming", "https://covers.openlibrary.org/b/isbn/9780672337871-L.jpg", new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Practical techniques for writing robust and efficient C# applications.", new DateOnly(2017, 3, 15), "Effective C#", 5, null },
-                    { 7, "Andrew S. Tanenbaum", 3, "Networking", "https://covers.openlibrary.org/b/isbn/9780132126953-L.jpg", new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "An introduction to computer networking, protocols, architectures, and applications.", new DateOnly(2010, 5, 1), "Computer Networking", 3, null },
-                    { 8, "Dafydd Stuttard & Marcus Pinto", 3, "Cybersecurity", "https://covers.openlibrary.org/b/isbn/9781118026472-L.jpg", new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "A guide to understanding and testing the security of web applications.", new DateOnly(2011, 9, 1), "The Web Application Hacker's Handbook", 3, null },
-                    { 9, "Jon Erickson", 2, "Cybersecurity", "https://covers.openlibrary.org/b/isbn/9781593271442-L.jpg", new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "An introduction to exploitation, programming, networking, and computer security.", new DateOnly(2008, 2, 1), "Hacking: The Art of Exploitation", 2, null },
-                    { 10, "Abraham Silberschatz", 4, "Databases", "https://covers.openlibrary.org/b/isbn/9780078022159-L.jpg", new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "A comprehensive introduction to database systems and database management.", new DateOnly(2019, 1, 1), "Database System Concepts", 4, null },
-                    { 11, "Stuart Russell & Peter Norvig", 3, "Artificial Intelligence", "https://covers.openlibrary.org/b/isbn/9780134610993-L.jpg", new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "A comprehensive introduction to artificial intelligence and intelligent agents.", new DateOnly(2021, 3, 1), "Artificial Intelligence: A Modern Approach", 3, null },
-                    { 12, "Steve Krug", 5, "Web Development", "https://covers.openlibrary.org/b/isbn/9780321344755-L.jpg", new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "A practical guide to usability and intuitive web design.", new DateOnly(2014, 1, 1), "Don't Make Me Think", 5, null }
+                    { 1, "Novels, short stories, and other fictional works.", "Fiction" },
+                    { 2, "Stories involving science, technology, space, and the future.", "Science Fiction" },
+                    { 3, "Stories involving magic, mythical creatures, and imaginary worlds.", "Fantasy" },
+                    { 4, "Detective stories, investigations, and crime mysteries.", "Mystery" },
+                    { 5, "Suspenseful stories involving danger, crime, and high-stakes situations.", "Thriller" },
+                    { 6, "Stories centered around romantic relationships.", "Romance" },
+                    { 7, "Books documenting the lives of real people.", "Biography" },
+                    { 8, "Books about historical events, people, and civilizations.", "History" },
+                    { 9, "Books covering computing, programming, software, and technology.", "Technology" },
+                    { 10, "Books covering scientific concepts, discoveries, and research.", "Science" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Books",
+                columns: new[] { "Id", "Author", "AvailableCopies", "CategoryID", "CoverImageUrl", "CreatedAt", "Description", "PublishedDate", "Title", "TotalCopies", "UpdatedAt" },
+                values: new object[,]
+                {
+                    { 1, "George Orwell", 5, 1, "https://covers.openlibrary.org/b/isbn/9780451524935-L.jpg", new DateTime(2026, 9, 30, 10, 0, 0, 0, DateTimeKind.Utc), "A dystopian novel exploring surveillance, government control, and individual freedom.", new DateOnly(1949, 6, 8), "1984", 5, null },
+                    { 2, "J.R.R. Tolkien", 4, 3, "https://covers.openlibrary.org/b/isbn/9780547928227-L.jpg", new DateTime(2026, 9, 30, 10, 5, 0, 0, DateTimeKind.Utc), "Bilbo Baggins joins a company of dwarves on an adventure to reclaim their homeland.", new DateOnly(1937, 9, 21), "The Hobbit", 4, null },
+                    { 3, "Frank Herbert", 6, 2, "https://covers.openlibrary.org/b/isbn/9780441172719-L.jpg", new DateTime(2026, 9, 30, 10, 10, 0, 0, DateTimeKind.Utc), "A science fiction epic centered around politics, power, survival, and the desert planet Arrakis.", new DateOnly(1965, 8, 1), "Dune", 6, null },
+                    { 4, "F. Scott Fitzgerald", 3, 1, "https://covers.openlibrary.org/b/isbn/9780743273565-L.jpg", new DateTime(2026, 9, 30, 10, 15, 0, 0, DateTimeKind.Utc), "A classic novel about wealth, ambition, love, and the American Dream.", new DateOnly(1925, 4, 10), "The Great Gatsby", 5, null },
+                    { 5, "J.K. Rowling", 5, 3, "https://covers.openlibrary.org/b/isbn/9780747532699-L.jpg", new DateTime(2026, 9, 30, 10, 20, 0, 0, DateTimeKind.Utc), "A young wizard begins his education at Hogwarts and discovers a hidden connection to his past.", new DateOnly(1997, 6, 26), "Harry Potter and the Philosopher's Stone", 7, null },
+                    { 6, "Dan Brown", 2, 4, "https://covers.openlibrary.org/b/isbn/9780307474278-L.jpg", new DateTime(2026, 9, 30, 10, 25, 0, 0, DateTimeKind.Utc), "A mystery thriller involving hidden symbols, secret societies, and an ancient mystery.", new DateOnly(2003, 4, 1), "The Da Vinci Code", 4, null },
+                    { 7, "Robert C. Martin", 3, 9, "https://covers.openlibrary.org/b/isbn/9780132350884-L.jpg", new DateTime(2026, 9, 30, 10, 30, 0, 0, DateTimeKind.Utc), "A practical guide to writing readable, maintainable, and professional software.", new DateOnly(2008, 8, 1), "Clean Code", 3, null },
+                    { 8, "David Thomas and Andrew Hunt", 4, 9, "https://covers.openlibrary.org/b/isbn/9780135957059-L.jpg", new DateTime(2026, 9, 30, 10, 35, 0, 0, DateTimeKind.Utc), "A guide to practical software development principles, techniques, and professional habits.", new DateOnly(1999, 10, 20), "The Pragmatic Programmer", 4, null },
+                    { 9, "Stephen Hawking", 4, 10, "https://covers.openlibrary.org/b/isbn/9780553380163-L.jpg", new DateTime(2026, 9, 30, 10, 40, 0, 0, DateTimeKind.Utc), "An accessible exploration of cosmology, black holes, time, and the origins of the universe.", new DateOnly(1988, 4, 1), "A Brief History of Time", 5, null },
+                    { 10, "Walter Isaacson", 2, 7, "https://covers.openlibrary.org/b/isbn/9781451648539-L.jpg", new DateTime(2026, 9, 30, 10, 45, 0, 0, DateTimeKind.Utc), "A biography examining the life, career, and innovations of Apple co-founder Steve Jobs.", new DateOnly(2011, 10, 24), "Steve Jobs", 3, null },
+                    { 11, "Yuval Noah Harari", 5, 8, "https://covers.openlibrary.org/b/isbn/9780062316097-L.jpg", new DateTime(2026, 9, 30, 10, 50, 0, 0, DateTimeKind.Utc), "An exploration of human history from early humans to modern civilization.", new DateOnly(2011, 1, 1), "Sapiens", 5, null },
+                    { 12, "Alex Michaelides", 1, 4, "https://covers.openlibrary.org/b/isbn/9781250301697-L.jpg", new DateTime(2026, 9, 30, 10, 55, 0, 0, DateTimeKind.Utc), "A psychological mystery surrounding a woman who suddenly stops speaking after a violent crime.", new DateOnly(2019, 2, 5), "The Silent Patient", 4, null }
                 });
 
             migrationBuilder.CreateIndex(
@@ -286,6 +323,11 @@ namespace CommunityLibrary.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_Books_CategoryID",
+                table: "Books",
+                column: "CategoryID");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Loans_BookId",
                 table: "Loans",
                 column: "BookId");
@@ -323,6 +365,9 @@ namespace CommunityLibrary.Migrations
 
             migrationBuilder.DropTable(
                 name: "Books");
+
+            migrationBuilder.DropTable(
+                name: "Categories");
         }
     }
 }
