@@ -1,11 +1,12 @@
 @page "/catalog"
 @rendermode InteractiveServer
 
+@using System.Collections.Immutable
 @using System.Data.Common
 @using CommunityLibrary.Data
 @using CommunityLibrary.Models
-@using Microsoft.EntityFrameworkCore
 @using CommunityLibrary.Services
+@using Microsoft.EntityFrameworkCore
 
 @inject ApplicationDbContext Db
 @inject BookService BookServices
@@ -76,8 +77,8 @@
                     <div class="list-group list-group-flush">
 
                         <button class="list-group-item list-group-item-action border-0 px-0
-                                       @(selectedCategory == "All" ? "text-primary fw-semibold" : "")"
-                                @onclick='() => SelectCategory("All")'>
+                                       @(selectedCategory == -1 ? "text-primary fw-semibold" : "")"
+                                @onclick='() => SelectCategory(-1)'>
 
                             <div class="d-flex justify-content-between">
 
@@ -98,8 +99,8 @@
                         @foreach (var category in Categories)
                         {
                             <button class="list-group-item list-group-item-action border-0 px-0
-                                           @(selectedCategory == category.Name ? "text-primary fw-semibold" : "")"
-                                    @onclick='() => SelectCategory(category.Name)'>
+                                           @(selectedCategory == category.Id ? "text-primary fw-semibold" : "")"
+                                    @onclick='() => SelectCategory(category.Id)'>
 
                                 <div class="d-flex justify-content-between">
 
@@ -277,9 +278,10 @@
 
                     <select class="form-select form-select-sm"
                             style="width: 160px;"
-                            @bind="sortOption">
+                            @bind="sortOption"
+                            @bind:event="oninput">
 
-                        <option value="title" @onclick="Sort">
+                        <option value="title">
                             Title (A-Z)
                         </option>
 
@@ -303,7 +305,7 @@
                  ================================================= -->
 
             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-xl-3 row-cols-xxl-4 g-4">
-                @foreach (var book in Books)
+                @foreach (var book in filteredBooks)
                 {
                     <div class="col-md-4 col-lg-3 mb-4">
                         <div class="card h-100 shadow-sm">
@@ -419,7 +421,7 @@
 
     private string searchTerm = "";
 
-    private string selectedCategory = "All";
+    private int selectedCategory = -1;
 
     private bool availableOnly = false;
 
@@ -429,27 +431,60 @@
 
     private string sortOption = "title";
 
-    public void Sort()
-    {
-        if(sortOption == "available")
-            Books.OrderBy(b => b.AvailableCopies).ToArray();
-        else if(sortOption == "author")
-            Books.OrderBy(b => b.Author).ToArray();
-        else
-            Books.OrderBy(b => b.Title).ToArray();
-
-    }
     // =====================================================
     // FILTERED BOOKS
     // =====================================================
+private IEnumerable<Book> filteredBooks
+{
+    get
+    {
+        var result = Books.AsEnumerable();
 
+        // FILTER
+        if (!string.IsNullOrWhiteSpace(searchTerm))
+        {
+            result = result.Where(book =>
+                book.Title.Contains(
+                    searchTerm,
+                    StringComparison.OrdinalIgnoreCase
+                )
+                ||
+                book.Author.Contains(
+                    searchTerm,
+                    StringComparison.OrdinalIgnoreCase
+                )
+            );
+        }
 
+        if (selectedCategory > 0)
+        {
+            result = result.Where(book =>
+                book.CategoryID == selectedCategory
+            );
+        }
+
+        // SORT
+        result = sortOption switch
+        {
+            "availability" =>
+                result.OrderBy(book => book.AvailableCopies),
+
+            "author" =>
+                result.OrderBy(book => book.Author),
+
+            _ =>
+                result.OrderBy(book => book.Title)
+        };
+
+        return result;
+    }
+}
     // =====================================================
     // CATEGORY SELECTION
     // =====================================================
 
 
-    private void SelectCategory(string category)
+    private void SelectCategory(int category)
     {
         selectedCategory = category;
     }
