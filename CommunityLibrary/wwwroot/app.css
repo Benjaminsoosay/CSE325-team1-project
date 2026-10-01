@@ -880,8 +880,3 @@ h1:focus {
         transform: rotate(360deg);
     }
 }
-
-.material-symbols-outlined{
-    font-size: 80px;
-    width: 30px;
-}
