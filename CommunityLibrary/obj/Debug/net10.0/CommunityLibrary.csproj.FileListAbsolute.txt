@@ -409,7 +409,7 @@ C:\Users\Dell\Desktop\DotNetDependencies\CSE325-team1-project\CommunityLibrary\o
 C:\Users\Dell\Desktop\DotNetDependencies\CSE325-team1-project\CommunityLibrary\bin\Debug\net10.0\Microsoft.AspNetCore.Authentication.Google.dll
 C:\Users\Dell\Desktop\DotNetDependencies\CSE325-team1-project\CommunityLibrary\bin\Debug\net10.0\Npgsql.dll
 C:\Users\Dell\Desktop\DotNetDependencies\CSE325-team1-project\CommunityLibrary\bin\Debug\net10.0\Npgsql.EntityFrameworkCore.PostgreSQL.dll
-C:\Users\Dell\Desktop\DotNetDependencies\CSE325-team1-project\CommunityLibrary\obj\Debug\net10.0\compressed\qebwyg94hq-{0}-0hqk34183y-0hqk34183y.gz
-C:\Users\Dell\Desktop\DotNetDependencies\CSE325-team1-project\CommunityLibrary\obj\Debug\net10.0\compressed\ep8miny3i5-{0}-0hqk34183y-0hqk34183y.gz
 C:\Users\Dell\Desktop\DotNetDependencies\CSE325-team1-project\CommunityLibrary\bin\Debug\net10.0\appsettings.Development.json
-C:\Users\Dell\Desktop\DotNetDependencies\CSE325-team1-project\CommunityLibrary\obj\Debug\net10.0\compressed\tnga59nrr1-{0}-jadevxi74r-jadevxi74r.gz
+C:\Users\Dell\Desktop\DotNetDependencies\CSE325-team1-project\CommunityLibrary\obj\Debug\net10.0\compressed\qebwyg94hq-{0}-h3j1ty1s1b-h3j1ty1s1b.gz
+C:\Users\Dell\Desktop\DotNetDependencies\CSE325-team1-project\CommunityLibrary\obj\Debug\net10.0\compressed\ep8miny3i5-{0}-h3j1ty1s1b-h3j1ty1s1b.gz
+C:\Users\Dell\Desktop\DotNetDependencies\CSE325-team1-project\CommunityLibrary\obj\Debug\net10.0\compressed\tnga59nrr1-{0}-amp0toq04b-amp0toq04b.gz

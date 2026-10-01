@@ -29,31 +29,31 @@
             <NavLink class="library-nav-link"
                      href=""
                      Match="NavLinkMatch.All">
-                <span class="bi bi-house-door" aria-hidden="true"></span>
+                @* <span class="bi bi-house-door" aria-hidden="true"></span> *@
                 Home
             </NavLink>
 
             <NavLink class="library-nav-link"
                      href="catalog">
-                <span class="bi bi-book" aria-hidden="true"></span>
+                @* <span class="bi bi-book" aria-hidden="true"></span> *@
                 Catalog
             </NavLink>
 
             <NavLink class="library-nav-link"
                      href="my-loans">
-                <span class="bi bi-journal-bookmark" aria-hidden="true"></span>
+                @* <span class="bi bi-journal-bookmark" aria-hidden="true"></span> *@
                 My Loans
             </NavLink>
 
             <NavLink class="library-nav-link"
                      href="reservations">
-                <span class="bi bi-calendar-check" aria-hidden="true"></span>
+                @* <span class="bi bi-calendar-check" aria-hidden="true"></span> *@
                 Reservations
             </NavLink>
 
             <NavLink class="library-nav-link"
                      href="about">
-                <span class="bi bi-info-circle" aria-hidden="true"></span>
+                @* <span class="material-symbols-outlined me-2" aria-hidden="true">circle</span> *@
                 About
             </NavLink>
 
@@ -64,7 +64,7 @@
 
             <!-- Search -->
             <div class="library-search">
-                <span class="bi bi-search" aria-hidden="true"></span>
+                <span class="material-symbols-outlined me-2" aria-hidden="true">search</span>
 
                 <input type="search"
                        placeholder="Search books, authors, subjects..."
@@ -75,7 +75,7 @@
             <button class="library-icon-button"
                     type="button"
                     aria-label="Notifications">
-                <span class="bi bi-bell" aria-hidden="true"></span>
+                <span class="material-symbols-outlined" aria-hidden="true">notifications</span>
                 <span class="library-notification-dot"></span>
             </button>
 
@@ -86,8 +86,8 @@
                     <NavLink class="library-account"
                              href="Account/Manage">
 
-                        <span class="library-avatar">
-                            M
+                        <span class="library-avatar material-symbols-outlined me-2">
+                            person
                         </span>
 
                         <span class="library-account-info">
@@ -95,8 +95,8 @@
                             <small>Library Member</small>
                         </span>
 
-                        <span class="bi bi-chevron-down library-account-chevron"
-                              aria-hidden="true">
+                        <span class="material-symbols-outlined me-2" aria-hidden="true">
+                            person
                         </span>
 
                     </NavLink>
@@ -150,29 +150,24 @@
             <NavLink class="library-mobile-link"
                     href=""
                     Match="NavLinkMatch.All">
-                <span class="bi bi-house-door"></span>
                 Home
             </NavLink>
 
             <NavLink class="library-mobile-link"
                     href="catalog">
-                <span class="bi bi-book"></span>
                 Catalog
             </NavLink>
 
             <NavLink class="library-mobile-link"
                     href="my-loans">
-                <span class="bi bi-journal-bookmark"></span>
                 My Loans
             </NavLink>
 
             <NavLink class="library-mobile-link" href="reservations">
-                <span class="bi bi-calendar-check"></span>
                 Reservations
             </NavLink>
 
             <NavLink class="library-mobile-link" href="about">
-                <span class="bi bi-info-circle"></span>
                 About
             </NavLink>
 
@@ -181,7 +176,7 @@
 
                     <NavLink class="library-mobile-link"
                             href="Account/Manage">
-                        <span class="bi bi-person-circle"></span>
+                        <span class="material-symbols-outlined me-2">person</span>
                         @context.User.Identity?.Name
                     </NavLink>
 
@@ -197,7 +192,7 @@
                             <button type="submit"
                                     class="library-mobile-link library-logout-button">
 
-                                <span class="bi bi-box-arrow-right"></span>
+                                <span class="material-symbols-outlined me-2">arrow-right</span>
                                 Logout
 
                             </button>

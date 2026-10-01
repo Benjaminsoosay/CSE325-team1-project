@@ -18,6 +18,7 @@ builder.Services.AddScoped<IdentityRedirectManager>();
 builder.Services.AddScoped<AuthenticationStateProvider, IdentityRevalidatingAuthenticationStateProvider>();
 builder.Services.AddScoped<BookService>();
 builder.Services.AddScoped<CategoryService>();
+builder.Services.AddScoped<LoanService>();
 
 builder.Services.AddAuthentication(options =>
     {
