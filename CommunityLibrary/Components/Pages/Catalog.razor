@@ -16,15 +16,10 @@
 
 <PageTitle>Library Catalog</PageTitle>
 
-@if (isLoading)
-{
-    <div class="page-loader">
-        <div class="loader-spinner"></div>
-        <div class="loader-text">Loading books...</div>
-    </div>
-}
-else
-{
+
+
+
+
     <div class="container-fluid px-4 py-4">
 
         <!-- =====================================================
@@ -106,72 +101,81 @@ else
 
                             </button>
 
-
-                            @foreach (var category in Categories)
+                            @if (isLoading)
                             {
-                                <button class="list-group-item list-group-item-action border-0 px-0
-                                    @(selectedCategory == category.Id ? "text-primary fw-semibold" : "")"
-                                    @onclick='() => SelectCategory(category.Id)'>
+                                <div class="page-loader">
+                                    <div class="loader-spinner"></div>
+                                    <div class="loader-text">Loading books...</div>
+                                </div>
+                            }
+                            else
+                            {
+                                @foreach (var category in Categories)
+                                {
+                                    <button class="list-group-item list-group-item-action border-0 px-0
+                                        @(selectedCategory == category.Id ? "text-primary fw-semibold" : "")"
+                                        @onclick='() => SelectCategory(category.Id)'>
 
-                                    <div class="d-flex justify-content-between">
+                                        <div class="d-flex justify-content-between">
 
-                                        <span>
-                                            @switch (category.Name)
-                                            {
-                                            case "Fiction":
-                                                <span class="material-symbols-outlined me-2">auto_stories</span>
-                                                break;
+                                            <span>
+                                                @switch (category.Name)
+                                                {
+                                                case "Fiction":
+                                                    <span class="material-symbols-outlined me-2">auto_stories</span>
+                                                    break;
 
-                                            case "Science Fiction":
-                                                <span class="material-symbols-outlined me-2">rocket_launch</span>
-                                                break;
+                                                case "Science Fiction":
+                                                    <span class="material-symbols-outlined me-2">rocket_launch</span>
+                                                    break;
 
-                                            case "Fantasy":
-                                                <span class="material-symbols-outlined me-2">castle</span>
-                                                break;
+                                                case "Fantasy":
+                                                    <span class="material-symbols-outlined me-2">castle</span>
+                                                    break;
 
-                                            case "Mystery":
-                                                <span class="material-symbols-outlined me-2">manage_search</span>
-                                                break;
+                                                case "Mystery":
+                                                    <span class="material-symbols-outlined me-2">manage_search</span>
+                                                    break;
 
-                                            case "Thriller":
-                                                <span class="material-symbols-outlined me-2">bolt</span>
-                                                break;
+                                                case "Thriller":
+                                                    <span class="material-symbols-outlined me-2">bolt</span>
+                                                    break;
 
-                                            case "Romance":
-                                                <span class="material-symbols-outlined me-2">favorite</span>
-                                                break;
+                                                case "Romance":
+                                                    <span class="material-symbols-outlined me-2">favorite</span>
+                                                    break;
 
-                                            case "Biography":
-                                                <span class="material-symbols-outlined me-2">person</span>
-                                                break;
+                                                case "Biography":
+                                                    <span class="material-symbols-outlined me-2">person</span>
+                                                    break;
 
-                                            case "History":
-                                                <span class="material-symbols-outlined me-2">history_edu</span>
-                                                break;
+                                                case "History":
+                                                    <span class="material-symbols-outlined me-2">history_edu</span>
+                                                    break;
 
-                                            case "Technology":
-                                                <span class="material-symbols-outlined me-2">memory</span>
-                                                break;
+                                                case "Technology":
+                                                    <span class="material-symbols-outlined me-2">memory</span>
+                                                    break;
 
-                                            case "Science":
-                                                <span class="material-symbols-outlined me-2">science</span>
-                                                break;
+                                                case "Science":
+                                                    <span class="material-symbols-outlined me-2">science</span>
+                                                    break;
 
-                                            default:
-                                                <span class="material-symbols-outlined me-2">menu_book</span>
-                                                break;
-                                        }
+                                                default:
+                                                    <span class="material-symbols-outlined me-2">menu_book</span>
+                                                    break;
+                                            }
 
-                                            @category.Name
-                                        </span>
+                                                @category.Name
+                                            </span>
 
-                                        <span class="text-secondary">
-                                            @Books.Count(b => b.CategoryID == category.Id)
-                                        </span>
+                                            <span class="text-secondary">
+                                                @Books.Count(b => b.CategoryID == category.Id)
+                                            </span>
 
-                                    </div>
-                                </button>
+                                        </div>
+                                    </button>
+                                }
                             }
 
                         </div>
@@ -302,7 +306,7 @@ else
                 CATALOG CONTENT
                 ================================================= -->
 
-            <main class="col-lg-9 col-xl-10">
+        <main class="col-lg-9 col-xl-10">
 
 
                 <!-- Result / Sort -->
@@ -359,7 +363,14 @@ else
                 <!-- =================================================
                     BOOK GRID
                     ================================================= -->
-
+            @if (isLoading)
+            {
+                <div class="page-loader">
+                    <div class="loader-spinner"></div>
+                    <div class="loader-text">Loading books...</div>
+                </div>
+            }
+            else{
                 <div class="row row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-xl-3 row-cols-xxl-4 g-4">
                     @foreach (var book in filteredBooks)
                     {
@@ -417,15 +428,15 @@ else
                         </div>
                     }
                 </div>
+            }
 
+        </main>
 
-            </main>
-
-        </div>
+    </div>
 
 
     </div>
-}
+
 
 @code {
     private List<Book> Books = new();
