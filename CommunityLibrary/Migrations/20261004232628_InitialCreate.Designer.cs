@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CommunityLibrary.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260930132437_InitialCreate")]
+    [Migration("20261004232628_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -304,6 +304,39 @@ namespace CommunityLibrary.Migrations
                         });
                 });
 
+            modelBuilder.Entity("CommunityLibrary.Models.BookLoan", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("BookId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("BorrowedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("DueDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime?>("ReturnedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BookId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("BookLoans");
+                });
+
             modelBuilder.Entity("CommunityLibrary.Models.Category", b =>
                 {
                     b.Property<int>("Id")
@@ -582,6 +615,25 @@ namespace CommunityLibrary.Migrations
                         .IsRequired();
 
                     b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("CommunityLibrary.Models.BookLoan", b =>
+                {
+                    b.HasOne("CommunityLibrary.Models.Book", "Book")
+                        .WithMany()
+                        .HasForeignKey("BookId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CommunityLibrary.Data.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Book");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("CommunityLibrary.Models.Loan", b =>

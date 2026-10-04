@@ -5,7 +5,6 @@ using Microsoft.EntityFrameworkCore;
 using CommunityLibrary.Components;
 using CommunityLibrary.Components.Account;
 using CommunityLibrary.Data;
-using CommunityLibrary.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,9 +15,6 @@ builder.Services.AddRazorComponents()
 builder.Services.AddCascadingAuthenticationState();
 builder.Services.AddScoped<IdentityRedirectManager>();
 builder.Services.AddScoped<AuthenticationStateProvider, IdentityRevalidatingAuthenticationStateProvider>();
-builder.Services.AddScoped<BookService>();
-builder.Services.AddScoped<CategoryService>();
-builder.Services.AddScoped<LoanService>();
 
 builder.Services.AddAuthentication(options =>
     {

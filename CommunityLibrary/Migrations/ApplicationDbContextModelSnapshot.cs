@@ -90,11 +90,7 @@ namespace CommunityLibrary.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-<<<<<<< HEAD
-            modelBuilder.Entity("CommunityLibrary.Data.Book", b =>
-=======
             modelBuilder.Entity("CommunityLibrary.Models.Book", b =>
->>>>>>> 16a3b5b3b0fefdd57797640c4a8ccdfc172bbe06
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -107,34 +103,17 @@ namespace CommunityLibrary.Migrations
                         .HasMaxLength(150)
                         .HasColumnType("character varying(150)");
 
-<<<<<<< HEAD
-=======
                     b.Property<int>("AvailableCopies")
                         .HasColumnType("integer");
 
                     b.Property<int>("CategoryID")
                         .HasColumnType("integer");
 
->>>>>>> 16a3b5b3b0fefdd57797640c4a8ccdfc172bbe06
                     b.Property<string>("CoverImageUrl")
                         .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("character varying(500)");
 
-<<<<<<< HEAD
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("character varying(500)");
-
-                    b.Property<string>("Genre")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
-
-                    b.Property<bool>("IsAvailable")
-                        .HasColumnType("boolean");
-=======
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
@@ -145,21 +124,12 @@ namespace CommunityLibrary.Migrations
 
                     b.Property<DateOnly>("PublishedDate")
                         .HasColumnType("date");
->>>>>>> 16a3b5b3b0fefdd57797640c4a8ccdfc172bbe06
 
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("character varying(200)");
 
-<<<<<<< HEAD
-                    b.HasKey("Id");
-
-                    b.ToTable("Books");
-                });
-
-            modelBuilder.Entity("CommunityLibrary.Data.BookLoan", b =>
-=======
                     b.Property<int>("TotalCopies")
                         .HasColumnType("integer");
 
@@ -331,6 +301,39 @@ namespace CommunityLibrary.Migrations
                         });
                 });
 
+            modelBuilder.Entity("CommunityLibrary.Models.BookLoan", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("BookId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("BorrowedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("DueDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime?>("ReturnedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BookId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("BookLoans");
+                });
+
             modelBuilder.Entity("CommunityLibrary.Models.Category", b =>
                 {
                     b.Property<int>("Id")
@@ -417,7 +420,6 @@ namespace CommunityLibrary.Migrations
                 });
 
             modelBuilder.Entity("CommunityLibrary.Models.Loan", b =>
->>>>>>> 16a3b5b3b0fefdd57797640c4a8ccdfc172bbe06
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -428,21 +430,13 @@ namespace CommunityLibrary.Migrations
                     b.Property<int>("BookId")
                         .HasColumnType("integer");
 
-<<<<<<< HEAD
-                    b.Property<DateTime>("BorrowedDate")
-=======
                     b.Property<DateTime>("BorrowedAt")
->>>>>>> 16a3b5b3b0fefdd57797640c4a8ccdfc172bbe06
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<DateTime>("DueDate")
                         .HasColumnType("timestamp with time zone");
 
-<<<<<<< HEAD
-                    b.Property<DateTime?>("ReturnedDate")
-=======
                     b.Property<DateTime?>("ReturnedAt")
->>>>>>> 16a3b5b3b0fefdd57797640c4a8ccdfc172bbe06
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("UserId")
@@ -453,13 +447,7 @@ namespace CommunityLibrary.Migrations
 
                     b.HasIndex("BookId");
 
-<<<<<<< HEAD
-                    b.HasIndex("UserId");
-
-                    b.ToTable("BookLoans");
-=======
                     b.ToTable("Loans");
->>>>>>> 16a3b5b3b0fefdd57797640c4a8ccdfc172bbe06
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -615,11 +603,6 @@ namespace CommunityLibrary.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-<<<<<<< HEAD
-            modelBuilder.Entity("CommunityLibrary.Data.BookLoan", b =>
-                {
-                    b.HasOne("CommunityLibrary.Data.Book", "Book")
-=======
             modelBuilder.Entity("CommunityLibrary.Models.Book", b =>
                 {
                     b.HasOne("CommunityLibrary.Models.Category", "Category")
@@ -631,16 +614,14 @@ namespace CommunityLibrary.Migrations
                     b.Navigation("Category");
                 });
 
-            modelBuilder.Entity("CommunityLibrary.Models.Loan", b =>
+            modelBuilder.Entity("CommunityLibrary.Models.BookLoan", b =>
                 {
                     b.HasOne("CommunityLibrary.Models.Book", "Book")
->>>>>>> 16a3b5b3b0fefdd57797640c4a8ccdfc172bbe06
                         .WithMany()
                         .HasForeignKey("BookId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-<<<<<<< HEAD
                     b.HasOne("CommunityLibrary.Data.ApplicationUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
@@ -650,9 +631,17 @@ namespace CommunityLibrary.Migrations
                     b.Navigation("Book");
 
                     b.Navigation("User");
-=======
+                });
+
+            modelBuilder.Entity("CommunityLibrary.Models.Loan", b =>
+                {
+                    b.HasOne("CommunityLibrary.Models.Book", "Book")
+                        .WithMany()
+                        .HasForeignKey("BookId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Book");
->>>>>>> 16a3b5b3b0fefdd57797640c4a8ccdfc172bbe06
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

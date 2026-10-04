@@ -222,6 +222,35 @@ namespace CommunityLibrary.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "BookLoans",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    UserId = table.Column<string>(type: "text", nullable: false),
+                    BookId = table.Column<int>(type: "integer", nullable: false),
+                    BorrowedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    DueDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    ReturnedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BookLoans", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_BookLoans_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_BookLoans_Books_BookId",
+                        column: x => x.BookId,
+                        principalTable: "Books",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Loans",
                 columns: table => new
                 {
@@ -323,6 +352,16 @@ namespace CommunityLibrary.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_BookLoans_BookId",
+                table: "BookLoans",
+                column: "BookId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BookLoans_UserId",
+                table: "BookLoans",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Books_CategoryID",
                 table: "Books",
                 column: "CategoryID");
@@ -353,6 +392,9 @@ namespace CommunityLibrary.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "BookLoans");
 
             migrationBuilder.DropTable(
                 name: "Loans");
