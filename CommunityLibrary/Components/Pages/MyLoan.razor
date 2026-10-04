@@ -1,0 +1,224 @@
+@page "/my-loans"
+
+@using Microsoft.AspNetCore.Components.Authorization
+
+@using System.Security.Claims
+@using Microsoft.AspNetCore.Authorization
+@using CommunityLibrary.Models
+@using CommunityLibrary.Services
+
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject LoanService LoanService
+
+<PageTitle>My Loans | CommunityLibrary</PageTitle>
+
+
+
+<div class="container py-4">
+    <AuthorizeView>
+        <Authorized>
+            <div class="mb-4">
+                <h1 class="fw-bold mb-1">My Loans</h1>
+                <p class="text-secondary mb-0">
+                    Books you currently have borrowed and your loan history.
+                </p>
+            </div>
+
+            @if (isLoading)
+            {
+                <div class="page-loader">
+                    <div class="loader-spinner"></div>
+                    <div class="loader-text">
+                        Loading your loans...
+                    </div>
+                </div>
+            }
+            else if (Loans.Count == 0)
+            {
+                <div class="text-center py-5">
+
+                    <span class="material-symbols-outlined empty-icon">
+                        library_books
+                    </span>
+
+                    <h4 class="mt-3">
+                        No loans yet
+                    </h4>
+
+                    <p class="text-secondary">
+                        You haven't borrowed any books yet.
+                    </p>
+
+                    <a href="/catalog" class="btn btn-primary">
+                        Browse Books
+                    </a>
+
+                </div>
+            }
+            else
+            {
+                <div class="row g-4">
+
+                    @foreach (var loan in Loans)
+                    {
+                        <div class="col-12 col-md-6 col-lg-4">
+
+                            <div class="card h-50 border-0 shadow-sm">
+
+                                <div class="card-body">
+
+                                    <div class="d-flex gap-3">
+
+                                        @if (!string.IsNullOrWhiteSpace(
+                                            loan.Book?.CoverImageUrl))
+                                        {
+                                            <img src="@loan.Book.CoverImageUrl"
+                                                alt="@loan.Book.Title"
+                                                class="loan-cover" />
+                                        }
+                                        else
+                                        {
+                                            <div class="loan-cover-placeholder">
+                                                <span class="material-symbols-outlined">
+                                                    menu_book
+                                                </span>
+                                            </div>
+                                        }
+
+                                        <div class="flex-grow-1">
+
+                                            <h5 class="fw-semibold mb-1">
+                                                @loan.Book?.Title
+                                            </h5>
+
+                                            <p class="text-secondary small mb-2">
+                                                @loan.Book?.Author
+                                            </p>
+
+                                            @if (loan.Book?.Category != null)
+                                            {
+                                                <span class="badge bg-light text-dark">
+                                                    @loan.Book.Category.Name
+                                                </span>
+                                            }
+
+                                        </div>
+
+                                    </div>
+
+                                    <hr />
+
+                                    <div class="small">
+
+                                        <div class="d-flex justify-content-between mb-2">
+                                            <span class="text-secondary">
+                                                Borrowed
+                                            </span>
+
+                                            <span>
+                                                @loan.BorrowedAt.ToLocalTime()
+                                                    .ToString("MMM dd, yyyy")
+                                            </span>
+                                        </div>
+
+                                        <div class="d-flex justify-content-between mb-2">
+                                            <span class="text-secondary">
+                                                Due date
+                                            </span>
+
+                                            <span>
+                                                @loan.DueDate.ToLocalTime()
+                                                    .ToString("MMM dd, yyyy")
+                                            </span>
+                                        </div>
+
+                                        <div class="d-flex justify-content-between">
+                                            <span class="text-secondary">
+                                                Status
+                                            </span>
+
+                                            @if (loan.ReturnedAt.HasValue)
+                                            {
+                                                <span class="badge bg-success">
+                                                    Returned
+                                                </span>
+                                            }
+                                            else if (loan.DueDate < DateTime.UtcNow)
+                                            {
+                                                <span class="badge bg-danger">
+                                                    Overdue
+                                                </span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge bg-primary">
+                                                    Borrowed
+                                                </span>
+                                            }
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+                    }
+
+                </div>
+            }
+        </Authorized>
+
+        <NotAuthorized>
+            <div class="mb-4">
+                <h1 class="fw-bold mb-1">Login</h1>
+                <p class="text-secondary mb-0">
+                    <a href="/Account/Login">Login</a> to view borrowed books 
+                </p>
+            </div>
+        </NotAuthorized>
+    </AuthorizeView>
+
+
+
+</div>
+
+@code {
+
+    private List<Loan> Loans = new();
+
+    private bool isLoading = true;
+
+    [CascadingParameter]
+    private Task<AuthenticationState>? authenticationStateTask {get; set;}
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            var authState = await authenticationStateTask!;
+                @* await AuthenticationStateProvider
+                    .GetAuthenticationStateAsync(); *@
+
+            var user = authState.User;
+
+            if (user.Identity?.IsAuthenticated != true) return;
+
+            var userId = user.FindFirst(
+                ClaimTypes.NameIdentifier
+            )?.Value;
+
+            if (string.IsNullOrEmpty(userId))
+            {
+                return;
+            }
+
+            Loans = await LoanService.GetUserLoansAsync(userId);
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+}
+
