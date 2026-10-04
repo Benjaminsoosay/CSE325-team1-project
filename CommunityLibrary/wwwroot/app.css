@@ -762,6 +762,9 @@
 
 
 @media (max-width: 420px) {
+    .library-auth-actions {
+        display: none;
+    }
 
     .library-navbar-inner {
         padding: 0 0.75rem;
@@ -769,10 +772,6 @@
 
     .library-brand-name {
         font-size: 0.95rem;
-    }
-
-    .library-icon-button {
-        display: none;
     }
 }
 
