@@ -136,15 +136,10 @@
 .library-navbar {
     width: 100%;
     height: var(--library-navbar-height);
-
     background: var(--library-navbar-background);
-
     border-bottom: 1px solid var(--library-border);
-
     box-shadow: var(--library-navbar-shadow);
-
     font-family: var(--library-font-family);
-
     position: relative;
     z-index: var(--library-navbar-z-index);
 }
@@ -157,12 +152,9 @@
 .library-navbar-inner {
     width: 100%;
     height: 100%;
-
     display: flex;
     align-items: center;
-
     padding: 0 var(--library-navbar-padding-x);
-
     gap: var(--library-space-7);
 }
 
@@ -761,7 +753,7 @@
 }
 
 
-@media (max-width: 420px) {
+@media (max-width: 520px) {
     .library-auth-actions {
         display: none;
     }
