@@ -576,7 +576,13 @@
 }
 
 .library-mobile-nav {
-    /* display: none; */
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .library-mobile-nav {
+        display: block;
+    }
 }
 
 
