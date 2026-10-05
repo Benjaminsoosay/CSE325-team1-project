@@ -83,7 +83,7 @@
 
                     <!-- Account -->
                     <NavLink class="library-account"
-                             href="Account/Manage">
+                             href="dashboard">
 
                         <span class="library-avatar material-symbols-outlined me-2">
                             person
@@ -94,15 +94,15 @@
                             <small>Library Member</small>
                         </span>
                     </NavLink>
-                    <form action="Account/Logout" method="post">
+                    <form action="Account/Logout" method="post" class="d-none d-md-block">
                             <AntiforgeryToken />
 
                             <input type="hidden"
                                 name="ReturnUrl"
                                 value="@currentUrl" />
 
-                            <button type="submit" class="library-mobile-link library-logout-button">
-                                <span class="material-symbols-outlined me-2">logout</span>
+                            <button type="submit" class="library-icon-button" title="Log out">
+                                <span class="material-symbols-outlined">logout</span>
                             </button>
                     </form>
                 </Authorized>
@@ -179,7 +179,7 @@
                 <Authorized>
 
                     <NavLink class="library-mobile-link"
-                            href="Account/Manage">
+                            href="dashboard">
                         <span class="material-symbols-outlined me-2">person</span>
                         @context.User.Identity?.Name
                     </NavLink>
