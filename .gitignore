@@ -1,6 +1,6 @@
 ## .NET / C# / Blazor
-bin/
-obj/
+**/bin/
+**/obj/
 *.user
 *.suo
 *.userosscache
@@ -24,3 +24,4 @@ appsettings.Development.json
 secrets.json
 .DS_Store
 Thumbs.db
+/CommunityLibrary/bin

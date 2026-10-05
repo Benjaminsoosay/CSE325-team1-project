@@ -1,11 +1,39 @@
 ﻿@using CommunityLibrary.Components.Account.Shared
-<Router AppAssembly="typeof(Program).Assembly" NotFoundPage="typeof(Pages.NotFound)">
+
+<Router AppAssembly="typeof(Program).Assembly"
+        NotFoundPage="typeof(Pages.NotFound)">
+
     <Found Context="routeData">
-        <AuthorizeRouteView RouteData="routeData" DefaultLayout="typeof(Layout.MainLayout)">
+
+        <AuthorizeRouteView
+            RouteData="routeData"
+            DefaultLayout="typeof(Layout.MainLayout)">
+
             <NotAuthorized>
-                <RedirectToLogin />
+                <LayoutView Layout="typeof(Layout.MainLayout)">
+                    <div class="container py-5 text-center">
+
+                        <h1>Authentication Required</h1>
+
+                        <p class="text-secondary">
+                            You must be logged in to access this page.
+                        </p>
+
+                        <a href="/Account/Login"
+                           class="btn btn-primary">
+                            Login
+                        </a>
+
+                    </div>
+                </LayoutView>
             </NotAuthorized>
+
         </AuthorizeRouteView>
-        <FocusOnNavigate RouteData="routeData" Selector="h1" />
+
+        <FocusOnNavigate
+            RouteData="routeData"
+            Selector="h1" />
+
     </Found>
+
 </Router>
