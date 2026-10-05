@@ -5,6 +5,8 @@ using Microsoft.EntityFrameworkCore;
 using CommunityLibrary.Components;
 using CommunityLibrary.Components.Account;
 using CommunityLibrary.Data;
+using CommunityLibrary.Models;
+using CommunityLibrary.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +17,9 @@ builder.Services.AddRazorComponents()
 builder.Services.AddCascadingAuthenticationState();
 builder.Services.AddScoped<IdentityRedirectManager>();
 builder.Services.AddScoped<AuthenticationStateProvider, IdentityRevalidatingAuthenticationStateProvider>();
+builder.Services.AddScoped<BookService>();
+builder.Services.AddScoped<CategoryService>();
+builder.Services.AddScoped<LoanService>();
 
 builder.Services.AddAuthentication(options =>
     {
@@ -110,7 +115,11 @@ app.MapAdditionalIdentityEndpoints();
 
 using (var scope = app.Services.CreateScope())
 {
-    await DatabaseInitializer.InitializeAsync(scope.ServiceProvider);
+    var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();                                        
+    db.Database.Migrate();
+    await RoleSeeder.SeedRolesAsync(scope.ServiceProvider);                                                           
+
+    // await DatabaseInitializer.InitializeAsync(scope.ServiceProvider);
 }
 
 app.Run();

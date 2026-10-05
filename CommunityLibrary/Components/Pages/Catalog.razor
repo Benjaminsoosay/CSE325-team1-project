@@ -103,10 +103,7 @@
 
                             @if (isLoading)
                             {
-                                <div class="page-loader">
-                                    <div class="loader-spinner"></div>
-                                    <div class="loader-text">Loading books...</div>
-                                </div>
+                                <Loader/>
                             }
                             else
                             {
@@ -365,10 +362,7 @@
                     ================================================= -->
             @if (isLoading)
             {
-                <div class="page-loader">
-                    <div class="loader-spinner"></div>
-                    <div class="loader-text">Loading books...</div>
-                </div>
+                <Loader/>
             }
             else{
                 <div class="row row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-xl-3 row-cols-xxl-4 g-4">

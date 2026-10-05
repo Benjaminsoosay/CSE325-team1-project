@@ -3,7 +3,11 @@
 @using Microsoft.EntityFrameworkCore
 @using CommunityLibrary.Data
 @using CommunityLibrary.Models
+@using CommunityLibrary.Services
+
 @inject NavigationManager NavigationManager
+
+@inject LoanService LoanService
 @inject IDbContextFactory<ApplicationDbContext> DbFactory
 
 <PageTitle>My Borrowed Books - Community Library</PageTitle>
@@ -23,105 +27,111 @@
         <span class="badge bg-primary fs-6">@loans.Count Active Loans</span>
     </div>
 
-    <!-- Alert for overdue books -->
-    @if (OverdueCount > 0)
-    {
-        <div class="alert alert-danger d-flex align-items-center" role="alert">
-            <strong>You have @OverdueCount overdue @(OverdueCount == 1 ? "book" : "books")!</strong>
-            <span class="ms-2">Please return them as soon as possible.</span>
-        </div>
+    @if(loading){
+        <Loader/>
     }
+    else{
+        <!-- Alert for overdue books -->
+        @if (OverdueCount > 0)
+        {
+            <div class="alert alert-danger d-flex align-items-center" role="alert">
+                <strong>You have @OverdueCount overdue @(OverdueCount == 1 ? "book" : "books")!</strong>
+                <span class="ms-2">Please return them as soon as possible.</span>
+            </div>
+        }
 
-    @if (loans.Count == 0)
-    {
-        <!-- Empty State -->
-        <div class="card shadow-sm">
-            <div class="card-body text-center py-5">
-                <h4 class="mb-3">No books borrowed yet</h4>
-                <p class="text-muted mb-4">Start exploring our catalog and borrow your first book!</p>
-                <a href="/catalog" class="btn btn-primary">Browse Catalog</a>
-            </div>
-        </div>
-    }
-    else
-    {
-        <!-- Summary Cards -->
-        <div class="row g-3 mb-4">
-            <div class="col-md-4">
-                <div class="card shadow-sm border-start border-primary border-4">
-                    <div class="card-body">
-                        <h6 class="text-muted text-uppercase small">Total Borrowed</h6>
-                        <h2 class="mb-0">@loans.Count</h2>
+        @if (loans.Count > 0)
+        {
+            <!-- Summary Cards -->
+            <div class="row g-3 mb-4">
+                <div class="col-md-4">
+                    <div class="card shadow-sm border-start border-primary border-4">
+                        <div class="card-body">
+                            <h6 class="text-muted text-uppercase small">Total Borrowed</h6>
+                            <h2 class="mb-0">@loans.Count</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card shadow-sm border-start border-success border-4">
+                        <div class="card-body">
+                            <h6 class="text-muted text-uppercase small">On Time</h6>
+                            <h2 class="mb-0">@(loans.Count - OverdueCount)</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card shadow-sm border-start border-danger border-4">
+                        <div class="card-body">
+                            <h6 class="text-muted text-uppercase small">Overdue</h6>
+                            <h2 class="mb-0">@OverdueCount</h2>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="card shadow-sm border-start border-success border-4">
-                    <div class="card-body">
-                        <h6 class="text-muted text-uppercase small">On Time</h6>
-                        <h2 class="mb-0">@(loans.Count - OverdueCount)</h2>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card shadow-sm border-start border-danger border-4">
-                    <div class="card-body">
-                        <h6 class="text-muted text-uppercase small">Overdue</h6>
-                        <h2 class="mb-0">@OverdueCount</h2>
-                    </div>
-                </div>
-            </div>
-        </div>
 
-        <!-- Borrowed Books List -->
-        <div class="card shadow-sm">
-            <div class="card-body p-0">
-                <div class="table-responsive">
-                    <table class="table table-hover mb-0 align-middle">
-                        <thead class="table-light">
-                            <tr>
-                                <th scope="col" style="width: 80px;">Cover</th>
-                                <th scope="col">Title</th>
-                                <th scope="col">Author</th>
-                                <th scope="col">Borrowed On</th>
-                                <th scope="col">Due Date</th>
-                                <th scope="col">Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var loan in loans)
-                            {
+            <!-- Borrowed Books List -->
+            <div class="card shadow-sm">
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0 align-middle">
+                            <thead class="table-light">
                                 <tr>
-                                    <td>
-                                        <img src="@loan.Book.CoverImageUrl" alt="@loan.Book.Title"
-                                             class="rounded" style="width: 50px; height: 70px; object-fit: cover;" />
-                                    </td>
-                                    <td><strong>@loan.Book.Title</strong></td>
-                                    <td class="text-muted">@loan.Book.Author</td>
-                                    <td>@loan.BorrowedDate.ToString("MMM dd, yyyy")</td>
-                                    <td>@loan.DueDate.ToString("MMM dd, yyyy")</td>
-                                    <td>
-                                        @if (loan.IsOverdue)
-                                        {
-                                            <span class="badge bg-danger">Overdue</span>
-                                        }
-                                        else if ((loan.DueDate - DateTime.Today).Days <= 3)
-                                        {
-                                            <span class="badge bg-warning text-dark">Due Soon</span>
-                                        }
-                                        else
-                                        {
-                                            <span class="badge bg-success">On Time</span>
-                                        }
-                                    </td>
+                                    <th scope="col" style="width: 80px;">Cover</th>
+                                    <th scope="col">Title</th>
+                                    <th scope="col">Author</th>
+                                    <th scope="col">Borrowed On</th>
+                                    <th scope="col">Due Date</th>
+                                    <th scope="col">Status</th>
                                 </tr>
-                            }
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                @foreach (var loan in loans)
+                                {
+                                    <tr>
+                                        <td>
+                                            <img src="@loan.Book.CoverImageUrl" alt="@loan.Book.Title"
+                                                class="rounded" style="width: 50px; height: 70px; object-fit: cover;" />
+                                        </td>
+                                        <td><strong>@loan.Book.Title</strong></td>
+                                        <td class="text-muted">@loan.Book.Author</td>
+                                        <td>@loan.BorrowedAt.ToString("MMM dd, yyyy")</td>
+                                        <td>@loan.DueDate.ToString("MMM dd, yyyy")</td>
+                                        <td>
+                                            @if (loan.DueDate < DateTime.Now)
+                                            {
+                                                <span class="badge bg-danger">Overdue</span>
+                                            }
+                                            else if ((loan.DueDate - DateTime.Today).Days <= 3)
+                                            {
+                                                <span class="badge bg-warning text-dark">Due Soon</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge bg-success">On Time</span>
+                                            }
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
-        </div>
+        }
+        else
+        {
+            <!-- Empty State -->
+            <div class="card shadow-sm">
+                <div class="card-body text-center py-5">
+                    <h4 class="mb-3">No books borrowed yet</h4>
+                    <p class="text-muted mb-4">Start exploring our catalog and borrow your first book!</p>
+                    <a href="/catalog" class="btn btn-primary">Browse Catalog</a>
+                </div>
+            </div>
+        }
     }
+
 </div>
 
 </Authorized>
@@ -129,18 +139,20 @@
     <p>Redirecting...</p>
 </NotAuthorized>
 </AuthorizeView>
-
+@loans.Count
 @code {
     [CascadingParameter]
     private Task<AuthenticationState>? AuthenticationStateTask { get; set; }
 
-    private List<BookLoan> loans = new();
+    private List<Loan> loans = new();
+    
+    private bool loading = true;
 
-    private int OverdueCount => loans.Count(l => l.IsOverdue);
+    private int OverdueCount => loans.Count(l => l.DueDate < DateTime.Now);
 
-    protected override async Task OnAfterRenderAsync(bool firstRender)
+    protected override async Task OnInitializedAsync()
     {
-        if (firstRender && AuthenticationStateTask is not null)
+        if (AuthenticationStateTask is not null)
         {
             var authState = await AuthenticationStateTask;
             if (authState.User.Identity is null || !authState.User.Identity.IsAuthenticated)
@@ -153,13 +165,15 @@
             if (userId is not null)
             {
                 using var db = await DbFactory.CreateDbContextAsync();
-                loans = await db.BookLoans
+                loans = await LoanService.GetUserLoansAsync(userId);
+                @* db.BookLoans
                     .Include(l => l.Book)
                     .Where(l => l.UserId == userId && l.ReturnedDate == null)
                     .OrderBy(l => l.DueDate)
                     .ToListAsync();
-                StateHasChanged();
+                StateHasChanged(); *@
             }
         }
+        loading = false;
     }
 }

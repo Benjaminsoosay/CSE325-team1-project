@@ -3,7 +3,6 @@
 @inject NavigationManager NavigationManager
 @inject IJSRuntime JS
 
-
 <div class="library-navbar">
     <div class="library-navbar-inner">
 
@@ -40,7 +39,7 @@
             </NavLink>
 
             <NavLink class="library-nav-link"
-                     href="my-loans">
+                     href="my-borrowed">
                 @* <span class="bi bi-journal-bookmark" aria-hidden="true"></span> *@
                 My Loans
             </NavLink>
@@ -94,13 +93,18 @@
                             <strong>@context.User.Identity?.Name</strong>
                             <small>Library Member</small>
                         </span>
-
-                        <span class="material-symbols-outlined me-2" aria-hidden="true">
-                            person
-                        </span>
-
                     </NavLink>
+                    <form action="Account/Logout" method="post">
+                            <AntiforgeryToken />
 
+                            <input type="hidden"
+                                name="ReturnUrl"
+                                value="@currentUrl" />
+
+                            <button type="submit" class="library-mobile-link library-logout-button">
+                                <span class="material-symbols-outlined me-2">logout</span>
+                            </button>
+                    </form>
                 </Authorized>
 
                 <NotAuthorized>
@@ -145,7 +149,7 @@
     <div class="library-mobile-nav"
         onclick="document.querySelector('.library-navbar-toggler').click()">
 
-        <nav class="library-mobile-nav-inner">
+        <nav @onclick="HandleToggle" class="library-mobile-nav-inner">
 
             <NavLink class="library-mobile-link"
                     href=""
@@ -159,7 +163,7 @@
             </NavLink>
 
             <NavLink class="library-mobile-link"
-                    href="my-loans">
+                    href="my-borrowed">
                 My Loans
             </NavLink>
 
@@ -192,7 +196,7 @@
                             <button type="submit"
                                     class="library-mobile-link library-logout-button">
 
-                                <span class="material-symbols-outlined me-2">arrow-right</span>
+                                <span class="material-symbols-outlined me-2">logout</span>
                                 Logout
 
                             </button>
