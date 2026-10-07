@@ -17,6 +17,7 @@ public class BookService
     public async Task<List<Book>> GetBooksAsync()
     {
         return await _context.Books
+            .Include(b => b.Category)
             .AsNoTracking()
             .OrderBy(b => b.Title)
             .ToListAsync();

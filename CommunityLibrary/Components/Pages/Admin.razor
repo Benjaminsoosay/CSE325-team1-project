@@ -1,6 +1,9 @@
 @page "/admin"
 @rendermode InteractiveServer
+@using CommunityLibrary.Models
+@using CommunityLibrary.Services
 @inject NavigationManager NavigationManager
+@inject BookService BookService
 
 <PageTitle>Admin Panel</PageTitle>
 
@@ -10,8 +13,87 @@
             <a href="dashboard" class="btn btn-outline-secondary mb-3">
                 <i class="bi bi-arrow-left me-1"></i> Back
             </a>
-            <h2 class="mb-4">Admin Panel</h2>
-            <p class="text-muted">Admin page will be updated soon</p>
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2 class="mb-0">Manage Books</h2>
+                <span class="badge bg-primary fs-6">@books.Count Books</span>
+            </div>
+
+            @if (isLoading)
+            {
+                <p>Loading books...</p>
+            }
+            else if (books.Count == 0)
+            {
+                <div class="alert alert-info text-center">
+                    <h5>No books in the library yet</h5>
+                </div>
+            }
+            else
+            {
+                <div class="card shadow-sm">
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-hover mb-0 align-middle">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th style="width: 60px;">Cover</th>
+                                        <th>Title</th>
+                                        <th>Author</th>
+                                        <th>Category</th>
+                                        <th>Copies</th>
+                                        <th>Published</th>
+                                        <th class="text-end">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var book in books)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @if (!string.IsNullOrEmpty(book.CoverImageUrl))
+                                                {
+                                                    <img src="@book.CoverImageUrl" alt="@book.Title"
+                                                         class="rounded" style="width: 45px; height: 60px; object-fit: cover;" />
+                                                }
+                                                else
+                                                {
+                                                    <div class="bg-light rounded d-flex align-items-center justify-content-center"
+                                                         style="width: 45px; height: 60px;">
+                                                        <i class="bi bi-book text-muted"></i>
+                                                    </div>
+                                                }
+                                            </td>
+                                            <td><strong>@book.Title</strong></td>
+                                            <td class="text-muted">@book.Author</td>
+                                            <td>
+                                                <span class="badge bg-secondary">
+                                                    @(book.Category?.Name ?? "—")
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <span class="@(book.AvailableCopies > 0 ? "text-success" : "text-danger")">
+                                                    @book.AvailableCopies
+                                                </span>
+                                                / @book.TotalCopies
+                                            </td>
+                                            <td class="text-muted">@book.PublishedDate.ToString("MMM yyyy")</td>
+                                            <td class="text-end">
+                                                <button class="btn btn-sm btn-outline-primary me-1" title="Edit">
+                                                    <i class="bi bi-pencil"></i>
+                                                </button>
+                                                <button class="btn btn-sm btn-outline-danger" title="Delete"
+                                                        @onclick="() => DeleteBook(book.Id)">
+                                                    <i class="bi bi-trash"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            }
         </div>
     </Authorized>
     <NotAuthorized>
@@ -23,6 +105,9 @@
     [CascadingParameter]
     private Task<AuthenticationState>? AuthenticationStateTask { get; set; }
 
+    private List<Book> books = new();
+    private bool isLoading = true;
+
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender && AuthenticationStateTask is not null)
@@ -32,7 +117,23 @@
             if (user.Identity is null || !user.Identity.IsAuthenticated || !user.IsInRole("Admin"))
             {
                 NavigationManager.NavigateTo("dashboard");
+                return;
             }
+
+            await LoadBooks();
+            StateHasChanged();
         }
+    }
+
+    private async Task LoadBooks()
+    {
+        books = await BookService.GetBooksAsync();
+        isLoading = false;
+    }
+
+    private async Task DeleteBook(int bookId)
+    {
+        await BookService.DeleteBookAsync(bookId);
+        await LoadBooks();
     }
 }
