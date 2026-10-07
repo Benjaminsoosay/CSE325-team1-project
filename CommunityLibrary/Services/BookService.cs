@@ -53,7 +53,7 @@ public class BookService
 
         existingBook.Title = book.Title;
         existingBook.Author = book.Author;
-        existingBook.Category = book.Category;
+        existingBook.CategoryID = book.CategoryID;
         existingBook.Description = book.Description;
         existingBook.CoverImageUrl = book.CoverImageUrl;
         existingBook.TotalCopies = book.TotalCopies;
