@@ -1,0 +1,73 @@
+@using CommunityLibrary.Models
+
+@if (Show)
+{
+    <div class="modal-backdrop fade show"></div>
+    <div class="modal fade show d-block" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">@(IsEditing ? "Edit Book" : "Add Book")</h5>
+                    <button type="button" class="btn-close" @onclick="OnClose"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row g-3">
+                        <div class="col-md-8">
+                            <label class="form-label">Title</label>
+                            <input type="text" class="form-control" @bind="Book.Title" />
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Author</label>
+                            <input type="text" class="form-control" @bind="Book.Author" />
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Category</label>
+                            <select class="form-select" @bind="Book.CategoryID">
+                                <option value="0">Select a category</option>
+                                @foreach (var cat in Categories)
+                                {
+                                    <option value="@cat.Id">@cat.Name</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Total Copies</label>
+                            <input type="number" class="form-control" @bind="Book.TotalCopies" min="0" />
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Available Copies</label>
+                            <input type="number" class="form-control" @bind="Book.AvailableCopies" min="0" />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Published Date</label>
+                            <input type="date" class="form-control" @bind="Book.PublishedDate" />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Cover Image URL</label>
+                            <input type="text" class="form-control" @bind="Book.CoverImageUrl" />
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label">Description</label>
+                            <textarea class="form-control" rows="3" @bind="Book.Description"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" @onclick="OnClose">Cancel</button>
+                    <button type="button" class="btn btn-primary" @onclick="OnSave">
+                        @(IsEditing ? "Save" : "Add")
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter] public bool Show { get; set; }
+    [Parameter] public bool IsEditing { get; set; }
+    [Parameter] public Book Book { get; set; } = new();
+    [Parameter] public List<Category> Categories { get; set; } = new();
+    [Parameter] public EventCallback OnClose { get; set; }
+    [Parameter] public EventCallback OnSave { get; set; }
+}
