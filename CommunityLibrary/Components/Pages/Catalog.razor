@@ -1,194 +1,556 @@
 @page "/catalog"
+@rendermode InteractiveServer
 
-<PageTitle>Catalog - Community Library</PageTitle>
+@using Microsoft.AspNetCore.Components.Authorization
 
-<div class="container mt-4">
-    <!-- Page Header -->
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <div>
-            <h1 class="mb-1">Library Catalog</h1>
-            <p class="text-muted mb-0">Browse our complete collection of books</p>
-        </div>
-        <span class="badge bg-primary fs-6">@books.Count Books Available</span>
-    </div>
+@using CommunityLibrary.Data
+@using CommunityLibrary.Models
+@using CommunityLibrary.Services
+@using Microsoft.EntityFrameworkCore
 
-    <!-- Search and Filter Bar -->
-    <div class="card shadow-sm mb-4">
-        <div class="card-body">
-            <div class="row g-3">
-                <div class="col-md-6">
-                    <label class="form-label fw-bold">Search</label>
-                    <input type="text" class="form-control" placeholder="Search by title or author..." @bind="searchTerm" />
-                </div>
-                <div class="col-md-4">
-                    <label class="form-label fw-bold">Genre</label>
-                    <select class="form-select" @bind="selectedGenre">
-                        <option value="">All Genres</option>
-                        <option value="Classic Literature">Classic Literature</option>
-                        <option value="Historical Fiction">Historical Fiction</option>
-                        <option value="Dystopian">Dystopian</option>
-                        <option value="Science Fiction">Science Fiction</option>
-                    </select>
-                </div>
-                <div class="col-md-2 d-flex align-items-end">
-                    <button class="btn btn-outline-secondary w-100" @onclick="ClearFilters">
-                        Clear
-                    </button>
-                </div>
+@inject ApplicationDbContext Db
+@inject BookService BookService
+@inject LoanService LoanService
+@inject NavigationManager NavigationManager
+@inject AuthenticationStateProvider AuthenticationStateProvider
+
+<PageTitle>Library Catalog</PageTitle>
+
+
+
+
+
+    <div class="container-fluid px-4 py-4">
+
+        <!-- =====================================================
+            CATALOG HEADER
+            ===================================================== -->
+
+        <div class="d-flex flex-wrap justify-content-between align-items-center mb-4">
+            <div>
+                <h1 class="fw-bold mb-1">
+                    Discover Great Books
+                </h1>
+
+                <p class="text-secondary mb-0">
+                    Browse our collection and find your next book.
+                </p>
             </div>
-        </div>
-    </div>
 
-    <!-- Book Grid -->
-    @if (FilteredBooks.Count == 0)
-    {
-        <div class="alert alert-info text-center" role="alert">
-            <h5>No books found</h5>
-            <p class="mb-0">Try adjusting your search or filter criteria.</p>
+            <div class="mt-3 mt-md-0">
+
+                <div class="input-group">
+                    <span class="input-group-text bg-white">
+                        <span class="material-symbols-outlined me-2">search</span>
+                    </span>
+
+                    <input class="form-control"
+                        placeholder="Search catalog..."
+                        @bind="searchTerm"
+                        @bind:event="oninput" />
+
+                </div>
+
+            </div>
+
         </div>
-    }
-    else
-    {
+
+
         <div class="row g-4">
-            @foreach (var book in FilteredBooks)
-            {
-                <div class="col-md-6 col-lg-4">
-                    <div class="card h-100 shadow-sm">
-                        <img src="@book.CoverImageUrl" class="card-img-top" alt="@book.Title" 
-                             style="height: 320px; object-fit: cover;" />
-                        <div class="card-body d-flex flex-column">
-                            <h5 class="card-title">@book.Title</h5>
-                            <h6 class="card-subtitle mb-2 text-muted">By @book.Author</h6>
-                            <p class="card-text text-muted small mb-2">
-                                <strong>Genre:</strong> @book.Genre
-                            </p>
-                            <p class="card-text flex-grow-1">@book.Description</p>
+
+            <!-- =================================================
+                SIDEBAR
+                ================================================= -->
+
+            <aside class="col-lg-3 col-xl-2">
+
+                <div class="card border-0 shadow-sm">
+
+                    <div class="card-body">
+
+                        <!-- Categories -->
+
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+
+                            <h6 class="fw-bold mb-0">
+                                Categories
+                            </h6>
+
+                            <span class="material-symbols-outlined me-2">category</span>
+
+                        </div>
+
+
+                        <div class="list-group list-group-flush">
                             
-                            <div class="d-flex justify-content-between align-items-center mt-3">
-                                @if (book.IsAvailable)
+                            <button class="list-group-item list-group-item-action border-0 px-0
+                                        @(selectedCategory == -1 ? "text-primary fw-semibold" : "")"
+                                    @onclick='() => SelectCategory(-1)'>
+
+                                <div class="d-flex justify-content-between">
+                                    <span class="material-symbols-outlined me-2">book</span>
+                                    <span>
+                                        All Books
+                                    </span>
+
+                                    <span class="text-secondary">
+                                        @Books.Count
+                                    </span>
+
+                                </div>
+
+                            </button>
+
+                            @if (isLoading)
+                            {
+                                <Loader/>
+                            }
+                            else
+                            {
+                                @foreach (var category in Categories)
                                 {
-                                    <span class="badge bg-success">Available</span>
+                                    <button class="list-group-item list-group-item-action border-0 px-0
+                                        @(selectedCategory == category.Id ? "text-primary fw-semibold" : "")"
+                                        @onclick='() => SelectCategory(category.Id)'>
+
+                                        <div class="d-flex justify-content-between">
+
+                                            <span>
+                                                @switch (category.Name)
+                                                {
+                                                case "Fiction":
+                                                    <span class="material-symbols-outlined me-2">auto_stories</span>
+                                                    break;
+
+                                                case "Science Fiction":
+                                                    <span class="material-symbols-outlined me-2">rocket_launch</span>
+                                                    break;
+
+                                                case "Fantasy":
+                                                    <span class="material-symbols-outlined me-2">castle</span>
+                                                    break;
+
+                                                case "Mystery":
+                                                    <span class="material-symbols-outlined me-2">manage_search</span>
+                                                    break;
+
+                                                case "Thriller":
+                                                    <span class="material-symbols-outlined me-2">bolt</span>
+                                                    break;
+
+                                                case "Romance":
+                                                    <span class="material-symbols-outlined me-2">favorite</span>
+                                                    break;
+
+                                                case "Biography":
+                                                    <span class="material-symbols-outlined me-2">person</span>
+                                                    break;
+
+                                                case "History":
+                                                    <span class="material-symbols-outlined me-2">history_edu</span>
+                                                    break;
+
+                                                case "Technology":
+                                                    <span class="material-symbols-outlined me-2">memory</span>
+                                                    break;
+
+                                                case "Science":
+                                                    <span class="material-symbols-outlined me-2">science</span>
+                                                    break;
+
+                                                default:
+                                                    <span class="material-symbols-outlined me-2">menu_book</span>
+                                                    break;
+                                            }
+
+                                                @category.Name
+                                            </span>
+
+                                            <span class="text-secondary">
+                                                @Books.Count(b => b.CategoryID == category.Id)
+                                            </span>
+
+                                        </div>
+                                    </button>
                                 }
-                                else
+                            }
+
+                        </div>
+
+
+                        <hr class="my-4" />
+
+
+                        <!-- Availability -->
+
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+
+                            <h6 class="fw-bold mb-0">
+                                Availability
+                            </h6>
+
+                            <i class="bi bi-chevron-up"></i>
+
+                        </div>
+
+
+                        <div class="form-check mb-2">
+
+                            <input class="form-check-input"
+                                type="checkbox"
+                                id="availableFilter"
+                                @bind="availableOnly" />
+
+                            <label class="form-check-label"
+                                for="availableFilter">
+
+                                Available Now
+
+                            </label>
+
+                        </div>
+
+
+                        <div class="form-check mb-2">
+
+                            <input class="form-check-input"
+                                type="checkbox"
+                                id="loanFilter"
+                                @bind="onLoanOnly" />
+
+                            <label class="form-check-label"
+                                for="loanFilter">
+
+                                On Loan
+
+                            </label>
+
+                        </div>
+
+
+                        <div class="form-check">
+
+                            <input class="form-check-input"
+                                type="checkbox"
+                                id="reservedFilter"
+                                @bind="reservedOnly" />
+
+                            <label class="form-check-label"
+                                for="reservedFilter">
+
+                                Reserved
+
+                            </label>
+
+                        </div>
+
+
+                        <hr class="my-4" />
+
+
+                        <!-- Format -->
+
+                        <div  class="d-flex justify-content-between align-items-center mb-3">
+
+                            <h6 class="fw-bold mb-0">
+                                Format
+                            </h6>
+
+                            <i style="font-size: 50px;" class="bi bi-chevron-up"></i>
+
+                        </div>
+
+
+                        <div class="form-check mb-2">
+
+                            <input class="form-check-input"
+                                type="checkbox"
+                                id="physicalFilter" />
+
+                            <label class="form-check-label"
+                                for="physicalFilter">
+
+                                Physical Book
+
+                            </label>
+
+                        </div>
+
+
+                        <div class="form-check">
+
+                            <input class="form-check-input"
+                                type="checkbox"
+                                id="ebookFilter" />
+
+                            <label class="form-check-label"
+                                for="ebookFilter">
+
+                                E-Book
+
+                            </label>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </aside>
+
+
+            <!-- =================================================
+                CATALOG CONTENT
+                ================================================= -->
+
+        <main class="col-lg-9 col-xl-10">
+
+
+                <!-- Result / Sort -->
+
+                <div class="d-flex flex-wrap justify-content-between align-items-center mb-4">
+
+                    <div>
+
+                        <span class="text-secondary">
+                            Showing
+                        </span>
+
+                        <strong>
+                            @Books.Count()
+                        </strong>
+
+                        <span class="text-secondary"> 
+                            books
+                        </span>
+
+                    </div>
+
+
+                    <div class="d-flex align-items-center gap-2 mt-2 mt-md-0">
+
+                        <span class="text-secondary small">
+                            Sort by:
+                        </span>
+
+                        <select class="form-select form-select-sm"
+                                style="width: 160px;"
+                                @bind="sortOption"
+                                @bind:event="oninput">
+
+                            <option value="title">
+                                Title (A-Z)
+                            </option>
+
+                            <option value="author">
+                                Author
+                            </option>
+
+                            <option value="available">
+                                Availability
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =================================================
+                    BOOK GRID
+                    ================================================= -->
+            @if (isLoading)
+            {
+                <Loader/>
+            }
+            else{
+                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-xl-3 row-cols-xxl-4 g-4">
+                    @foreach (var book in filteredBooks)
+                    {
+                        <div class="col-md-4 col-lg-3 mb-4">
+                            <div class="card h-100 shadow-sm">
+
+                                @if (!string.IsNullOrEmpty(book.CoverImageUrl))
                                 {
-                                    <span class="badge bg-danger">Checked Out</span>
+                                    <img loading="lazy" src="@book.CoverImageUrl"
+                                        class="card-img-top"
+                                        alt="@book.Title"
+                                        style="height: 280px; object-fit: cover;" />
                                 }
-                                <button class="btn btn-sm btn-primary" disabled="@(!book.IsAvailable)">
-                                    View Details
-                                </button>
+
+                                <div class="card-body">
+                                    <h5 class="card-title">@book.Title</h5>
+
+                                    <p class="card-text text-muted">
+                                        @book.Author
+                                    </p>
+
+                                    <span class="badge bg-primary">
+                                        @(book.Category?.Name ?? "—")
+                                    </span>
+
+                                    <p class="mt-2">
+                                        Available:
+                                        <strong>@book.AvailableCopies</strong>
+                                        / @book.TotalCopies
+                                    </p>
+                                    <AuthorizeView>
+                                        <Authorized>
+                                            @if (book.AvailableCopies > 0)
+                                            {
+                                                <button class="btn btn-primary" @onclick="() => BorrowBook(book.Id)">
+                                                    Borrow
+                                                </button>
+                                            }
+                                            else
+                                            {
+                                                <button class="btn btn-secondary">
+                                                    Reserve
+                                                </button>
+                                            }
+                                        </Authorized>
+                                        <NotAuthorized>
+                                            <button class="btn btn-primary" @onclick="GoToLogin">
+                                                Login to Borrow
+                                            </button>
+                                        </NotAuthorized>
+                                    </AuthorizeView>
+                                </div>
+
                             </div>
                         </div>
-                    </div>
+                    }
                 </div>
             }
-        </div>
-    }
-</div>
+
+        </main>
+
+    </div>
+
+
+    </div>
+
 
 @code {
-    private string searchTerm = "";
-    private string selectedGenre = "";
+    private List<Book> Books = new();
+    private List<Category> Categories = new();
+    
+    private bool isLoading = true; 
 
-    private List<Book> books = new List<Book>
+    protected override async Task OnInitializedAsync()
     {
-        new Book
-        {
-            Id = 1,
-            Title = "The Great Gatsby",
-            Author = "F. Scott Fitzgerald",
-            Genre = "Classic Literature",
-            Description = "A novel set in the Jazz Age on Long Island, near New York City.",
-            CoverImageUrl = "https://m.media-amazon.com/images/I/71FTb9X6wsL._AC_UF1000,1000_QL80_.jpg",
-            IsAvailable = true
-        },
-        new Book
-        {
-            Id = 2,
-            Title = "To Kill a Mockingbird",
-            Author = "Harper Lee",
-            Genre = "Historical Fiction",
-            Description = "A novel about racial injustice in the Deep South during the 1930s.",
-            CoverImageUrl = "https://m.media-amazon.com/images/I/71FxgtFKcQL._AC_UF1000,1000_QL80_.jpg",
-            IsAvailable = true
-        },
-        new Book
-        {
-            Id = 3,
-            Title = "1984",
-            Author = "George Orwell",
-            Genre = "Dystopian",
-            Description = "A dystopian social science fiction novel about a totalitarian regime.",
-            CoverImageUrl = "https://m.media-amazon.com/images/I/71NSC9hLcPL._AC_UF1000,1000_QL80_.jpg",
-            IsAvailable = false
-        },
-        new Book
-        {
-            Id = 4,
-            Title = "Pride and Prejudice",
-            Author = "Jane Austen",
-            Genre = "Classic Literature",
-            Description = "A romantic novel of manners following Elizabeth Bennet.",
-            CoverImageUrl = "https://m.media-amazon.com/images/I/71Q1tPupKjL._AC_UF1000,1000_QL80_.jpg",
-            IsAvailable = true
-        },
-        new Book
-        {
-            Id = 5,
-            Title = "The Hobbit",
-            Author = "J.R.R. Tolkien",
-            Genre = "Science Fiction",
-            Description = "A fantasy adventure about Bilbo Baggins and his quest for treasure.",
-            CoverImageUrl = "https://m.media-amazon.com/images/I/71jFySyF6NL._AC_UF1000,1000_QL80_.jpg",
-            IsAvailable = true
-        },
-        new Book
-        {
-            Id = 6,
-            Title = "Fahrenheit 451",
-            Author = "Ray Bradbury",
-            Genre = "Dystopian",
-            Description = "A novel about a future society where books are outlawed and burned.",
-            CoverImageUrl = "https://m.media-amazon.com/images/I/61l8LHt4MpL._AC_UF1000,1000_QL80_.jpg",
-            IsAvailable = true
-        }
-    };
+        @* BookService bookService = new(); *@
+        Books = await BookService.GetBooksAsync();
+        Categories = await Db.Categories.OrderBy(b => b.Name).ToListAsync();
+        isLoading = false;
+    }
 
-    private List<Book> FilteredBooks
+    public void GoToLogin () => NavigationManager.NavigateTo("/Account/Login?returnUrl=%2Fcatalog");
+    private string searchTerm = "";
+
+    private int selectedCategory = -1;
+
+    private bool availableOnly = false;
+
+    private bool onLoanOnly = false;
+
+    private bool reservedOnly = false;
+
+    private string sortOption = "title";
+
+    private string? message = "";
+
+    // =====================================================
+    // FILTERED BOOKS
+    // =====================================================
+    private IEnumerable<Book> filteredBooks
     {
         get
         {
-            var filtered = books.AsEnumerable();
+            var result = Books.AsEnumerable();
 
+            // FILTER
             if (!string.IsNullOrWhiteSpace(searchTerm))
             {
-                filtered = filtered.Where(b =>
-                    b.Title.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) ||
-                    b.Author.Contains(searchTerm, StringComparison.OrdinalIgnoreCase));
+                result = result.Where(book =>
+                    book.Title.Contains(
+                        searchTerm,
+                        StringComparison.OrdinalIgnoreCase
+                    )
+                    ||
+                    book.Author.Contains(
+                        searchTerm,
+                        StringComparison.OrdinalIgnoreCase
+                    )
+                );
             }
 
-            if (!string.IsNullOrWhiteSpace(selectedGenre))
+            if (selectedCategory > 0)
             {
-                filtered = filtered.Where(b => b.Genre == selectedGenre);
+                result = result.Where(book =>
+                    book.CategoryID == selectedCategory
+                );
             }
 
-            return filtered.ToList();
+            // SORT
+            result = sortOption switch
+            {
+                "availability" =>
+                    result.OrderBy(book => book.AvailableCopies),
+
+                "author" =>
+                    result.OrderBy(book => book.Author),
+
+                _ =>
+                    result.OrderBy(book => book.Title)
+            };
+
+            return result;
         }
     }
 
-    private void ClearFilters()
+    private async Task BorrowBook(int bookId)
     {
-        searchTerm = "";
-        selectedGenre = "";
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+
+        var user = authState.User;
+
+        if (user.Identity?.IsAuthenticated != true)
+        {
+            NavigationManager.NavigateTo(
+                "/Account/Login?returnUrl=%2Fcatalog"
+            );
+
+            return;
+        }
+
+        var userId = user.FindFirst(
+            System.Security.Claims.ClaimTypes.NameIdentifier
+        )?.Value;
+
+        if (string.IsNullOrEmpty(userId))
+        {
+            message = "Unable to identify your account.";
+            return;
+        }
+
+        var result = await LoanService.BorrowBookAsync(
+            bookId,
+            userId
+        );
+
+        message = result.Message;
+
+        if (result.Success)
+        {
+            // Refresh books so AvailableCopies updates
+            Books = await BookService.GetBooksAsync();
+        }
+    }
+    private void SelectCategory(int category)
+    {
+        selectedCategory = category;
     }
 
-    public class Book
-    {
-        public int Id { get; set; }
-        public string Title { get; set; } = string.Empty;
-        public string Author { get; set; } = string.Empty;
-        public string Genre { get; set; } = string.Empty;
-        public string Description { get; set; } = string.Empty;
-        public string CoverImageUrl { get; set; } = string.Empty;
-        public bool IsAvailable { get; set; }
-    }
 }
