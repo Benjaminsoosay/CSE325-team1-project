@@ -45,12 +45,6 @@
             </NavLink>
 
             <NavLink class="library-nav-link"
-                     href="reservations">
-                @* <span class="bi bi-calendar-check" aria-hidden="true"></span> *@
-                Reservations
-            </NavLink>
-
-            <NavLink class="library-nav-link"
                      href="about">
                 @* <span class="material-symbols-outlined me-2" aria-hidden="true">circle</span> *@
                 About
@@ -60,23 +54,6 @@
 
         <!-- Right Side -->
         <div class="library-navbar-actions">
-
-            <!-- Search -->
-            <div class="library-search">
-                <span class="material-symbols-outlined me-2" aria-hidden="true">search</span>
-
-                <input type="search"
-                       placeholder="Search books, authors, subjects..."
-                       aria-label="Search books" />
-            </div>
-
-            <!-- Notifications -->
-            <button class="library-icon-button"
-                    type="button"
-                    aria-label="Notifications">
-                <span class="material-symbols-outlined" aria-hidden="true">notifications</span>
-                <span class="library-notification-dot"></span>
-            </button>
 
             <AuthorizeView>
                 <Authorized>
@@ -165,10 +142,6 @@
             <NavLink class="library-mobile-link"
                     href="my-borrowed">
                 My Loans
-            </NavLink>
-
-            <NavLink class="library-mobile-link" href="reservations">
-                Reservations
             </NavLink>
 
             <NavLink class="library-mobile-link" href="about">
