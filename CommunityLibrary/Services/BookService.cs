@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CommunityLibrary.Services;
 
+// this file connects to the database and handles all book operations like getting, creating, updating, and deleting books
 public class BookService
 {
     private readonly ApplicationDbContext _context;
