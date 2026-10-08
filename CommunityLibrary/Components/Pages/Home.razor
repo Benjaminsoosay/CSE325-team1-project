@@ -1,63 +1,66 @@
 ﻿@page "/"
-@inject NavigationManager Navigation
 
-<PageTitle>Home - Community Library</PageTitle>
+<PageTitle>Community Library - Home</PageTitle>
 
-<div class="main-container d-flex flex-column align-items-center py-4">
-
-    <!-- Home Page Title Banner -->
-    <div class="home-page-banner text-center mb-5">
-        Home Page
-    </div>
-
-    <!-- Books Grid (Horizontal Row of 3 Books) -->
-    <div class="container mb-5">
-        <div class="row justify-content-center g-4">
-            
-            <!-- Book 1 -->
-            <div class="col-md-4 d-flex flex-column align-items-center">
-                <div class="book-square d-flex align-items-center justify-content-center mb-3">
-                    Book
-                </div>
-                <div class="metadata-box d-flex align-items-center justify-content-center text-center p-3">
-                    Description and metadata of the book
-                </div>
-            </div>
-
-            <!-- Book 2 -->
-            <div class="col-md-4 d-flex flex-column align-items-center">
-                <div class="book-square d-flex align-items-center justify-content-center mb-3">
-                    Book
-                </div>
-                <div class="metadata-box d-flex align-items-center justify-content-center text-center p-3">
-                    Description and metadata of the book
-                </div>
-            </div>
-
-            <!-- Book 3 -->
-            <div class="col-md-4 d-flex flex-column align-items-center">
-                <div class="book-square d-flex align-items-center justify-content-center mb-3">
-                    Book
-                </div>
-                <div class="metadata-box d-flex align-items-center justify-content-center text-center p-3">
-                    Description and metadata of the book
-                </div>
-            </div>
-
+<!-- Hero Section -->
+<div class="hero-section text-white text-center py-5 mb-5">
+    <div class="container">
+        <h1 class="display-4 fw-bold mb-4">Welcome to Community Library</h1>
+        <p class="lead mb-4">Your gateway to knowledge, imagination, and community connection.</p>
+        <div class="d-grid gap-3 d-sm-flex justify-content-sm-center">
+            <a href="/catalog" class="btn btn-primary btn-lg px-4 gap-3">Browse Catalog</a>
+            <a href="/auth" class="btn btn-outline-light btn-lg px-4">Join the Community</a>
         </div>
     </div>
-
-    <div class="faq-banner text-center mb-4">
-        FAQ
-    </div>
-
 </div>
 
-@code {
-    private bool isEditMode = false;
+<!-- Features Section -->
+<div class="container my-5">
+    <div class="row text-center">
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm border-0">
+                <div class="card-body">
+                    <div class="feature-icon bg-primary bg-gradient text-white rounded-circle mb-3 mx-auto d-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+                        <i class="bi bi-book fs-3">📚</i>
+                    </div>
+                    <h4 class="card-title fw-bold">Vast Collection</h4>
+                    <p class="card-text text-muted">Explore thousands of books, from classic literature to modern bestsellers.</p>
+                    <a href="/catalog" class="btn btn-outline-primary mt-3">View Books</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm border-0">
+                <div class="card-body">
+                    <div class="feature-icon bg-success bg-gradient text-white rounded-circle mb-3 mx-auto d-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+                        <i class="bi bi-people fs-3">👥</i>
+                    </div>
+                    <h4 class="card-title fw-bold">Community Events</h4>
+                    <p class="card-text text-muted">Join book clubs, author meetups, and educational workshops.</p>
+                    <a href="#" class="btn btn-outline-success mt-3">See Events</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm border-0">
+                <div class="card-body">
+                    <div class="feature-icon bg-info bg-gradient text-white rounded-circle mb-3 mx-auto d-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+                        <i class="bi bi-laptop fs-3">💻</i>
+                    </div>
+                    <h4 class="card-title fw-bold">Digital Resources</h4>
+                    <p class="card-text text-muted">Access e-books, audiobooks, and research databases from anywhere.</p>
+                    <a href="#" class="btn btn-outline-info mt-3">Explore Digital</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-    private void ToggleEditMode()
-    {
-        isEditMode = !isEditMode;
-    }
-}
+<!-- Call to Action Section -->
+<div class="bg-light py-5">
+    <div class="container text-center">
+        <h2 class="fw-bold mb-3">Ready to start reading?</h2>
+        <p class="lead text-muted mb-4">Create an account today and get instant access to our entire catalog.</p>
+        <a href="/auth" class="btn btn-primary btn-lg px-5">Get Started</a>
+    </div>
+</div>

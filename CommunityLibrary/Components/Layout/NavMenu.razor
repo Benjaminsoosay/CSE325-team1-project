@@ -1,120 +1,247 @@
-﻿@implements IDisposable
+@implements IDisposable
+@rendermode InteractiveServer
 @inject NavigationManager NavigationManager
+@inject IJSRuntime JS
 
-<nav class="navbar navbar-expand-md navbar-dark bg-primary shadow-sm px-3">
-    <div class="container-fluid">
+<div class="library-navbar">
+    <div class="library-navbar-inner">
 
-        <!-- Brand Logo and Name -->
-        <a class="navbar-brand d-flex align-items-center gap-2" href="">
-            <img src="images/logo.png" 
-                 alt="Community Library Logo" 
-                 class="brand-logo" 
-                 width="32" 
-                 height="32"
-                 onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'32\' height=\'32\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'white\' stroke-width=\'2\' stroke-linecap=\'round\' stroke-linejoin=\'round\'><path d=\'M4 19.5A2.5 2.5 0 0 1 6.5 17H20\'/><path d=\'M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z\'/></svg>';" />
-            <span class="fw-bold fs-5 text-white">Community Library</span>
-        </a>
-        
-        <button class="navbar-toggler" 
-                type="button" 
-                @onclick="ToggleNavMenu" 
-                aria-expanded="@(!collapseNavMenu)" 
-                aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="@NavMenuCssClass navbar-collapse" @onclick="CollapseMenuOnMobile">
-            <ul class="navbar-nav ms-auto mb-2 mb-md-0 gap-md-2 align-items-md-center">
-                
-                <li class="nav-item">
-                    <NavLink class="nav-link text-white rounded px-3 py-2 d-flex align-items-center" href="" Match="NavLinkMatch.All">
-                        <i class="bi bi-house-door-fill me-2" aria-hidden="true"></i> 
-                        <span>Home</span>
+        <!-- Logo -->
+        <NavLink class="library-brand" href="" Match="NavLinkMatch.All">
+            <svg class="library-logo" viewBox="0 0 80 64" aria-hidden="true">
+                <path d="M8 12C20 7 32 9 40 17V58C30 51 19 50 8 55V12Z" />
+                <path d="M40 17C48 9 60 7 72 12V55C61 50 50 51 40 58V17Z" />
+                <path d="M40 17V58" />
+            </svg>
+
+            <div class="library-brand-text">
+                <span class="library-brand-name">CommunityLibrary</span>
+                <span class="library-brand-tagline">
+                    READ • LEARN • GROW
+                </span>
+            </div>
+        </NavLink>
+
+        <!-- Desktop Navigation -->
+        <nav class="library-main-nav">
+
+            <NavLink class="library-nav-link"
+                     href=""
+                     Match="NavLinkMatch.All">
+                @* <span class="bi bi-house-door" aria-hidden="true"></span> *@
+                Home
+            </NavLink>
+
+            <NavLink class="library-nav-link"
+                     href="catalog">
+                @* <span class="bi bi-book" aria-hidden="true"></span> *@
+                Catalog
+            </NavLink>
+
+            <NavLink class="library-nav-link"
+                     href="my-borrowed">
+                @* <span class="bi bi-journal-bookmark" aria-hidden="true"></span> *@
+                My Loans
+            </NavLink>
+
+            <NavLink class="library-nav-link"
+                     href="reservations">
+                @* <span class="bi bi-calendar-check" aria-hidden="true"></span> *@
+                Reservations
+            </NavLink>
+
+            <NavLink class="library-nav-link"
+                     href="about">
+                @* <span class="material-symbols-outlined me-2" aria-hidden="true">circle</span> *@
+                About
+            </NavLink>
+
+        </nav>
+
+        <!-- Right Side -->
+        <div class="library-navbar-actions">
+
+            <!-- Search -->
+            <div class="library-search">
+                <span class="material-symbols-outlined me-2" aria-hidden="true">search</span>
+
+                <input type="search"
+                       placeholder="Search books, authors, subjects..."
+                       aria-label="Search books" />
+            </div>
+
+            <!-- Notifications -->
+            <button class="library-icon-button"
+                    type="button"
+                    aria-label="Notifications">
+                <span class="material-symbols-outlined" aria-hidden="true">notifications</span>
+                <span class="library-notification-dot"></span>
+            </button>
+
+            <AuthorizeView>
+                <Authorized>
+
+                    <!-- Account -->
+                    <NavLink class="library-account"
+                             href="dashboard">
+
+                        <span class="library-avatar material-symbols-outlined me-2">
+                            person
+                        </span>
+
+                        <span class="library-account-info">
+                            <strong>@context.User.Identity?.Name</strong>
+                            <small>Library Member</small>
+                        </span>
                     </NavLink>
-                </li>
+                    <form action="Account/Logout" method="post" class="d-none d-md-block">
+                            <AntiforgeryToken />
 
-                <li class="nav-item">
-                    <NavLink class="nav-link text-white rounded px-3 py-2 d-flex align-items-center" href="add-book">
-                        <i class="bi bi-plus-circle-fill me-2" aria-hidden="true"></i> 
-                        <span>Catalog</span>
-                    </NavLink>
-                </li>
+                            <input type="hidden"
+                                name="ReturnUrl"
+                                value="@currentUrl" />
 
-                <li class="nav-item">
-                    <NavLink class="nav-link text-white rounded px-3 py-2 d-flex align-items-center" href="my-borrowed">
-                        <i class="bi bi-journal-check me-2" aria-hidden="true"></i> 
-                        <span>Authors</span>
-                    </NavLink>
-                </li>
+                            <button type="submit" class="library-icon-button" title="Log out">
+                                <span class="material-symbols-outlined">logout</span>
+                            </button>
+                    </form>
+                </Authorized>
 
-                <li class="nav-item">
-                    <NavLink class="nav-link text-white rounded px-3 py-2 d-flex align-items-center" href="about">
-                        <i class="bi bi-info-circle-fill me-2" aria-hidden="true"></i> 
-                        <span>Borrowed Books</span>
-                    </NavLink>
-                </li>
+                <NotAuthorized>
 
-                <AuthorizeView>
-                    <Authorized>
-                        <li class="nav-item">
-                            <NavLink class="nav-link text-white rounded px-3 py-2 d-flex align-items-center" href="Account/Manage">
-                                <i class="bi bi-person-circle me-2" aria-hidden="true"></i>
-                                <span>@context.User.Identity?.Name</span>
-                            </NavLink>
-                        </li>
-                        <li class="nav-item">
-                            <form action="Account/Logout" method="post" class="d-inline">
-                                <AntiforgeryToken />
-                                <input type="hidden" name="ReturnUrl" value="@currentUrl" />
-                                <button type="submit" class="nav-link btn btn-link text-white border-0 px-3 py-2 d-flex align-items-center">
-                                    <i class="bi bi-box-arrow-right me-2" aria-hidden="true"></i> Logout
-                                </button>
-                            </form>
-                        </li>
-                    </Authorized>
-                    <NotAuthorized>
-                        <li class="nav-item">
-                            <NavLink class="nav-link text-white rounded px-3 py-2 d-flex align-items-center" href="Account/Register">
-                                <i class="bi bi-person-plus-fill me-2" aria-hidden="true"></i> 
-                                <span>Register</span>
-                            </NavLink>
-                        </li>
-                        <li class="nav-item">
-                            <NavLink class="nav-link text-white rounded px-3 py-2 d-flex align-items-center" href="Account/Login">
-                                <i class="bi bi-box-arrow-in-right me-2" aria-hidden="true"></i> 
-                                <span>Login</span>
-                            </NavLink>
-                        </li>
-                    </NotAuthorized>
-                </AuthorizeView>
+                    <div class="library-auth-actions">
 
-            </ul>
+                        <NavLink class="library-login"
+                                 href="Account/Login">
+                            Login
+                        </NavLink>
+
+                        <NavLink class="library-register"
+                                 href="Account/Register">
+                            Register
+                        </NavLink>
+
+                    </div>
+
+                </NotAuthorized>
+            </AuthorizeView>
+
         </div>
+
+        <!-- Mobile Toggle -->
+        <input type="checkbox"
+               title="Navigation menu"
+               class="library-navbar-toggler"/>
+
+        <label class="library-mobile-toggle"
+               aria-label="Toggle navigation" onclick="@HandleToggle" >
+            <span></span>
+            <span></span>
+            <span></span>
+        </label>
+
     </div>
-</nav>
+</div>
+
+@if (clicked)
+{
+    <!-- Mobile Navigation -->
+    <div class="library-mobile-nav"
+        onclick="document.querySelector('.library-navbar-toggler').click()">
+
+        <nav @onclick="HandleToggle" class="library-mobile-nav-inner">
+
+            <NavLink class="library-mobile-link"
+                    href=""
+                    Match="NavLinkMatch.All">
+                Home
+            </NavLink>
+
+            <NavLink class="library-mobile-link"
+                    href="catalog">
+                Catalog
+            </NavLink>
+
+            <NavLink class="library-mobile-link"
+                    href="my-borrowed">
+                My Loans
+            </NavLink>
+
+            <NavLink class="library-mobile-link" href="reservations">
+                Reservations
+            </NavLink>
+
+            <NavLink class="library-mobile-link" href="about">
+                About
+            </NavLink>
+
+            <AuthorizeView>
+                <Authorized>
+
+                    <NavLink class="library-mobile-link"
+                            href="dashboard">
+                        <span class="material-symbols-outlined me-2">person</span>
+                        @context.User.Identity?.Name
+                    </NavLink>
+
+                    <div class="library-mobile-logout">
+
+                        <form action="Account/Logout" method="post">
+                            <AntiforgeryToken />
+
+                            <input type="hidden"
+                                name="ReturnUrl"
+                                value="@currentUrl" />
+
+                            <button type="submit"
+                                    class="library-mobile-link library-logout-button">
+
+                                <span class="material-symbols-outlined me-2">logout</span>
+                                Logout
+
+                            </button>
+                        </form>
+
+                    </div>
+
+                </Authorized>
+
+                <NotAuthorized>
+
+                    <NavLink class="library-mobile-link"
+                            href="Account/Register">
+                        <span class="bi bi-person-plus"></span>
+                        Register
+                    </NavLink>
+
+                    <NavLink class="library-mobile-link"
+                            href="Account/Login">
+                        <span class="bi bi-box-arrow-in-right"></span>
+                        Login
+                    </NavLink>
+
+                </NotAuthorized>
+            </AuthorizeView>
+
+        </nav>
+
+    </div>    
+}
+
 
 @code {
-    private bool collapseNavMenu = true;
     private string? currentUrl;
-
-    private string? NavMenuCssClass => collapseNavMenu ? "collapse" : "collapse show";
+    private bool clicked=false;
+    protected async Task HandleToggle()
+    {
+        @* await JS.InvokeVoidAsync("alert", "Hello u clicked me"); *@
+        clicked = !clicked;
+    }
 
     protected override void OnInitialized()
     {
         currentUrl = NavigationManager.ToBaseRelativePath(NavigationManager.Uri);
         NavigationManager.LocationChanged += OnLocationChanged;
-    }
-
-    private void ToggleNavMenu()
-    {
-        collapseNavMenu = !collapseNavMenu;
-    }
-
-    private void CollapseMenuOnMobile()
-    {
-        if (!collapseNavMenu)
-        {
-            collapseNavMenu = true;
-        }
     }
 
     private void OnLocationChanged(object? sender, LocationChangedEventArgs e)
@@ -127,4 +254,5 @@
     {
         NavigationManager.LocationChanged -= OnLocationChanged;
     }
+
 }
