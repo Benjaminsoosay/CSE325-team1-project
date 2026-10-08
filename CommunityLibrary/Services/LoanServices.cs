@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CommunityLibrary.Services;
 
+// this file connects to the database and handles borrowing and returning books, it also updates the available copies when a book is borrowed or returned
 public class LoanService
 {
     private readonly ApplicationDbContext _context;
