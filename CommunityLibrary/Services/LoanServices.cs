@@ -86,7 +86,7 @@ public class LoanService
         return await _context.Loans
             .Include(l => l.Book)
             .ThenInclude(b => b!.Category)
-            .Where(l => l.UserId == userId)
+            .Where(l => l.UserId == userId && l.ReturnedAt == null)
             .OrderByDescending(l => l.BorrowedAt)
             .AsNoTracking()
             .ToListAsync();

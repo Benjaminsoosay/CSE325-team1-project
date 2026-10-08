@@ -7,10 +7,17 @@ using CommunityLibrary.Components.Account;
 using CommunityLibrary.Data;
 using CommunityLibrary.Models;
 using CommunityLibrary.Services;
+using Microsoft.AspNetCore.ResponseCompression;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddResponseCompression(options =>
+{
+    options.EnableForHttps = true;
+    options.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(["application/octet-stream"]);
+});
+
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
@@ -76,6 +83,8 @@ builder.Services.Configure<ForwardedHeadersOptions>(options =>
 });
 
 var app = builder.Build();
+
+app.UseResponseCompression();
 
 if (app.Environment.IsProduction())
 {
