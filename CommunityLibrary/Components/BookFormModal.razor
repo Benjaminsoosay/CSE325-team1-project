@@ -44,8 +44,16 @@
                             <input type="date" class="form-control" @bind="Book.PublishedDate" />
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label">Cover Image URL</label>
-                            <input type="text" class="form-control" @bind="Book.CoverImageUrl" />
+                            <label class="form-label">Cover Image</label>
+                            <InputFile class="form-control" accept="image/*" OnChange="HandleImageUpload" />
+                            @if (!string.IsNullOrEmpty(Book.CoverImageType))
+                            {
+                                <small class="text-success mt-1 d-block">Image uploaded</small>
+                            }
+                            else if (!string.IsNullOrEmpty(Book.CoverImageUrl))
+                            {
+                                <small class="text-muted mt-1 d-block">Using URL: @Book.CoverImageUrl</small>
+                            }
                         </div>
                         <div class="col-12">
                             <label class="form-label">Description</label>
@@ -80,6 +88,19 @@
     [Parameter] public EventCallback OnClose { get; set; }
     [Parameter] public EventCallback OnSave { get; set; }
 
+    // reads the uploaded image file and stores the bytes in the book object so it gets saved to the database
+    private async Task HandleImageUpload(InputFileChangeEventArgs e)
+    {
+        var file = e.File;
+        if (!file.ContentType.StartsWith("image/")) return;
+
+        using var stream = new MemoryStream();
+        await file.OpenReadStream(maxAllowedSize: 5 * 1024 * 1024).CopyToAsync(stream);
+        Book.CoverImageData = stream.ToArray();
+        Book.CoverImageType = file.ContentType;
+    }
+
+    // reads the uploaded pdf file and stores it in the book object, max 10mb
     private async Task HandleFileUpload(InputFileChangeEventArgs e)
     {
         var file = e.File;
