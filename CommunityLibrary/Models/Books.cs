@@ -29,6 +29,11 @@ public class Book
 
     public DateOnly PublishedDate { get; set; }
 
+    public byte[]? CoverImageData { get; set; }
+
+    [StringLength(100)]
+    public string? CoverImageType { get; set; }
+
     public byte[]? PdfData { get; set; }
 
     [StringLength(200)]

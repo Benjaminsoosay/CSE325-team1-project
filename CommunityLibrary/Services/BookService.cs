@@ -28,6 +28,7 @@ public class BookService
                 Category = b.Category,
                 Description = b.Description,
                 CoverImageUrl = b.CoverImageUrl,
+                CoverImageType = b.CoverImageType,
                 TotalCopies = b.TotalCopies,
                 AvailableCopies = b.AvailableCopies,
                 PublishedDate = b.PublishedDate,
@@ -75,6 +76,11 @@ public class BookService
         existingBook.TotalCopies = book.TotalCopies;
         existingBook.AvailableCopies = book.AvailableCopies;
         existingBook.PublishedDate = book.PublishedDate;
+        if (book.CoverImageData != null)
+        {
+            existingBook.CoverImageData = book.CoverImageData;
+            existingBook.CoverImageType = book.CoverImageType;
+        }
         if (book.PdfData != null)
         {
             existingBook.PdfData = book.PdfData;
@@ -85,6 +91,17 @@ public class BookService
         await _context.SaveChangesAsync();
 
         return true;
+    }
+
+    // GET cover image for a specific book
+    public async Task<(byte[]? Data, string? ContentType)> GetBookCoverAsync(int id)
+    {
+        var book = await _context.Books
+            .Where(b => b.Id == id)
+            .Select(b => new { b.CoverImageData, b.CoverImageType })
+            .FirstOrDefaultAsync();
+
+        return (book?.CoverImageData, book?.CoverImageType);
     }
 
     // GET PDF for a specific book
