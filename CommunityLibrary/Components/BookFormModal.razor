@@ -1,4 +1,5 @@
 @using CommunityLibrary.Models
+@using Microsoft.AspNetCore.Components.Forms
 
 @if (Show)
 {
@@ -50,6 +51,14 @@
                             <label class="form-label">Description</label>
                             <textarea class="form-control" rows="3" @bind="Book.Description"></textarea>
                         </div>
+                        <div class="col-12">
+                            <label class="form-label">Book PDF (optional)</label>
+                            <InputFile class="form-control" accept=".pdf" OnChange="HandleFileUpload" />
+                            @if (!string.IsNullOrEmpty(Book.PdfFileName))
+                            {
+                                <small class="text-muted mt-1 d-block">Current file: @Book.PdfFileName</small>
+                            }
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -70,4 +79,15 @@
     [Parameter] public List<Category> Categories { get; set; } = new();
     [Parameter] public EventCallback OnClose { get; set; }
     [Parameter] public EventCallback OnSave { get; set; }
+
+    private async Task HandleFileUpload(InputFileChangeEventArgs e)
+    {
+        var file = e.File;
+        if (file.ContentType != "application/pdf") return;
+
+        using var stream = new MemoryStream();
+        await file.OpenReadStream(maxAllowedSize: 10 * 1024 * 1024).CopyToAsync(stream);
+        Book.PdfData = stream.ToArray();
+        Book.PdfFileName = file.Name;
+    }
 }

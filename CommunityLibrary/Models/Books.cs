@@ -29,6 +29,11 @@ public class Book
 
     public DateOnly PublishedDate { get; set; }
 
+    public byte[]? PdfData { get; set; }
+
+    [StringLength(200)]
+    public string? PdfFileName { get; set; }
+
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
     public DateTime? UpdatedAt { get; set; }
