@@ -1,5 +1,12 @@
 @implements IDisposable
 @rendermode InteractiveServer
+
+@using CommunityLibrary.Data;
+@using CommunityLibrary.Models
+@using CommunityLibrary.Services
+@using Microsoft.EntityFrameworkCore
+
+@inject BookService BookService
 @inject NavigationManager NavigationManager
 @inject IJSRuntime JS
 
@@ -65,9 +72,9 @@
             <div class="library-search">
                 <span class="material-symbols-outlined me-2" aria-hidden="true">search</span>
 
-                <input type="search"
+                <input type="search" @onclick="GetBooks"
                        placeholder="Search books, authors, subjects..."
-                       aria-label="Search books" />
+                       aria-label="Search books" @bind="searchText" @bind:event="oninput"/>
             </div>
 
             <!-- Notifications -->
@@ -228,14 +235,69 @@
     </div>    
 }
 
+@if(filteredBooks is not null)
+{
+    @foreach(Book b in filteredBooks)
+    {
+        <a href="/catalog/@b.Id">
+            <p>@b.Title</p>
+            <p>@b.Author</p>
+        </a>
+    }    
+}
 
 @code {
     private string? currentUrl;
     private bool clicked=false;
+
+    private string searchText = "";
     protected async Task HandleToggle()
     {
         @* await JS.InvokeVoidAsync("alert", "Hello u clicked me"); *@
         clicked = !clicked;
+    }
+
+    private List<Book> Books;
+    
+    @* private readonly ApplicationDbContext _context; *@
+
+
+    private async Task GetBooks()
+    {
+        if(Books is null)
+        {
+            Books = await BookService.GetBookByTitleAsync(searchText);
+        }
+        if(searchText.Count() > 2)
+        {
+            filteredBooks = Books.AsEnumerable().Where(b=> b.Title.Contains(searchText, StringComparison.OrdinalIgnoreCase) || b.Author.Contains(searchText, StringComparison.OrdinalIgnoreCase));   
+        }
+        else
+        {
+            filteredBooks = null;
+        }
+    } 
+    private IEnumerable<Book> filteredBooks
+    {
+        get; set;
+        
+            @* var result = Books;
+            // FILTER
+            if (!string.IsNullOrWhiteSpace(searchText))
+            {
+                result = result.
+                    ||
+                    book.Author.Contains(
+                        searchText,
+                        StringComparison.OrdinalIgnoreCase
+                    )
+                );
+            }
+
+            return result; *@
+
+        
+        
     }
 
     protected override void OnInitialized()
@@ -243,7 +305,6 @@
         currentUrl = NavigationManager.ToBaseRelativePath(NavigationManager.Uri);
         NavigationManager.LocationChanged += OnLocationChanged;
     }
-
     private void OnLocationChanged(object? sender, LocationChangedEventArgs e)
     {
         currentUrl = NavigationManager.ToBaseRelativePath(e.Location);

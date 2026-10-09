@@ -497,7 +497,7 @@
             result = sortOption switch
             {
                 "availability" =>
-                    result.OrderBy(book => book.AvailableCopies),
+                    result.OrderBy(book => book.AvailableCopies > 0),
 
                 "author" =>
                     result.OrderBy(book => book.Author),
