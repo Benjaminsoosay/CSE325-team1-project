@@ -113,10 +113,16 @@
                                             <td class="text-end">
                                                 @if (!loan.IsReturned)
                                                 {
-                                                    <button class="btn btn-sm btn-outline-primary"
+                                                    <button class="btn btn-sm btn-outline-primary me-1"
                                                             @onclick="() => ReturnBook(loan.Id)">
                                                         <i class="bi bi-arrow-return-left me-1"></i> Return
                                                     </button>
+                                                    @if (!string.IsNullOrEmpty(loan.Book?.PdfFileName))
+                                                    {
+                                                        <a href="/api/books/@loan.BookId/pdf" class="btn btn-sm btn-outline-success" target="_blank">
+                                                            <i class="bi bi-download me-1"></i> PDF
+                                                        </a>
+                                                    }
                                                 }
                                             </td>
                                         </tr>
@@ -160,13 +166,21 @@
                                             </p>
                                         </div>
                                     </div>
-                                    @if (!loan.IsReturned)
-                                    {
-                                        <button class="btn btn-sm btn-outline-primary w-100 mt-2"
-                                                @onclick="() => ReturnBook(loan.Id)">
-                                            <i class="bi bi-arrow-return-left me-1"></i> Return
-                                        </button>
-                                    }
+                                    <div class="d-flex gap-2 mt-2">
+                                        @if (!loan.IsReturned)
+                                        {
+                                            <button class="btn btn-sm btn-outline-primary flex-grow-1"
+                                                    @onclick="() => ReturnBook(loan.Id)">
+                                                <i class="bi bi-arrow-return-left me-1"></i> Return
+                                            </button>
+                                        }
+                                        @if (!string.IsNullOrEmpty(loan.Book?.PdfFileName))
+                                        {
+                                            <a href="/api/books/@loan.BookId/pdf" class="btn btn-sm btn-outline-success flex-grow-1" target="_blank">
+                                                <i class="bi bi-download me-1"></i> PDF
+                                            </a>
+                                        }
+                                    </div>
                                 </div>
                             </div>
                         </div>

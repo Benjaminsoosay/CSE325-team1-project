@@ -19,7 +19,22 @@ public class BookService
     {
         return await _context.Books
             .Include(b => b.Category)
-            .AsNoTracking()
+            .Select(b => new Book
+            {
+                Id = b.Id,
+                Title = b.Title,
+                Author = b.Author,
+                CategoryID = b.CategoryID,
+                Category = b.Category,
+                Description = b.Description,
+                CoverImageUrl = b.CoverImageUrl,
+                TotalCopies = b.TotalCopies,
+                AvailableCopies = b.AvailableCopies,
+                PublishedDate = b.PublishedDate,
+                PdfFileName = b.PdfFileName,
+                CreatedAt = b.CreatedAt,
+                UpdatedAt = b.UpdatedAt
+            })
             .OrderBy(b => b.Title)
             .ToListAsync();
     }
@@ -60,11 +75,27 @@ public class BookService
         existingBook.TotalCopies = book.TotalCopies;
         existingBook.AvailableCopies = book.AvailableCopies;
         existingBook.PublishedDate = book.PublishedDate;
+        if (book.PdfData != null)
+        {
+            existingBook.PdfData = book.PdfData;
+            existingBook.PdfFileName = book.PdfFileName;
+        }
         existingBook.UpdatedAt = DateTime.UtcNow;
 
         await _context.SaveChangesAsync();
 
         return true;
+    }
+
+    // GET PDF for a specific book
+    public async Task<(byte[]? Data, string? FileName)> GetBookPdfAsync(int id)
+    {
+        var book = await _context.Books
+            .Where(b => b.Id == id)
+            .Select(b => new { b.PdfData, b.PdfFileName })
+            .FirstOrDefaultAsync();
+
+        return (book?.PdfData, book?.PdfFileName);
     }
 
     // DELETE BOOK
