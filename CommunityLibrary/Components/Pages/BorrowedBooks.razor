@@ -1,14 +1,15 @@
 @page "/my-borrowed"
 @rendermode InteractiveServer
-@using Microsoft.EntityFrameworkCore
+@* @using Microsoft.EntityFrameworkCore *@
 @using CommunityLibrary.Data
 @using CommunityLibrary.Models
 @using CommunityLibrary.Services
+@* @using IDbContextFactory *@
 
 @inject NavigationManager NavigationManager
 
 @inject LoanService LoanService
-@inject IDbContextFactory<ApplicationDbContext> DbFactory
+@* @inject IDbContextFactory<ApplicationDbContext> DbFactory *@
 
 <PageTitle>My Borrowed Books - Community Library</PageTitle>
 
@@ -139,7 +140,6 @@
     <p>Redirecting...</p>
 </NotAuthorized>
 </AuthorizeView>
-@loans.Count
 @code {
     [CascadingParameter]
     private Task<AuthenticationState>? AuthenticationStateTask { get; set; }
@@ -164,7 +164,7 @@
             var userId = authState.User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
             if (userId is not null)
             {
-                using var db = await DbFactory.CreateDbContextAsync();
+                @* using var db = await DbFactory.CreateDbContextAsync(); *@
                 loans = await LoanService.GetUserLoansAsync(userId);
                 @* db.BookLoans
                     .Include(l => l.Book)
