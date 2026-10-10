@@ -48,6 +48,19 @@ public class BookService
             .FirstOrDefaultAsync(b => b.Id == id);
     }
 
+    public async Task<List<Book>> GetBookByTitleAsync(string searchText)
+    {
+        var Books = await _context.Books
+            .Include(b => b.Category)
+            .AsNoTracking()
+            .OrderBy(b => b.Title)
+            .ToListAsync();
+            
+        return  Books.
+        // Include(b => b.Category).AsNoTracking().OrderBy(b => b.Title).
+            Where(search => search.Title.Contains(searchText, StringComparison.OrdinalIgnoreCase) || search.Author.Contains(searchText, StringComparison.OrdinalIgnoreCase)).ToList();
+    }
+
     // CREATE BOOK
     public async Task<Book> CreateBookAsync(Book book)
     {
