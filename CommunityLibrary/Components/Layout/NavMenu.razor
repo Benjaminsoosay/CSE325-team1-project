@@ -1,12 +1,5 @@
 ﻿@implements IDisposable
 @rendermode InteractiveServer
-
-@using CommunityLibrary.Data;
-@using CommunityLibrary.Models
-@using CommunityLibrary.Services
-@* @using Microsoft.EntityFrameworkCore *@
-
-@inject BookService BookService
 @inject NavigationManager NavigationManager
 @inject IJSRuntime JS
 
@@ -52,24 +45,6 @@
 
         <!-- Right Side -->
         <div class="library-navbar-actions">
-
-            <!-- Search -->
-            <div class="library-search">
-                <span class="material-symbols-outlined me-2" aria-hidden="true">search</span>
-                <form @onsubmit="GetBooks" @onsubmit:preventDefault>
-                    <input type="search" @onclick="GetBooks"
-                        placeholder="Search books, authors, subjects..."
-                        aria-label="Search books" @bind="searchText" @bind:event="oninput"/>
-                </form>
-            </div>
-
-            <!-- Notifications -->
-            <button class="library-icon-button"
-                    type="button"
-                    aria-label="Notifications">
-                <span class="material-symbols-outlined" aria-hidden="true">notifications</span>
-                <span class="library-notification-dot"></span>
-            </button>
 
             <AuthorizeView>
                 <Authorized>
@@ -135,7 +110,6 @@
 
     </div>
 </div>
-
 
 @if (clicked)
 {
@@ -214,124 +188,13 @@
     </div>    
 }
 
-@if (!string.IsNullOrWhiteSpace(searchText))
-{
-    <div class="search-results">
-        @foreach (var book in filteredBooks.Take(5))
-        {
-            <a class="search-result-item" @onclick="()=> searchText=string.Empty"
-                href="@($"/book-details/{book.Id}")">
-
-                <img class="search-result-cover"
-                        src="@book.CoverImageUrl"
-                        alt="" />
-
-                <div class="search-result-info">
-                    <span class="search-result-title">
-                        @book.Title
-                    </span>
-
-                    <span class="search-result-author">
-                        @book.Author
-                    </span>
-
-                    <span class="search-result-status">
-                        @(book.AvailableCopies > 0
-                            ? "Available"
-                            : "Currently unavailable")
-                    </span>
-                </div>
-
-                <span class="material-symbols-outlined result-arrow">
-                    arrow_forward
-                </span>
-            </a>
-        }
-
-        @if (!filteredBooks.Any())
-        {
-            <div class="search-empty">
-                <span class="material-symbols-outlined">
-                    search_off
-                </span>
-                <span>No books found</span>
-            </div>
-        }
-
-        <button class="search-view-all"
-                @onclick="ViewAllResults">
-            View all results
-            <span class="material-symbols-outlined">
-                arrow_outward
-            </span>
-        </button>
-    </div>
-}
-
-@* @if(filteredBooks is not null)
-{
-    @foreach(Book b in filteredBooks)
-    {
-        <a href="/catalog/@b.Id">
-            <p>@b.Title</p>
-            <p>@b.Author</p>
-        </a>
-    }    
-} *@
 
 @code {
     private string? currentUrl;
     private bool clicked=false;
-
-    private string searchText = "";
     protected async Task HandleToggle()
     {
         clicked = !clicked;
-    }
-
-    private List<Book> Books = new();
-    
-    @* private readonly ApplicationDbContext _context; *@
-
-
-    private async Task GetBooks()
-    {
-        @* if(Books is null)
-        { *@
-            Books = await BookService.GetBookByTitleAsync(searchText);
-        @* }
-        if(searchText.Count() > 2)
-        {
-            filteredBooks = Books.AsEnumerable().Where(b=> b.Title.Contains(searchText, StringComparison.OrdinalIgnoreCase) || b.Author.Contains(searchText, StringComparison.OrdinalIgnoreCase));   
-        }
-        else
-        {
-            filteredBooks = null;
-        } *@
-    } 
-    private IEnumerable<Book> filteredBooks
-    {
-        get
-        {
-            var query = searchText?.Trim();
-
-            if (string.IsNullOrWhiteSpace(query))
-                return Books;
-
-            return Books.Where(book =>
-                book.Title.Contains(
-                    query,
-                    StringComparison.OrdinalIgnoreCase)
-                ||
-                book.Author.Contains(
-                    query,
-                    StringComparison.OrdinalIgnoreCase)
-                ||
-                (book.Category?.Name?.Contains(
-                    query,
-                    StringComparison.OrdinalIgnoreCase) ?? false)
-            );
-        }
     }
 
     protected override void OnInitialized()
@@ -340,10 +203,6 @@
         NavigationManager.LocationChanged += OnLocationChanged;
     }
 
-    private void ViewAllResults()
-    {
-        NavigationManager.NavigateTo($"/catalog?search={Uri.EscapeDataString(searchText)}");
-    }
     private void OnLocationChanged(object? sender, LocationChangedEventArgs e)
     {
         currentUrl = NavigationManager.ToBaseRelativePath(e.Location);
