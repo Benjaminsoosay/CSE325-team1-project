@@ -7,10 +7,18 @@ using CommunityLibrary.Components.Account;
 using CommunityLibrary.Data;
 using CommunityLibrary.Models;
 using CommunityLibrary.Services;
+using Microsoft.AspNetCore.ResponseCompression;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddResponseCompression(options =>
+{
+    options.EnableForHttps = true;
+    options.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(["application/octet-stream"]);
+});
+
+builder.Services.AddControllers();
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
@@ -26,6 +34,7 @@ builder.Services.AddAuthentication(options =>
         options.DefaultScheme = IdentityConstants.ApplicationScheme;
         options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
     })
+    // this sets up google oauth so users can log in with their google account, in production it rewrites the redirect url to point to render
     .AddGoogle(options =>
     {
         options.ClientId = builder.Configuration["Authentication:Google:ClientId"] ?? "";
@@ -77,6 +86,8 @@ builder.Services.Configure<ForwardedHeadersOptions>(options =>
 
 var app = builder.Build();
 
+app.UseResponseCompression();
+
 if (app.Environment.IsProduction())
 {
     app.Use((context, next) =>
@@ -105,12 +116,14 @@ if (!app.Environment.IsProduction())
     app.UseHttpsRedirection();
 }
 
+app.UseAuthorization();
 app.UseAntiforgery();
 
 app.MapStaticAssets();
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
 
+app.MapControllers();
 app.MapAdditionalIdentityEndpoints();
 
 using (var scope = app.Services.CreateScope())

@@ -20,13 +20,11 @@
         <i class="bi bi-arrow-left me-1"></i> Back
     </a>
     <!-- Page Header -->
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <div>
-            <h1 class="mb-1">My Borrowed Books</h1>
-            <p class="text-muted mb-0">Track your current loans and due dates</p>
-        </div>
+    <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+        <h4 class="mb-0 me-auto">My Borrowed Books</h4>
         <span class="badge bg-primary fs-6">@loans.Count Active Loans</span>
     </div>
+    <p class="text-muted mb-3 d-none d-md-block">Track your current loans and due dates</p>
 
     @if(loading){
         <Loader/>
@@ -44,79 +42,167 @@
         @if (loans.Count > 0)
         {
             <!-- Summary Cards -->
-            <div class="row g-3 mb-4">
-                <div class="col-md-4">
+            <div class="row g-2 g-md-3 mb-4">
+                <div class="col-4 col-md-4">
                     <div class="card shadow-sm border-start border-primary border-4">
-                        <div class="card-body">
-                            <h6 class="text-muted text-uppercase small">Total Borrowed</h6>
-                            <h2 class="mb-0">@loans.Count</h2>
+                        <div class="card-body py-2 px-2 py-md-3 px-md-3">
+                            <h6 class="text-muted text-uppercase small mb-1">Borrowed</h6>
+                            <h4 class="mb-0">@loans.Count</h4>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-4 col-md-4">
                     <div class="card shadow-sm border-start border-success border-4">
-                        <div class="card-body">
-                            <h6 class="text-muted text-uppercase small">On Time</h6>
-                            <h2 class="mb-0">@(loans.Count - OverdueCount)</h2>
+                        <div class="card-body py-2 px-2 py-md-3 px-md-3">
+                            <h6 class="text-muted text-uppercase small mb-1">On Time</h6>
+                            <h4 class="mb-0">@(loans.Count - OverdueCount)</h4>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-4 col-md-4">
                     <div class="card shadow-sm border-start border-danger border-4">
-                        <div class="card-body">
-                            <h6 class="text-muted text-uppercase small">Overdue</h6>
-                            <h2 class="mb-0">@OverdueCount</h2>
+                        <div class="card-body py-2 px-2 py-md-3 px-md-3">
+                            <h6 class="text-muted text-uppercase small mb-1">Overdue</h6>
+                            <h4 class="mb-0">@OverdueCount</h4>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Borrowed Books List -->
-            <div class="card shadow-sm">
-                <div class="card-body p-0">
-                    <div class="table-responsive">
-                        <table class="table table-hover mb-0 align-middle">
-                            <thead class="table-light">
-                                <tr>
-                                    <th scope="col" style="width: 80px;">Cover</th>
-                                    <th scope="col">Title</th>
-                                    <th scope="col">Author</th>
-                                    <th scope="col">Borrowed On</th>
-                                    <th scope="col">Due Date</th>
-                                    <th scope="col">Status</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var loan in loans)
-                                {
+            <div class="d-none d-md-block">
+                <div class="card shadow-sm">
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-hover mb-0 align-middle">
+                                <thead class="table-light">
                                     <tr>
-                                        <td>
-                                            <img src="@loan.Book.CoverImageUrl" alt="@loan.Book.Title"
-                                                class="rounded" style="width: 50px; height: 70px; object-fit: cover;" />
-                                        </td>
-                                        <td><strong>@loan.Book.Title</strong></td>
-                                        <td class="text-muted">@loan.Book.Author</td>
-                                        <td>@loan.BorrowedAt.ToString("MMM dd, yyyy")</td>
-                                        <td>@loan.DueDate.ToString("MMM dd, yyyy")</td>
-                                        <td>
-                                            @if (loan.DueDate < DateTime.Now)
-                                            {
-                                                <span class="badge bg-danger">Overdue</span>
-                                            }
-                                            else if ((loan.DueDate - DateTime.Today).Days <= 3)
-                                            {
-                                                <span class="badge bg-warning text-dark">Due Soon</span>
-                                            }
-                                            else
-                                            {
-                                                <span class="badge bg-success">On Time</span>
-                                            }
-                                        </td>
+                                        <th scope="col" style="width: 80px;">Cover</th>
+                                        <th scope="col">Title</th>
+                                        <th scope="col">Author</th>
+                                        <th scope="col">Borrowed On</th>
+                                        <th scope="col">Due Date</th>
+                                        <th scope="col">Status</th>
+                                        <th scope="col" class="text-end">Action</th>
                                     </tr>
-                                }
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    @foreach (var loan in loans)
+                                    {
+                                        <tr>
+                                            @* shows the book cover, uses uploaded image when available or the url as fallback *@
+                                            <td>
+                                                @if (!string.IsNullOrEmpty(loan.Book?.CoverImageType))
+                                                {
+                                                    <img src="/api/books/@loan.BookId/cover" alt="@loan.Book.Title"
+                                                        class="rounded" style="width: 50px; height: 70px; object-fit: cover;" />
+                                                }
+                                                else
+                                                {
+                                                    <img src="@loan.Book?.CoverImageUrl" alt="@loan.Book?.Title"
+                                                        class="rounded" style="width: 50px; height: 70px; object-fit: cover;" />
+                                                }
+                                            </td>
+                                            <td><strong>@loan.Book.Title</strong></td>
+                                            <td class="text-muted">@loan.Book.Author</td>
+                                            <td>@loan.BorrowedAt.ToString("MMM dd, yyyy")</td>
+                                            <td>@loan.DueDate.ToString("MMM dd, yyyy")</td>
+                                            <td>
+                                                @if (loan.DueDate < DateTime.Now)
+                                                {
+                                                    <span class="badge bg-danger">Overdue</span>
+                                                }
+                                                else if ((loan.DueDate - DateTime.Today).Days <= 3)
+                                                {
+                                                    <span class="badge bg-warning text-dark">Due Soon</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="badge bg-success">On Time</span>
+                                                }
+                                            </td>
+                                            <td class="text-end">
+                                                @if (!loan.IsReturned)
+                                                {
+                                                    <button class="btn btn-sm btn-outline-primary me-1"
+                                                            @onclick="() => ReturnBook(loan.Id)">
+                                                        <i class="bi bi-arrow-return-left me-1"></i> Return
+                                                    </button>
+                                                    @if (!string.IsNullOrEmpty(loan.Book?.PdfFileName))
+                                                    {
+                                                        <a href="/api/books/@loan.BookId/pdf" class="btn btn-sm btn-outline-success" target="_blank">
+                                                            <i class="bi bi-download me-1"></i> PDF
+                                                        </a>
+                                                    }
+                                                }
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
+                </div>
+            </div>
+
+            <div class="d-md-none">
+                <div class="row g-3">
+                    @foreach (var loan in loans)
+                    {
+                        <div class="col-12">
+                            <div class="card shadow-sm">
+                                <div class="card-body">
+                                    <div class="d-flex gap-3">
+                                        @if (!string.IsNullOrEmpty(loan.Book?.CoverImageType))
+                                        {
+                                            <img src="/api/books/@loan.BookId/cover" alt="@loan.Book.Title"
+                                                 class="rounded" style="width: 60px; height: 80px; object-fit: cover;" />
+                                        }
+                                        else
+                                        {
+                                            <img src="@loan.Book?.CoverImageUrl" alt="@loan.Book?.Title"
+                                                 class="rounded" style="width: 60px; height: 80px; object-fit: cover;" />
+                                        }
+                                        <div class="flex-grow-1">
+                                            <h6 class="mb-1">@loan.Book.Title</h6>
+                                            <p class="text-muted mb-1 small">@loan.Book.Author</p>
+                                            <div class="d-flex gap-2 align-items-center mb-1">
+                                                @if (loan.DueDate < DateTime.Now)
+                                                {
+                                                    <span class="badge bg-danger">Overdue</span>
+                                                }
+                                                else if ((loan.DueDate - DateTime.Today).Days <= 3)
+                                                {
+                                                    <span class="badge bg-warning text-dark">Due Soon</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="badge bg-success">On Time</span>
+                                                }
+                                            </div>
+                                            <p class="small text-muted mb-0">
+                                                Due: @loan.DueDate.ToString("MMM dd, yyyy")
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex gap-2 mt-2">
+                                        @if (!loan.IsReturned)
+                                        {
+                                            <button class="btn btn-sm btn-outline-primary flex-grow-1"
+                                                    @onclick="() => ReturnBook(loan.Id)">
+                                                <i class="bi bi-arrow-return-left me-1"></i> Return
+                                            </button>
+                                        }
+                                        @if (!string.IsNullOrEmpty(loan.Book?.PdfFileName))
+                                        {
+                                            <a href="/api/books/@loan.BookId/pdf" class="btn btn-sm btn-outline-success flex-grow-1" target="_blank">
+                                                <i class="bi bi-download me-1"></i> PDF
+                                            </a>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
                 </div>
             </div>
         }
@@ -175,5 +261,20 @@
             }
         }
         loading = false;
+    }
+
+    private async Task ReturnBook(int loanId)
+    {
+        if (AuthenticationStateTask is null) return;
+
+        var authState = await AuthenticationStateTask;
+        var userId = authState.User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+        if (userId is null) return;
+
+        var result = await LoanService.ReturnBookAsync(loanId, userId);
+        if (result.Success)
+        {
+            loans = await LoanService.GetUserLoansAsync(userId);
+        }
     }
 }

@@ -1,3 +1,4 @@
+@* admin panel - only accessible by admin role, shows a table with all books and lets admins add, edit, or delete them *@
 @page "/admin"
 @rendermode InteractiveServer
 @using CommunityLibrary.Models
@@ -54,8 +55,14 @@
                                         @foreach (var book in books)
                                         {
                                             <tr>
+                                                @* checks if the book has an uploaded image or falls back to url *@
                                                 <td>
-                                                    @if (!string.IsNullOrEmpty(book.CoverImageUrl))
+                                                    @if (!string.IsNullOrEmpty(book.CoverImageType))
+                                                    {
+                                                        <img src="/api/books/@book.Id/cover" alt="@book.Title"
+                                                             class="rounded" style="width: 45px; height: 60px; object-fit: cover;" />
+                                                    }
+                                                    else if (!string.IsNullOrEmpty(book.CoverImageUrl))
                                                     {
                                                         <img src="@book.CoverImageUrl" alt="@book.Title"
                                                              class="rounded" style="width: 45px; height: 60px; object-fit: cover;" />
@@ -109,7 +116,12 @@
                                 <div class="card shadow-sm">
                                     <div class="card-body">
                                         <div class="d-flex gap-3">
-                                            @if (!string.IsNullOrEmpty(book.CoverImageUrl))
+                                            @if (!string.IsNullOrEmpty(book.CoverImageType))
+                                            {
+                                                <img src="/api/books/@book.Id/cover" alt="@book.Title"
+                                                     class="rounded" style="width: 60px; height: 80px; object-fit: cover;" />
+                                            }
+                                            else if (!string.IsNullOrEmpty(book.CoverImageUrl))
                                             {
                                                 <img src="@book.CoverImageUrl" alt="@book.Title"
                                                      class="rounded" style="width: 60px; height: 80px; object-fit: cover;" />

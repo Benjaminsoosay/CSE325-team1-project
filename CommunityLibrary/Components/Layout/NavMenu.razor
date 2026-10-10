@@ -1,4 +1,4 @@
-@implements IDisposable
+﻿@implements IDisposable
 @rendermode InteractiveServer
 
 @using CommunityLibrary.Data;
@@ -35,32 +35,17 @@
             <NavLink class="library-nav-link"
                      href=""
                      Match="NavLinkMatch.All">
-                @* <span class="bi bi-house-door" aria-hidden="true"></span> *@
                 Home
             </NavLink>
 
             <NavLink class="library-nav-link"
                      href="catalog">
-                @* <span class="bi bi-book" aria-hidden="true"></span> *@
                 Catalog
             </NavLink>
 
             <NavLink class="library-nav-link"
                      href="my-borrowed">
-                @* <span class="bi bi-journal-bookmark" aria-hidden="true"></span> *@
                 My Loans
-            </NavLink>
-
-            <NavLink class="library-nav-link"
-                     href="reservations">
-                @* <span class="bi bi-calendar-check" aria-hidden="true"></span> *@
-                Reservations
-            </NavLink>
-
-            <NavLink class="library-nav-link"
-                     href="about">
-                @* <span class="material-symbols-outlined me-2" aria-hidden="true">circle</span> *@
-                About
             </NavLink>
 
         </nav>
@@ -174,14 +159,6 @@
             <NavLink class="library-mobile-link"
                     href="my-borrowed">
                 My Loans
-            </NavLink>
-
-            <NavLink class="library-mobile-link" href="reservations">
-                Reservations
-            </NavLink>
-
-            <NavLink class="library-mobile-link" href="about">
-                About
             </NavLink>
 
             <AuthorizeView>
@@ -309,7 +286,6 @@
     private string searchText = "";
     protected async Task HandleToggle()
     {
-        @* await JS.InvokeVoidAsync("alert", "Hello u clicked me"); *@
         clicked = !clicked;
     }
 
